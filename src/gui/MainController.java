@@ -5,9 +5,11 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import models.Appointment;
 import models.AppointmentCart;
 import models.Patient;
@@ -42,7 +44,12 @@ public class MainController {
             //pass generatedAppointmentCart to AppointmentCartController
        Appointment selectedAppointment =(Appointment)listAppointment.getSelectionModel().getSelectedItem();
        AppointmentCart generatedAppointmentCart = selectedAppointment.generateAppointmentCart();
-       AppointmentCartController.appointmentCart = generatedAppointmentCart;
+//get AppointmentCartController
+
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("appointmentCart.fxml"));
+            AppointmentCartController controller = loader.getController();
+            controller.appointmentCart  = generatedAppointmentCart;
+
             Main.set_pane(1);
 
 

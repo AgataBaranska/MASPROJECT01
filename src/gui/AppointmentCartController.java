@@ -20,14 +20,14 @@ public class AppointmentCartController {
     Label labelPatient;
 
     //AppointmentCart object generated in MainController
-    public static AppointmentCart appointmentCart;
+    public  AppointmentCart appointmentCart;
 
 
     @FXML
     public void initialize() {
 
         //Patient label
-       //labelPatient.setText(appointmentCart.getPatient().getName() + appointmentCart.getPatient().getSurname());
+      // labelPatient.setText(appointmentCart.getPatient().getName() + appointmentCart.getPatient().getSurname());
 
         //Glasses Purpose ChoiceBox
         comboPurposeGlasses.getItems().add(GlassesCorrection.CorrectionPurpose.FOR_DISTANCE);
