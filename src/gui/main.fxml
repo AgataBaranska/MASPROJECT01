@@ -4,7 +4,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-
 <AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
       <BorderPane prefHeight="505.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -23,7 +22,7 @@
             </ButtonBar>
          </bottom>
          <center>
-            <ListView prefHeight="201.0" prefWidth="408.0" BorderPane.alignment="CENTER" />
+            <ListView fx:id="listAppointment" prefHeight="201.0" prefWidth="408.0" BorderPane.alignment="CENTER" />
          </center>
       </BorderPane>
    </children>
