@@ -39,8 +39,7 @@ public class MainController {
             alert.setContentText("Select an appointment in the list to create an Appointment Cart");
             alert.showAndWait();
         }else {
-            //passData to AppointmentCartController
-                //get selected Patient from the Appointment
+            //pass generatedAppointmentCart to AppointmentCartController
        Appointment selectedAppointment =(Appointment)listAppointment.getSelectionModel().getSelectedItem();
        AppointmentCart generatedAppointmentCart = selectedAppointment.generateAppointmentCart();
        AppointmentCartController.appointmentCart = generatedAppointmentCart;
