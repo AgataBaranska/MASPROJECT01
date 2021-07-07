@@ -1,16 +1,22 @@
 package models;
 
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "Patient")
 public class Patient extends Person {
 
+	@Id
+	@GeneratedValue(generator = "increment")
 	private int idNumber;
 	private RodoForm rodoForm;//association, cardinality 1
 	private static List<Patient> extent;
 	private static int idCounter = 0;
 
 	//Patient's appointment list
+	@OneToMany
 	private List<Appointment> appointmentList;//association cardinality *
 	
 	public Patient(String name, String surname, String pesel, String telephone, String email, String street,

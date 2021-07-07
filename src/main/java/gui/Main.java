@@ -1,51 +1,48 @@
 package gui;
 
 import javafx.application.Application;
-import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import models.*;
-
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import models.*;
 
 public class Main extends Application {
 
-    static AnchorPane root;
+    static Pane root;
     static List<Pane> grid = new ArrayList<>();
 
 
     private static int idx_cur = 0;
-    private static MainController mainController;
+    private static gui.MainController mainController;
     private static AppointmentCartController appotmentController;
 
 
     @Override
     public void start(Stage primaryStage) throws Exception{
- //generate fake data
+ //generate  data
 
-        Patient patient1 = new Patient("Ala","Kowalska","109202183212","723928176","ala@fajna.com","Ogrodowa","Konstancin","02-345","Poland");
+        models.Patient patient1 = new Patient("Ala","Kowalska","109202183212","723928176","ala@fajna.com","Ogrodowa","Konstancin","02-345","Poland");
         Patient patient2= new Patient("Kasia","Nowak","109202183212","723928176","ala@fajna.com","Ogrodowa","Konstancin","02-345","Poland");
         Optometrist optometrist1 = new Optometrist("Ala","Kowalska","109202183212","723928176","ala@fajna.com","Ogrodowa","Konstancin","02-345","Poland", LocalDate.of(2015,12,13), Employee.ContractType.FULL_TIME, 4500,"NO2093");
-        Appointment appointment1 = new Appointment(patient1,optometrist1,LocalDate.of(2021,7,20));
-        Appointment appointment2 = new Appointment(patient2,optometrist1,LocalDate.of(2021,7,20));
+        Appointment appointment1 = new Appointment(patient1,optometrist1, LocalDateTime.of(2021,7,20,10,30,0));
+        Appointment appointment2 = new Appointment(patient2,optometrist1,LocalDateTime.of(2021,7,20,1,30,0));
         ContactLense contactLense1 = new ContactLense("J&J","Acuvue","140", ContactLense.WearingMode.DAILY);
         ContactLense contactLense2 = new ContactLense("CooperVision","Biofinity","150", ContactLense.WearingMode.MONTHLY);
         ContactLense contactLense3 = new ContactLense("J&J","Moist","140", ContactLense.WearingMode.DAILY);
 
-        root =  FXMLLoader.load(getClass().getResource("anchor.fxml"));
+        root =  FXMLLoader.load(getClass().getClassLoader().getResource("anchor.fxml"));
 
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getResource("main.fxml"));
+        FXMLLoader mainLoader = new FXMLLoader(getClass().getClassLoader().getResource("main.fxml"));
         Pane mainPane = mainLoader.load();
         mainController = mainLoader.getController();
         grid.add(mainPane);
 
-       FXMLLoader appointmentLoader = new FXMLLoader(getClass().getResource("appointmentCart.fxml"));
+       FXMLLoader appointmentLoader = new FXMLLoader(getClass().getClassLoader().getResource("appointmentCart.fxml"));
        Pane appointmentPane = appointmentLoader.load();
        appotmentController = appointmentLoader.getController();
        grid.add(appointmentPane);

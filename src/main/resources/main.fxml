@@ -4,7 +4,7 @@
 <?import javafx.scene.layout.*?>
 
 
-<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<VBox alignment="CENTER" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
       <Label prefHeight="51.0" prefWidth="83.0" style="-fx-background-color: green;" text="Appointments" />
       <ListView fx:id="listAppointment" />
