@@ -1,29 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+
+<VBox xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
-      <BorderPane prefHeight="505.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
-         <top>
-            <Label prefHeight="51.0" prefWidth="83.0" text="Appointments" BorderPane.alignment="CENTER" />
-         </top>
-         <bottom>
-            <ButtonBar buttonMinWidth="40.0" prefHeight="38.0" prefWidth="400.0" BorderPane.alignment="CENTER">
-              <buttons>
-                <Button fx:id="btnGenerateAppointmentCart" mnemonicParsing="false" onAction="#btnGenerateAppointmentCartClicked" text="Generate Appointment Cart" />
-                  <Button fx:id="btnQuit" maxWidth="50.0" mnemonicParsing="false" onAction="#btQuitClicked" prefHeight="25.0" text="Quit" />
-              </buttons>
-               <BorderPane.margin>
-                  <Insets right="10.0" />
-               </BorderPane.margin>
-            </ButtonBar>
-         </bottom>
-         <center>
-            <ListView fx:id="listAppointment" prefHeight="201.0" prefWidth="408.0" BorderPane.alignment="CENTER" />
-         </center>
-      </BorderPane>
+      <Label prefHeight="51.0" prefWidth="83.0" style="-fx-background-color: green;" text="Appointments" />
+      <ListView fx:id="listAppointment" />
+      <ButtonBar buttonMinWidth="40.0">
+        <buttons>
+          <Button fx:id="btnGenerateAppointmentCart" mnemonicParsing="false" onAction="#btnGenerateAppointmentCartClicked" text="Generate Appointment Cart" />
+            <Button fx:id="btnQuit" maxWidth="50.0" mnemonicParsing="false" onAction="#btQuitClicked" prefHeight="25.0" text="Quit" />
+        </buttons>
+      </ButtonBar>
    </children>
-</AnchorPane>
+</VBox>

@@ -1,5 +1,6 @@
 package gui;
 
+import javafx.application.Platform;
 import javafx.beans.Observable;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -12,9 +13,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.layout.AnchorPane;
 import models.Appointment;
 import models.AppointmentCart;
-import models.Patient;
-
-import java.util.List;
 
 public class MainController {
 
@@ -36,7 +34,7 @@ public class MainController {
 
         if( listAppointment.getSelectionModel().getSelectedItems().isEmpty()){
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
-            alert.setTitle("select");
+            alert.setTitle("Alert");
             alert.setHeaderText(null);
             alert.setContentText("Select an appointment in the list to create an Appointment Cart");
             alert.showAndWait();
@@ -44,21 +42,15 @@ public class MainController {
             //pass generatedAppointmentCart to AppointmentCartController
        Appointment selectedAppointment =(Appointment)listAppointment.getSelectionModel().getSelectedItem();
        AppointmentCart generatedAppointmentCart = selectedAppointment.generateAppointmentCart();
-//get AppointmentCartController
 
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("appointmentCart.fxml"));
-            AppointmentCartController controller = loader.getController();
-            controller.appointmentCart  = generatedAppointmentCart;
+       Main.getAppotmentController().setAppointmentCart(generatedAppointmentCart);
 
-            Main.set_pane(1);
-
-
-
+       Main.set_pane(1);
 
         }
     }
 
     public void btQuitClicked(ActionEvent actionEvent) {
-
+        Platform.exit();
     }
 }

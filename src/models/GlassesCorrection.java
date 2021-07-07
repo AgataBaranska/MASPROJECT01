@@ -24,6 +24,7 @@ public class GlassesCorrection {
 	public GlassesCorrection(String correctionPowerRight, String correctionPowerLeft, CorrectionPurpose purpose) {
 		super();
 		this.correctionPowerRight = correctionPowerRight;
+		this.correctionPowerLeft = correctionPowerLeft;
 		this.purpose = purpose;
 	}
 
@@ -47,6 +48,10 @@ public class GlassesCorrection {
 		
 	};
 
-	
-	
+	@Override
+	public String toString() {
+		return "REye:" + correctionPowerRight  +
+				", LEye:" + correctionPowerLeft +
+				", Purpose: " + purpose;
+	}
 }

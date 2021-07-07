@@ -48,4 +48,11 @@ public class LensesCorrection {
 		}
 	}
 
+	@Override
+	public String toString() {
+		return "LensesCorrection{" +
+				"correctionPowerRight='" + correctionPowerRight + '\'' +
+				", correctionPowerLeft='" + correctionPowerLeft + '\'' +
+				'}';
+	}
 }
