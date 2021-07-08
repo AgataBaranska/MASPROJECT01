@@ -12,7 +12,10 @@ public abstract class Person {
     private String pesel;
     private String telephone;
     private String email;
-    private Address address;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    private Address address;//klucz obcy
 
     /**
      * Required by Hibernate.
@@ -33,6 +36,7 @@ public abstract class Person {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name="id")
     public int getId() {
         return id;
     }
@@ -86,8 +90,7 @@ public abstract class Person {
         this.email = email;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address", referencedColumnName = "id")
+
     public Address getAddress() {
         return address;
     }

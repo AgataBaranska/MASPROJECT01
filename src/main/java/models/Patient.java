@@ -13,7 +13,10 @@ public class Patient extends Person {
     private static int idCounter = 0;
     private static List<Patient> extent;
     private int idNumber;
-    private RodoForm rodoForm;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "rodo_form_id", referencedColumnName = "id")
+    private RodoForm rodoForm;//klucz obcy
     private List<Appointment> appointmentList;//association cardinality *
 
     /**
@@ -56,8 +59,8 @@ public class Patient extends Person {
     }
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     public int getIdNumber() {
         return idNumber;
     }
@@ -66,7 +69,7 @@ public class Patient extends Person {
         this.idNumber = idNumber;
     }
 
-    @Basic
+
     public RodoForm getRodoForm() {
         return rodoForm;
     }

@@ -65,7 +65,8 @@ public class Appointment {
         this.patient = patient;
     }
 
-    @Basic
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     public Optometrist getOptometrist() {
         return optometrist;
     }
