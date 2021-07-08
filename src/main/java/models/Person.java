@@ -5,14 +5,23 @@ import javax.persistence.*;
 @MappedSuperclass
 @Table(name="person")
 public abstract class Person {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name="id")
     private int id;
+    @Basic
     private String name;
+    @Basic
     private String surname;
+    @Basic
     private String pesel;
+    @Basic
     private String telephone;
+    @Basic
     private String email;
 
-
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address", referencedColumnName = "id")
     private Address address;//klucz obcy
 
     /**
@@ -31,9 +40,7 @@ public abstract class Person {
         this.address = new Address(street, city, postalCode, country);
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
+
     public int getId() {
         return id;
     }
@@ -42,7 +49,7 @@ public abstract class Person {
         this.id = id;
     }
 
-    @Basic
+
     public String getName() {
         return name;
     }
@@ -51,7 +58,6 @@ public abstract class Person {
         this.name = name;
     }
 
-    @Basic
     public String getSurname() {
         return surname;
     }
@@ -60,7 +66,6 @@ public abstract class Person {
         this.surname = surname;
     }
 
-    @Basic
     public String getPesel() {
         return pesel;
     }
@@ -69,7 +74,6 @@ public abstract class Person {
         this.pesel = pesel;
     }
 
-    @Basic
     public String getTelephone() {
         return telephone;
     }
@@ -78,7 +82,6 @@ public abstract class Person {
         this.telephone = telephone;
     }
 
-    @Basic
     public String getEmail() {
         return email;
     }
@@ -87,9 +90,6 @@ public abstract class Person {
         this.email = email;
     }
 
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address", referencedColumnName = "id")
     public Address getAddress() {
         return address;
     }

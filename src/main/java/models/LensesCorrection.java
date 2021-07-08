@@ -9,8 +9,13 @@ import java.util.List;
 @Entity
 @Table(name = "lenses_correction")
 public class LensesCorrection {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+    @Column(name = "correction_power_right")
     private String correctionPowerRight;
+    @Column(name = "correction_power_left")
     private String correctionPowerLeft;
 
     @ManyToMany
@@ -19,7 +24,7 @@ public class LensesCorrection {
             joinColumns = @JoinColumn(name ="lenses_correction_id"),
             inverseJoinColumns = @JoinColumn(name = "contact_lense_id"))
     private List<ContactLense> contactLenseList;// association, cardinality *
-
+    @ManyToOne
     private AppointmentCart appointmentCart;//association cardinality 1
 
     /**
@@ -40,9 +45,6 @@ public class LensesCorrection {
         }
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -59,7 +61,6 @@ public class LensesCorrection {
         this.contactLenseList = contactLenseList;
     }
 
-    @Column(name = "correction_power_right")
     public String getCorrectionPowerRight() {
         return correctionPowerRight;
     }
@@ -68,7 +69,6 @@ public class LensesCorrection {
         this.correctionPowerRight = correctionPowerRight;
     }
 
-    @Column(name = "correction_power_left")
     public String getCorrectionPowerLeft() {
         return correctionPowerLeft;
     }
@@ -81,8 +81,6 @@ public class LensesCorrection {
        return contactLenseList;
     }
 
-
-    @ManyToOne
     public AppointmentCart getAppointmentCart() {
         return appointmentCart;
     }

@@ -11,10 +11,20 @@ import java.util.Set;
 @Table(name = "Employee")
 public abstract class Employee extends Person {
 
-  //  private int id;
+    //@Id
+    //@GeneratedValue(strategy = GenerationType.AUTO)
+    //@Column(name = "id")
+    //  private int id;
+
+    @Basic
+    // @Temporal(TemporalType.DATE)
     private LocalDate hireDate;
-//    protected Set<Day> workingDays;
+    //protected Set<Day> workingDays;
+
+    @Column(name = "monthly_salary")
     private double monthlySalary;
+    @Column(name = "contract_type")
+    @Enumerated
     private ContractType contractType;
 
     /**
@@ -29,12 +39,10 @@ public abstract class Employee extends Person {
         this.hireDate = hireDate;
         this.monthlySalary = monthlySalary;
         this.contractType = contractType;
-       // workingDays = new HashSet<Day>();
+        // workingDays = new HashSet<Day>();
     }
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
+
 //    public int getId() {
 //        return id;
 //    }
@@ -43,8 +51,7 @@ public abstract class Employee extends Person {
 //        this.id = id;
 //    }
 
-    @Basic
-   // @Temporal(TemporalType.DATE)
+
     public LocalDate getHireDate() {
         return hireDate;
     }
@@ -62,8 +69,6 @@ public abstract class Employee extends Person {
 //        this.workingDays = workingDays;
 //    }
 
-    @Column(name = "contract_type")
-    @Enumerated
     public ContractType getContractType() {
         return contractType;
     }
@@ -72,7 +77,6 @@ public abstract class Employee extends Person {
         this.contractType = contractType;
     }
 
-    @Column(name = "monthly_salary")
     public double getMonthlySalary() {
         return monthlySalary;
     }

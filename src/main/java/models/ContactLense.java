@@ -11,10 +11,18 @@ import java.util.List;
 public class ContactLense {
 
     private static List<ContactLense> entity;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+    @Basic
     private String brand;
+    @Basic
     private String name;
+    @Column(name = "oxygen_transmission")
     private String oxygenTransmission;
+    @Column(name = "wearing_mode")
+    @Enumerated
     private WearingMode wearingMode;
 
     @ManyToMany
@@ -39,9 +47,7 @@ public class ContactLense {
         return entity;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+
     public int getId() {
         return id;
     }
@@ -50,17 +56,14 @@ public class ContactLense {
         this.id = id;
     }
 
-    @Basic
     public String getBrand() {
         return brand;
     }
-
 
     public void setBrand(String brand) {
         this.brand = brand;
     }
 
-    @Basic
     public String getName() {
         return name;
     }
@@ -69,7 +72,6 @@ public class ContactLense {
         this.name = name;
     }
 
-    @Column(name = "oxygen_transmission")
     public String getOxygenTransmission() {
         return oxygenTransmission;
     }
@@ -78,8 +80,6 @@ public class ContactLense {
         this.oxygenTransmission = oxygenTransmission;
     }
 
-    @Column(name = "wearing_mode")
-    @Enumerated
     public WearingMode getWearingMode() {
         return wearingMode;
     }

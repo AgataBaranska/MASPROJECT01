@@ -10,7 +10,9 @@ import java.util.List;
 @Table(name = "receptionist")
 
 public class Receptionist extends Employee {
-
+    //    @Id
+//  @GeneratedValue(strategy = GenerationType.AUTO)
+// @Column(name = "id")
    // private int id;
    @ManyToMany
    @JoinTable(
@@ -35,9 +37,7 @@ public class Receptionist extends Employee {
     }
 
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
+
 //    public int getId() {
 //        return id;
 //    }

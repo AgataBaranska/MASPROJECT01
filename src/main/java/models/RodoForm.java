@@ -8,8 +8,14 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "rodo_form")
 public class RodoForm {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+    @Basic
+    // @Temporal(TemporalType.DATE)
     private LocalDate date;
+    @Basic
     private String signature;
 
     @OneToOne(mappedBy = "rodo")
@@ -28,9 +34,7 @@ public class RodoForm {
         this.signature = signature;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+
     public int getId() {
         return id;
     }
@@ -39,8 +43,7 @@ public class RodoForm {
         this.id = id;
     }
 
-    @Basic
-   // @Temporal(TemporalType.DATE)
+
     public LocalDate getDate() {
         return date;
     }
@@ -49,7 +52,7 @@ public class RodoForm {
         this.date = date;
     }
 
-    @Basic
+
     public String getSignature() {
         return signature;
     }

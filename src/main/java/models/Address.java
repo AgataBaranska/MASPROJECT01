@@ -8,11 +8,18 @@ import javax.persistence.*;
 @Table(name = "adress")
 public class Address {
 
-
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+    @Basic
     private String street;
+    @Basic
     private String city;
+    @Basic
+    @Column(name = "postal_code")
     private String postalCode;
+    @Basic
     private String country;
 
     @OneToOne(mappedBy = "address")
@@ -33,9 +40,6 @@ public class Address {
     }
 
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -53,7 +57,6 @@ public class Address {
         this.person = person;
     }
 
-    @Basic
     public String getStreet() {
         return street;
     }
@@ -62,7 +65,6 @@ public class Address {
         this.street = street;
     }
 
-    @Basic
     public String getCity() {
         return city;
     }
@@ -71,7 +73,6 @@ public class Address {
         this.city = city;
     }
 
-    @Column(name = "postal_code")
     public String getPostalCode() {
         return postalCode;
     }
@@ -80,7 +81,6 @@ public class Address {
         this.postalCode = postalCode;
     }
 
-    @Basic
     public String getCountry() {
         return country;
     }

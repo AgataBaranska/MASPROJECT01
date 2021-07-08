@@ -8,9 +8,15 @@ import java.util.List;
 @Entity
 @Table(name = "training")
 public class Training {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+    @Basic
     private String trainingName;
+    @Basic
     private String description;
+    @Basic
     private String organizer;
 
     @ManyToMany
@@ -29,9 +35,7 @@ public class Training {
         this.organizer = organizer;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+
     public int getId() {
         return id;
     }
@@ -49,7 +53,6 @@ public class Training {
         this.receptionistList = receptionistList;
     }
 
-    @Basic
     public String getTrainingName() {
         return trainingName;
     }
@@ -58,7 +61,6 @@ public class Training {
         this.trainingName = trainingName;
     }
 
-    @Basic
     public String getDescription() {
         return description;
     }
@@ -67,7 +69,6 @@ public class Training {
         this.description = description;
     }
 
-    @Basic
     public String getOrganizer() {
         return organizer;
     }

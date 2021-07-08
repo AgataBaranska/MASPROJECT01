@@ -10,10 +10,15 @@ import java.util.List;
 @Entity
 @Table(name = "optometrist")
 public class Optometrist extends Employee {
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "id")
    // private int id;
+   @Column(name = "optometrist_number")
     private String optometristNumber;
 
 
+    @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
 
     /**
@@ -30,9 +35,7 @@ public class Optometrist extends Employee {
         this.optometristNumber = optometristNumber;
     }
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
+
 //    public int getId() {
 //        return id;
 //    }
@@ -49,7 +52,6 @@ public class Optometrist extends Employee {
         appointmentList.add(appointment);
     }
 
-    @Column(name = "optometrist_number")
     public String getOptometristNumber() {
         return optometristNumber;
     }
@@ -58,8 +60,6 @@ public class Optometrist extends Employee {
         this.optometristNumber = optometristNumber;
     }
 
-
-    @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<Appointment> getAppointmentList() {
         return appointmentList;
     }

@@ -7,19 +7,31 @@ import java.util.List;
 @Entity
 @Table(name = "appointment_cart")
 public class AppointmentCart {
+    @Basic
     public static int idCounter = 0;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+
     private Patient patient;
+    @Basic
     private String interview;
+    @Basic
     private String recommendations;
+
+    @OneToMany(mappedBy = "appointmentCart", cascade = CascadeType.ALL, orphanRemoval = true)
     //appointment card may have 0 or more classes.GlassesCorrection prescribed
     private List<GlassesCorrection> glassesCorrectionList;// association cardinality [0..1]
 
+
+    @OneToMany(mappedBy = "appointmentCart", cascade = CascadeType.ALL, orphanRemoval = true)
     //appointment card may have 0 or more classes.LensesCorrection prescribed
     private List<LensesCorrection> lensesCorrectionList;// association cardinality [0..1]
 
-    @OneToMany(mappedBy="appointmentCart")
+    @OneToMany(mappedBy = "appointmentCart")
     private Appointment appointment;
+
     /**
      * Required by Hibernate.
      */
@@ -32,15 +44,6 @@ public class AppointmentCart {
         id = generateIdNumber();
     }
 
-    public Appointment getAppointment() {
-        return appointment;
-    }
-
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
-    }
-
-    @Basic
     public static int getIdCounter() {
         return idCounter;
     }
@@ -49,9 +52,14 @@ public class AppointmentCart {
         AppointmentCart.idCounter = idCounter;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
+
     public int getId() {
         return id;
     }
@@ -60,7 +68,7 @@ public class AppointmentCart {
         this.id = id;
     }
 
-    @Basic
+
     public Patient getPatient() {
         return patient;
     }
@@ -69,7 +77,6 @@ public class AppointmentCart {
         this.patient = patient;
     }
 
-    @Basic
     public String getInterview() {
         return interview;
     }
@@ -78,7 +85,6 @@ public class AppointmentCart {
         this.interview = interview;
     }
 
-    @Basic
     public String getRecommendations() {
         return recommendations;
     }
@@ -87,7 +93,7 @@ public class AppointmentCart {
         this.recommendations = recommendations;
     }
 
-    @OneToMany(mappedBy = "appointmentCart", cascade = CascadeType.ALL, orphanRemoval = true)
+
     public List<GlassesCorrection> getGlassesCorrectionList() {
         return glassesCorrectionList;
     }
@@ -96,7 +102,6 @@ public class AppointmentCart {
         this.glassesCorrectionList = glassesCorrectionList;
     }
 
-    @OneToMany(mappedBy = "appointmentCart", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<LensesCorrection> getLensesCorrectionList() {
         return lensesCorrectionList;
     }

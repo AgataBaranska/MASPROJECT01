@@ -14,7 +14,11 @@ public class Appointment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int Id;
+
+    @Column(name = "appointment_date")
     private LocalDateTime appointmentDate;
+
+    @ManyToOne
     private Patient patient; //association cardinality 1
 
     @ManyToOne
@@ -53,7 +57,6 @@ public class Appointment {
         Id = id;
     }
 
-    @Column(name = "appointment_date")
     public LocalDateTime getAppointmentDate() {
         return appointmentDate;
     }
@@ -62,7 +65,7 @@ public class Appointment {
         this.appointmentDate = appointmentDate;
     }
 
-    @ManyToOne
+
     public Patient getPatient() {
         return patient;
     }
@@ -80,7 +83,6 @@ public class Appointment {
         this.optometrist = optometrist;
     }
 
-    @Basic
     public AppointmentCart getAppointmentCart() {
         return appointmentCart;
     }

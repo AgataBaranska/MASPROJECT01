@@ -7,10 +7,17 @@ import javax.persistence.*;
 @Entity
 @Table(name = "glasses_correction")
 public class GlassesCorrection {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int id;
+    @Column(name = "correction_power_right")
     private String correctionPowerRight;
+    @Column(name = "correction_power_left")
     private String correctionPowerLeft;
+    @Enumerated
     private CorrectionPurpose purpose;
+    @ManyToOne
     private AppointmentCart appointmentCart;//association cardinality 1, GlassesCorrectionObject have  1 Appointment card
 
     /**
@@ -26,9 +33,6 @@ public class GlassesCorrection {
         this.purpose = purpose;
     }
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -37,7 +41,7 @@ public class GlassesCorrection {
         this.id = id;
     }
 
-    @Column(name = "correction_power_right")
+
     public String getCorrectionPowerRight() {
         return correctionPowerRight;
     }
@@ -46,7 +50,7 @@ public class GlassesCorrection {
         this.correctionPowerRight = correctionPowerRight;
     }
 
-    @Column(name = "correction_power_left")
+
     public String getCorrectionPowerLeft() {
         return correctionPowerLeft;
     }
@@ -55,7 +59,7 @@ public class GlassesCorrection {
         this.correctionPowerLeft = correctionPowerLeft;
     }
 
-    @Enumerated
+
     public CorrectionPurpose getPurpose() {
         return purpose;
     }
@@ -64,7 +68,7 @@ public class GlassesCorrection {
         this.purpose = purpose;
     }
 
-    @ManyToOne
+
     public AppointmentCart getAppointmentCart() {
         return appointmentCart;
     }

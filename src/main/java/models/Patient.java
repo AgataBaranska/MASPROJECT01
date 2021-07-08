@@ -8,14 +8,20 @@ import java.util.List;
 @Table(name = "patient")
 public class Patient extends Person {
 
-    private static int idCounter = 0;
-    private static List<Patient> extent;
+    //    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "id")
     private int id;
+    @Basic
+    private static int counterId = 0;
+
+    private static List<Patient> extent;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "rodo_id", referencedColumnName = "id")
     private RodoForm rodo;//foreign key
 
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
 
     /**
@@ -32,13 +38,13 @@ public class Patient extends Person {
         addPatient(this);
     }
 
-    @Basic
-    public static int getIdCounter() {
-        return idCounter;
+
+    public static int getCounterOfId() {
+        return counterId;
     }
 
-    public static void setIdCounter(int idCounter) {
-        Patient.idCounter = idCounter;
+    public static void setCounterId(int counterId) {
+        Patient.counterId = counterId;
     }
 
     private static void addPatient(Patient patient) {
@@ -57,9 +63,7 @@ public class Patient extends Person {
         return extent;
     }
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
+
 //    public int getId() {
 //        return id;
 //    }
@@ -77,7 +81,7 @@ public class Patient extends Person {
         this.rodo = rodo;
     }
 
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+
     public List<Appointment> getAppointmentList() {
         return appointmentList;
     }
@@ -91,7 +95,7 @@ public class Patient extends Person {
     }
 
     private int generateIdNumber() {
-        return ++idCounter;
+        return ++counterId;
     }
 
     public void addAppointmentToList(Appointment appointment) {
