@@ -21,8 +21,8 @@ public abstract class Person {
     private String email;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address", referencedColumnName = "id")
-    private Address address;//klucz obcy
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    protected Address address;//klucz obcy
 
     /**
      * Required by Hibernate.
