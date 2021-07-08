@@ -10,7 +10,9 @@ import java.util.List;
 @Entity
 @Table(name = "appointment")
 public class Appointment {
-    private static List<Appointment> entity;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     private int Id;
     private LocalDateTime appointmentDate;
     private Patient patient; //association cardinality 1
@@ -22,6 +24,7 @@ public class Appointment {
     @JoinColumn(name = "appointment_cart_id", referencedColumnName = "id")
     private AppointmentCart appointmentCart;//foreign key
 
+    private static List<Appointment> entity;
     /**
      * Required by Hibernate.
      */
@@ -41,10 +44,7 @@ public class Appointment {
         return entity;
     }
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name="id")
+
     public int getId() {
         return Id;
     }

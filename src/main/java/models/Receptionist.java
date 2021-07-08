@@ -10,12 +10,8 @@ import java.util.List;
 @Table(name = "receptionist")
 public class Receptionist extends Employee {
 
-    private int id;
-    @ManyToMany
-    @JoinTable(
-            name = "receptionist_training",
-            joinColumns = @JoinColumn(name = "receptionist_id"),
-            inverseJoinColumns = @JoinColumn(name = "training_id"))
+   // private int id;
+
     private List<Training> trainingList;
 
 
@@ -34,18 +30,22 @@ public class Receptionist extends Employee {
     }
 
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name="id")
-    public int getId() {
-        return id;
-    }
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "id")
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
-
+    @ManyToMany
+    @JoinTable(
+            name = "receptionist_training",
+            joinColumns = @JoinColumn(name = "receptionist_id"),
+            inverseJoinColumns = @JoinColumn(name = "training_id"))
     public List<Training> getTrainingList() {
         return trainingList;
     }

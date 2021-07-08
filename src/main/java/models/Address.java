@@ -7,12 +7,14 @@ import javax.persistence.*;
 @Entity
 @Table(name = "adress")
 public class Address {
+
+
     private int id;
     private String street;
     private String city;
     private String postalCode;
     private String country;
-    @OneToOne(mappedBy = "address")
+
     private Person person;
 
     /**
@@ -29,10 +31,10 @@ public class Address {
         this.country = country;
     }
 
+
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    @Column(name="id")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -41,7 +43,7 @@ public class Address {
         this.id = id;
     }
 
-
+    @OneToOne(mappedBy = "address")
     public Person getPerson() {
         return person;
     }

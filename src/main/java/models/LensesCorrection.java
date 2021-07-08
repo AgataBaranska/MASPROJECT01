@@ -19,6 +19,7 @@ public class LensesCorrection {
             joinColumns = @JoinColumn(name ="lenses_correction_id"),
             inverseJoinColumns = @JoinColumn(name = "contact_lense_id"))
     private List<ContactLense> contactLenseList;// association, cardinality *
+
     private AppointmentCart appointmentCart;//association cardinality 1
 
     /**
@@ -40,8 +41,8 @@ public class LensesCorrection {
     }
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     public int getId() {
         return id;
     }

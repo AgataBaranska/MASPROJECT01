@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.List;
 @Table(name = "appointment_cart")
 public class AppointmentCart {
     public static int idCounter = 0;
-    private int idNumber;
+    private int id;
     private Patient patient;
     private String interview;
     private String recommendations;
@@ -31,7 +29,7 @@ public class AppointmentCart {
     public AppointmentCart(Patient patient) {
         super();
         this.patient = patient;
-        idNumber = generateIdNumber();
+        id = generateIdNumber();
     }
 
     public Appointment getAppointment() {
@@ -52,14 +50,14 @@ public class AppointmentCart {
     }
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    public int getIdNumber() {
-        return idNumber;
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
+    public int getId() {
+        return id;
     }
 
-    public void setIdNumber(int idNumber) {
-        this.idNumber = idNumber;
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Basic

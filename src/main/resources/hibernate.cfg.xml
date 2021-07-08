@@ -28,7 +28,5 @@
         <mapping class="models.Receptionist"/>
         <mapping class="models.RodoForm"/>
         <mapping class="models.Training"/>
-        <mapping class="models.LensesCorrectionContactLense"/>
-        <mapping class="models.ReceptionistTraining"/>
     </session-factory>
 </hibernate-configuration>

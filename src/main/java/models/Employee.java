@@ -11,7 +11,7 @@ import java.util.Set;
 @Table(name = "Employee")
 public abstract class Employee extends Person {
 
-    private int id;
+  //  private int id;
     private LocalDate hireDate;
     private Set<Day> workingDays;
     private double monthlySalary;
@@ -32,16 +32,16 @@ public abstract class Employee extends Person {
         workingDays = new HashSet<Day>();
     }
 
-    @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "id")
+//    public int getId() {
+//        return id;
+//    }
+//
+//    public void setId(int id) {
+//        this.id = id;
+//    }
 
     @Basic
    // @Temporal(TemporalType.DATE)

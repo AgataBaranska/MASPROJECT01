@@ -40,8 +40,8 @@ public class ContactLense {
     }
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "id")
     public int getId() {
         return id;
     }
@@ -88,7 +88,6 @@ public class ContactLense {
         this.wearingMode = wearingMode;
     }
 
-    @OneToMany(mappedBy = "contact_lense", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<LensesCorrection> getLensesCorrectionList() {
         return lensesCorrectionList;
     }

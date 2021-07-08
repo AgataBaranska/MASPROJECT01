@@ -5,6 +5,7 @@ import org.hibernate.annotations.GenericGenerator;
 import javax.persistence.*;
 
 @MappedSuperclass
+@Table(name="person")
 public abstract class Person {
     private int id;
     private String name;
@@ -13,8 +14,7 @@ public abstract class Person {
     private String telephone;
     private String email;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+
     private Address address;//klucz obcy
 
     /**
@@ -34,8 +34,7 @@ public abstract class Person {
     }
 
     @Id
-    @GeneratedValue(generator = "increment")
-    @GenericGenerator(name = "increment", strategy = "increment")
+    @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name="id")
     public int getId() {
         return id;
@@ -91,6 +90,8 @@ public abstract class Person {
     }
 
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address_id", referencedColumnName = "id")
     public Address getAddress() {
         return address;
     }
