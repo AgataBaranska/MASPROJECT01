@@ -1,5 +1,7 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.List;
 @Entity
 @Table(name = "optometrist")
 public class Optometrist extends Employee {
+    private int id;
     private String optometristNumber;
 
     private List<Appointment> appointmentList;//association cardinality *
@@ -24,6 +27,18 @@ public class Optometrist extends Employee {
         super(name, surname, pesel, telephone, email, street, city, postalCode, country, hireDate, contractType,
                 monthlySalary);
         this.optometristNumber = optometristNumber;
+    }
+
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    public int getId() {
+        return id;
+    }
+
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public void addAppointmentToList(Appointment appointment) {

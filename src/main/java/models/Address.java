@@ -1,5 +1,7 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
@@ -10,6 +12,7 @@ public class Address {
     private String city;
     private String postalCode;
     private String country;
+    private Person person;
 
     /**
      * Required by Hibernate.
@@ -27,12 +30,22 @@ public class Address {
 
     @Id
     @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     public int getId() {
         return id;
     }
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    @OneToOne(mappedBy = "address")
+    public Person getPerson() {
+        return person;
+    }
+
+    public void setPerson(Person person) {
+        this.person = person;
     }
 
     @Basic

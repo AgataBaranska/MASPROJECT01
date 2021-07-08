@@ -1,10 +1,12 @@
 package models;
 
-import javax.persistence.Basic;
-import javax.persistence.MappedSuperclass;
+import org.hibernate.annotations.GenericGenerator;
+
+import javax.persistence.*;
 
 @MappedSuperclass
 public abstract class Person {
+    private int id;
     private String name;
     private String surname;
     private String pesel;
@@ -26,6 +28,17 @@ public abstract class Person {
         this.telephone = telephone;
         this.email = email;
         this.address = new Address(street, city, postalCode, country);
+    }
+
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Basic
@@ -72,7 +85,9 @@ public abstract class Person {
     public void setEmail(String email) {
         this.email = email;
     }
-    @Basic
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "address", referencedColumnName = "id")
     public Address getAddress() {
         return address;
     }

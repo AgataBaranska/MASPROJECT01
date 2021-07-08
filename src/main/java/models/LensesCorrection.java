@@ -1,5 +1,7 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -7,9 +9,10 @@ import java.util.List;
 @Entity
 @Table(name = "lenses_correction")
 public class LensesCorrection {
+    private int id;
     private String correctionPowerRight;
     private String correctionPowerLeft;
-    private List<ContactLense> contactLensesList;// association, cardinality *
+    private List<LensesCorrectionContactLense> lensesCorrectionContactLense;// association, cardinality *
     private AppointmentCart appointmentCart;//association cardinality 1
 
     /**
@@ -30,6 +33,17 @@ public class LensesCorrection {
         }
     }
 
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Column(name = "correction_power_right")
     public String getCorrectionPowerRight() {
         return correctionPowerRight;
@@ -48,14 +62,25 @@ public class LensesCorrection {
         this.correctionPowerLeft = correctionPowerLeft;
     }
 
-    @OneToMany(mappedBy = "lense_correction", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "lensesCorrection", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<LensesCorrectionContactLense> getLensesCorrectionContactLense() {
+        return lensesCorrectionContactLense;
+    }
+
+    public void setLensesCorrectionContactLense(List<LensesCorrectionContactLense> lensesCorrectionContactLense) {
+        this.lensesCorrectionContactLense = lensesCorrectionContactLense;
+    }
+
+
     public List<ContactLense> getContactLensesList() {
+        List<ContactLense> contactLensesList = new ArrayList<>();
+        for (LensesCorrectionContactLense connectingObject:lensesCorrectionContactLense) {
+            contactLensesList.add(connectingObject.getContactLense());
+        }
         return contactLensesList;
     }
 
-    public void setContactLensesList(List<ContactLense> contactLensesList) {
-        this.contactLensesList = contactLensesList;
-    }
+
 
     @ManyToOne
     public AppointmentCart getAppointmentCart() {
@@ -67,12 +92,17 @@ public class LensesCorrection {
     }
 
     private void addContactLenses(ContactLense contactLense) {
-        if (contactLensesList == null) {
-            contactLensesList = new ArrayList<ContactLense>();
-            contactLensesList.add(contactLense);
+
+        if (lensesCorrectionContactLense == null) {
+            lensesCorrectionContactLense = new ArrayList<LensesCorrectionContactLense>();
+
+            LensesCorrectionContactLense connectingObject =new LensesCorrectionContactLense(this,contactLense);
+            lensesCorrectionContactLense.add(connectingObject);
+            contactLense.add(connectingObject);
+
         } else {
-            contactLensesList.add(contactLense);
-            contactLense.add(this);// add reverse connection
+            lensesCorrectionContactLense.add(new LensesCorrectionContactLense(this,contactLense));
+
         }
     }
 

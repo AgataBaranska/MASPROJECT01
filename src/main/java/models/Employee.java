@@ -1,14 +1,17 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
+@MappedSuperclass
 @Table(name = "Employee")
 public abstract class Employee extends Person {
 
+    private int id;
     private LocalDate hireDate;
     private Set<Day> workingDays;
     private double monthlySalary;
@@ -29,10 +32,19 @@ public abstract class Employee extends Person {
         workingDays = new HashSet<Day>();
     }
 
-    ;
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
 
     @Basic
-    @Temporal(TemporalType.DATE)
+   // @Temporal(TemporalType.DATE)
     public LocalDate getHireDate() {
         return hireDate;
     }

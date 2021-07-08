@@ -1,11 +1,14 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "rodo_form")
 public class RodoForm {
+    private int id;
     private LocalDate date;
     private String signature;
     private Patient patient;//association cardinality 1
@@ -23,8 +26,19 @@ public class RodoForm {
         this.signature = signature;
     }
 
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
     @Basic
-    @Temporal(TemporalType.DATE)
+   // @Temporal(TemporalType.DATE)
     public LocalDate getDate() {
         return date;
     }

@@ -1,5 +1,7 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,8 @@ public class AppointmentCart {
     }
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     public int getIdNumber() {
         return idNumber;
     }
@@ -76,7 +79,7 @@ public class AppointmentCart {
         this.recommendations = recommendations;
     }
 
-    @OneToMany(mappedBy = "appointment_cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "appointmentCart", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<GlassesCorrection> getGlassesCorrectionList() {
         return glassesCorrectionList;
     }
@@ -85,7 +88,7 @@ public class AppointmentCart {
         this.glassesCorrectionList = glassesCorrectionList;
     }
 
-    @OneToMany(mappedBy = "appointment_cart", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "appointmentCart", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<LensesCorrection> getLensesCorrectionList() {
         return lensesCorrectionList;
     }

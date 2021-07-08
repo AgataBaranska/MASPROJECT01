@@ -1,5 +1,7 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,10 +11,11 @@ import java.util.List;
 public class Patient extends Person {
 
     private static int idCounter = 0;
+    private static List<Patient> extent;
     private int idNumber;
     private RodoForm rodoForm;
     private List<Appointment> appointmentList;//association cardinality *
-    private static List<Patient> extent;
+
     /**
      * Required by Hibernate.
      */
@@ -54,6 +57,7 @@ public class Patient extends Person {
 
     @Id
     @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
     public int getIdNumber() {
         return idNumber;
     }

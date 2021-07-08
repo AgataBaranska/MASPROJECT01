@@ -1,5 +1,7 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,11 +11,12 @@ import java.util.List;
 public class ContactLense {
 
     private static List<ContactLense> entity;
+    private int id;
     private String brand;
     private String name;
     private String oxygenTransmission;
     private WearingMode wearingMode;
-    private List<LensesCorrection> lensesCorrectionList;// association cardinality *
+    private List<LensesCorrectionContactLense> lensesCorrectionContactLenseList;// association cardinality *
 
     /**
      * Required by Hibernate.
@@ -32,6 +35,17 @@ public class ContactLense {
 
     public static List<ContactLense> getEntity() {
         return entity;
+    }
+
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Basic
@@ -72,13 +86,24 @@ public class ContactLense {
         this.wearingMode = wearingMode;
     }
 
-    @OneToMany(mappedBy = "contact_lense", cascade = CascadeType.ALL, orphanRemoval = true)
+
     public List<LensesCorrection> getLensesCorrectionList() {
+        List<LensesCorrection> lensesCorrectionList = new ArrayList<>();
+
+        for (LensesCorrectionContactLense connectingObject:
+             lensesCorrectionContactLenseList) {
+            lensesCorrectionList.add(connectingObject.getLensesCorrection());
+        }
         return lensesCorrectionList;
     }
 
-    public void setLensesCorrectionList(List<LensesCorrection> lensesCorrectionList) {
-        this.lensesCorrectionList = lensesCorrectionList;
+    @OneToMany(mappedBy = "contactLense", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<LensesCorrectionContactLense> getLensesCorrectionContactLenseList() {
+        return lensesCorrectionContactLenseList;
+    }
+
+    public void setLensesCorrectionContactLenseList(List<LensesCorrectionContactLense> lensesCorrectionContactLenseList) {
+        this.lensesCorrectionContactLenseList = lensesCorrectionContactLenseList;
     }
 
     private void addToEntity(ContactLense contactLense) {
@@ -88,13 +113,11 @@ public class ContactLense {
         entity.add(contactLense);
     }
 
-    public void add(LensesCorrection lensesCorrection) {
-        if (lensesCorrectionList == null) {
-            lensesCorrectionList = new ArrayList<LensesCorrection>();
+    public void add(LensesCorrectionContactLense connectingObject)  {
+        if (lensesCorrectionContactLenseList == null) {
+            lensesCorrectionContactLenseList = new ArrayList<LensesCorrectionContactLense>();
         }
-        if (!lensesCorrectionList.contains(lensesCorrection)) {
-            lensesCorrectionList.add(lensesCorrection);
-        }
+        lensesCorrectionContactLenseList.add(connectingObject);
 
     }
 
@@ -103,6 +126,9 @@ public class ContactLense {
         return brand + '\'' +
                 ", '" + name + '\'';
     }
+
+
+
 
     public enum WearingMode {
         DAILY("Daily"),

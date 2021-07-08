@@ -1,10 +1,13 @@
 package models;
 
+import org.hibernate.annotations.GenericGenerator;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "glasses_correction")
 public class GlassesCorrection {
+    private int id;
     private String correctionPowerRight;
     private String correctionPowerLeft;
     private CorrectionPurpose purpose;
@@ -21,6 +24,17 @@ public class GlassesCorrection {
         this.correctionPowerRight = correctionPowerRight;
         this.correctionPowerLeft = correctionPowerLeft;
         this.purpose = purpose;
+    }
+
+    @Id
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     @Column(name = "correction_power_right")
