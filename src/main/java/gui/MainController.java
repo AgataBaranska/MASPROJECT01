@@ -40,7 +40,7 @@ public class MainController {
        Appointment selectedAppointment =(Appointment)listAppointment.getSelectionModel().getSelectedItem();
        AppointmentCart generatedAppointmentCart = selectedAppointment.generateAppointmentCart();
 
-       Main.getAppotmentController().setAppointmentCart(generatedAppointmentCart);
+       Main.getAppointmentController().setAppointmentCart(generatedAppointmentCart);
 
        Main.set_pane(1);
 
