@@ -12,7 +12,7 @@ public class RodoForm {
     private LocalDate date;
     private String signature;
 
-    @OneToOne(mappedBy="rodoForm")
+    @OneToOne(mappedBy = "rodoForm")
     private Patient patient;//association cardinality 1
 
     /**
@@ -29,8 +29,9 @@ public class RodoForm {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @GeneratedValue(generator = "increment")
+    @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name="id")
     public int getId() {
         return id;
     }

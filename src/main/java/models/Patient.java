@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +10,12 @@ public class Patient extends Person {
 
     private static int idCounter = 0;
     private static List<Patient> extent;
-    private int idNumber;
+    private int id;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "rodo_form_id", referencedColumnName = "id")
-    private RodoForm rodoForm;//klucz obcy
+    @JoinColumn(name = "rodo_id", referencedColumnName = "id")
+    private RodoForm rodo;//klucz obcy
+
     private List<Appointment> appointmentList;//association cardinality *
 
     /**
@@ -28,8 +27,8 @@ public class Patient extends Person {
     public Patient(String name, String surname, String pesel, String telephone, String email, String street,
                    String city, String postalCode, String country) {
         super(name, surname, pesel, telephone, email, street, city, postalCode, country);
-        this.idNumber = generateIdNumber();
-        this.rodoForm = generateRodoForm();
+        this.id = generateIdNumber();
+        this.rodo = generateRodoForm();
         addPatient(this);
     }
 
@@ -61,21 +60,21 @@ public class Patient extends Person {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
-    public int getIdNumber() {
-        return idNumber;
+    public int getId() {
+        return id;
     }
 
-    public void setIdNumber(int idNumber) {
-        this.idNumber = idNumber;
+    public void setId(int id) {
+        this.id = id;
     }
 
 
-    public RodoForm getRodoForm() {
-        return rodoForm;
+    public RodoForm getRodo() {
+        return rodo;
     }
 
-    public void setRodoForm(RodoForm rodoForm) {
-        this.rodoForm = rodoForm;
+    public void setRodo(RodoForm rodo) {
+        this.rodo = rodo;
     }
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
