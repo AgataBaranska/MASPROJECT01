@@ -16,7 +16,9 @@ public class ContactLense {
     private String name;
     private String oxygenTransmission;
     private WearingMode wearingMode;
-    private List<LensesCorrectionContactLense> lensesCorrectionContactLenseList;// association cardinality *
+
+    @ManyToMany
+    private List<LensesCorrection> lensesCorrectionList;// association cardinality *
 
     /**
      * Required by Hibernate.
@@ -86,24 +88,13 @@ public class ContactLense {
         this.wearingMode = wearingMode;
     }
 
-
+    @OneToMany(mappedBy = "contact_lense", cascade = CascadeType.ALL, orphanRemoval = true)
     public List<LensesCorrection> getLensesCorrectionList() {
-        List<LensesCorrection> lensesCorrectionList = new ArrayList<>();
-
-        for (LensesCorrectionContactLense connectingObject:
-             lensesCorrectionContactLenseList) {
-            lensesCorrectionList.add(connectingObject.getLensesCorrection());
-        }
         return lensesCorrectionList;
     }
 
-    @OneToMany(mappedBy = "contactLense", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<LensesCorrectionContactLense> getLensesCorrectionContactLenseList() {
-        return lensesCorrectionContactLenseList;
-    }
-
-    public void setLensesCorrectionContactLenseList(List<LensesCorrectionContactLense> lensesCorrectionContactLenseList) {
-        this.lensesCorrectionContactLenseList = lensesCorrectionContactLenseList;
+    public void setLensesCorrectionList(List<LensesCorrection> lensesCorrectionList) {
+        this.lensesCorrectionList = lensesCorrectionList;
     }
 
     private void addToEntity(ContactLense contactLense) {
@@ -113,11 +104,13 @@ public class ContactLense {
         entity.add(contactLense);
     }
 
-    public void add(LensesCorrectionContactLense connectingObject)  {
-        if (lensesCorrectionContactLenseList == null) {
-            lensesCorrectionContactLenseList = new ArrayList<LensesCorrectionContactLense>();
+    public void add(LensesCorrection lensesCorrection) {
+        if (lensesCorrectionList == null) {
+            lensesCorrectionList = new ArrayList<LensesCorrection>();
         }
-        lensesCorrectionContactLenseList.add(connectingObject);
+        if (!lensesCorrectionList.contains(lensesCorrection)) {
+            lensesCorrectionList.add(lensesCorrection);
+        }
 
     }
 
@@ -126,7 +119,6 @@ public class ContactLense {
         return brand + '\'' +
                 ", '" + name + '\'';
     }
-
 
 
 

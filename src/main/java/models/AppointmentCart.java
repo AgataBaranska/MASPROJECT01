@@ -20,6 +20,8 @@ public class AppointmentCart {
     //appointment card may have 0 or more classes.LensesCorrection prescribed
     private List<LensesCorrection> lensesCorrectionList;// association cardinality [0..1]
 
+    @OneToMany(mappedBy="appointmentCart")
+    private Appointment appointment;
     /**
      * Required by Hibernate.
      */
@@ -30,6 +32,14 @@ public class AppointmentCart {
         super();
         this.patient = patient;
         idNumber = generateIdNumber();
+    }
+
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
     }
 
     @Basic

@@ -12,7 +12,8 @@ public class Training {
     private String trainingName;
     private String description;
     private String organizer;
-    private List<ReceptionistTraining> receptionistTrainingList;//association
+    @ManyToMany
+    private List<Receptionist> receptionistList;//association *
 
     /**
      * Required by Hibernate.
@@ -30,6 +31,7 @@ public class Training {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name="id")
     public int getId() {
         return id;
     }
@@ -38,13 +40,13 @@ public class Training {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "training", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<ReceptionistTraining> getReceptionistTrainingList() {
-        return receptionistTrainingList;
+
+    public List<Receptionist> getReceptionistList() {
+        return receptionistList;
     }
 
-    public void setReceptionistTrainingList(List<ReceptionistTraining> receptionistTrainingList) {
-        this.receptionistTrainingList = receptionistTrainingList;
+    public void setReceptionistList(List<Receptionist> receptionistList) {
+        this.receptionistList = receptionistList;
     }
 
     @Basic

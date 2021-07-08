@@ -12,7 +12,13 @@ public class LensesCorrection {
     private int id;
     private String correctionPowerRight;
     private String correctionPowerLeft;
-    private List<LensesCorrectionContactLense> lensesCorrectionContactLense;// association, cardinality *
+
+    @ManyToMany
+    @JoinTable(
+            name="correction_lenses",
+            joinColumns = @JoinColumn(name ="lenses_correction_id"),
+            inverseJoinColumns = @JoinColumn(name = "contact_lense_id"))
+    private List<ContactLense> contactLenseList;// association, cardinality *
     private AppointmentCart appointmentCart;//association cardinality 1
 
     /**
@@ -44,6 +50,14 @@ public class LensesCorrection {
         this.id = id;
     }
 
+    public List<ContactLense> getContactLenseList() {
+        return contactLenseList;
+    }
+
+    public void setContactLenseList(List<ContactLense> contactLenseList) {
+        this.contactLenseList = contactLenseList;
+    }
+
     @Column(name = "correction_power_right")
     public String getCorrectionPowerRight() {
         return correctionPowerRight;
@@ -62,24 +76,9 @@ public class LensesCorrection {
         this.correctionPowerLeft = correctionPowerLeft;
     }
 
-    @OneToMany(mappedBy = "lensesCorrection", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<LensesCorrectionContactLense> getLensesCorrectionContactLense() {
-        return lensesCorrectionContactLense;
-    }
-
-    public void setLensesCorrectionContactLense(List<LensesCorrectionContactLense> lensesCorrectionContactLense) {
-        this.lensesCorrectionContactLense = lensesCorrectionContactLense;
-    }
-
-
     public List<ContactLense> getContactLensesList() {
-        List<ContactLense> contactLensesList = new ArrayList<>();
-        for (LensesCorrectionContactLense connectingObject:lensesCorrectionContactLense) {
-            contactLensesList.add(connectingObject.getContactLense());
-        }
-        return contactLensesList;
+       return contactLenseList;
     }
-
 
 
     @ManyToOne
@@ -93,18 +92,14 @@ public class LensesCorrection {
 
     private void addContactLenses(ContactLense contactLense) {
 
-        if (lensesCorrectionContactLense == null) {
-            lensesCorrectionContactLense = new ArrayList<LensesCorrectionContactLense>();
-
-            LensesCorrectionContactLense connectingObject =new LensesCorrectionContactLense(this,contactLense);
-            lensesCorrectionContactLense.add(connectingObject);
-            contactLense.add(connectingObject);
-
-        } else {
-            lensesCorrectionContactLense.add(new LensesCorrectionContactLense(this,contactLense));
+        if (contactLenseList == null) {
+            contactLenseList = new ArrayList<ContactLense>();
 
         }
-    }
+        contactLenseList.add(contactLense);
+
+        }
+
 
     public void matchLensesCorrectionToAppointmentCart(AppointmentCart appointmentCart) throws Exception {
         if (!(this.appointmentCart == null)) {

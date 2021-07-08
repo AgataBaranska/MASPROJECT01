@@ -11,7 +11,12 @@ import java.util.List;
 public class Receptionist extends Employee {
 
     private int id;
-    private List<ReceptionistTraining> receptionistTrainingList;
+    @ManyToMany
+    @JoinTable(
+            name = "receptionist_training",
+            joinColumns = @JoinColumn(name = "receptionist_id"),
+            inverseJoinColumns = @JoinColumn(name = "training_id"))
+    private List<Training> trainingList;
 
 
     /**
@@ -32,6 +37,7 @@ public class Receptionist extends Employee {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name="id")
     public int getId() {
         return id;
     }
@@ -40,12 +46,11 @@ public class Receptionist extends Employee {
         this.id = id;
     }
 
-    @OneToMany(mappedBy = "receptionist", cascade = CascadeType.ALL, orphanRemoval = true)
-    public List<ReceptionistTraining> getReceptionistTrainingList() {
-        return receptionistTrainingList;
+    public List<Training> getTrainingList() {
+        return trainingList;
     }
 
-    public void setReceptionistTrainingList(List<ReceptionistTraining> receptionistTrainingList) {
-        this.receptionistTrainingList = receptionistTrainingList;
+    public void setTrainingList(List<Training> trainingList) {
+        this.trainingList = trainingList;
     }
 }

@@ -12,7 +12,7 @@ public class RodoForm {
     private LocalDate date;
     private String signature;
 
-    @OneToOne(mappedBy = "rodoForm")
+    @OneToOne(mappedBy = "rodo")
     private Patient patient;//association cardinality 1
 
     /**

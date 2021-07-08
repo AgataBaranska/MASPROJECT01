@@ -14,8 +14,13 @@ public class Appointment {
     private int Id;
     private LocalDateTime appointmentDate;
     private Patient patient; //association cardinality 1
+
+    @ManyToOne
     private Optometrist optometrist;//association cardinality 1
-    private AppointmentCart appointmentCart;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "appointment_cart_id", referencedColumnName = "id")
+    private AppointmentCart appointmentCart;//foreign key
 
     /**
      * Required by Hibernate.
@@ -39,6 +44,7 @@ public class Appointment {
     @Id
     @GeneratedValue(generator = "increment")
     @GenericGenerator(name = "increment", strategy = "increment")
+    @Column(name="id")
     public int getId() {
         return Id;
     }
@@ -65,8 +71,7 @@ public class Appointment {
         this.patient = patient;
     }
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+
     public Optometrist getOptometrist() {
         return optometrist;
     }

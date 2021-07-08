@@ -13,6 +13,7 @@ public class Optometrist extends Employee {
     private int id;
     private String optometristNumber;
 
+    @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
 
     /**
@@ -57,7 +58,7 @@ public class Optometrist extends Employee {
         this.optometristNumber = optometristNumber;
     }
 
-    @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
+
     public List<Appointment> getAppointmentList() {
         return appointmentList;
     }

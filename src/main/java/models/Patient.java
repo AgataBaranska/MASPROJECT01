@@ -14,7 +14,7 @@ public class Patient extends Person {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "rodo_id", referencedColumnName = "id")
-    private RodoForm rodo;//klucz obcy
+    private RodoForm rodo;//foreign key
 
     private List<Appointment> appointmentList;//association cardinality *
 
