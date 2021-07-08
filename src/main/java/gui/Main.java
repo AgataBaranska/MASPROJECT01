@@ -50,11 +50,15 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
         try {
-            registry = new StandardServiceRegistryBuilder()
-                    .configure("hibernate.cfg.xml") // configures settings from hibernate.cfg.xml
-                    .build();
-            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+//            registry = new StandardServiceRegistryBuilder()
+//                    .configure("hibernate.cfg.xml") // configures settings from hibernate.cfg.xml
+//                    .build();
+//            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
 
+            sessionFactory = new Configuration()
+                    .configure("hibernate.cfg.xml")
+                    .addAnnotatedClass(Training.class)
+                    .buildSessionFactory();
             Session session = sessionFactory.openSession();
             session.beginTransaction();
 
@@ -69,8 +73,9 @@ public class Main extends Application {
             ContactLense contactLense2 = new ContactLense("CooperVision", "Biofinity", "150", ContactLense.WearingMode.MONTHLY);
             ContactLense contactLense3 = new ContactLense("J&J", "Moist", "140", ContactLense.WearingMode.DAILY);
 
+            Training training = new Training("lala","kaka","jhdsa");
             //save all data
-            session.save(patient1);
+            session.save(training);
 
 
             session.getTransaction().commit();
