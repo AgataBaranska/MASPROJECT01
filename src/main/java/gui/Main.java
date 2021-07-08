@@ -69,6 +69,10 @@ public class Main extends Application {
             ContactLense contactLense2 = new ContactLense("CooperVision", "Biofinity", "150", ContactLense.WearingMode.MONTHLY);
             ContactLense contactLense3 = new ContactLense("J&J", "Moist", "140", ContactLense.WearingMode.DAILY);
 
+            //save all data
+            session.save(patient1);
+
+
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
