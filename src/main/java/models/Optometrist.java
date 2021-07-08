@@ -1,30 +1,53 @@
 package models;
 
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
+@Table(name = "optometrist")
 public class Optometrist extends Employee {
-	private String optometristNumber;
-	private List<Appointment> appointmentList;//association cardinality *
+    private String optometristNumber;
 
-	public Optometrist(String name, String surname, String pesel, String telephone, String email, String street,
-			String city, String postalCode, String country, LocalDate hireDate, ContractType contractType,
-			double monthlySalary, String optometristNumber) {
-		super(name, surname, pesel, telephone, email, street, city, postalCode, country, hireDate, contractType,
-				monthlySalary);
-		this.optometristNumber = optometristNumber;
-	}
+    private List<Appointment> appointmentList;//association cardinality *
 
-	public void addAppointmentToList(Appointment appointment){
-		if(appointmentList== null){
-			appointmentList = new ArrayList<>();
-		}
-		appointmentList.add(appointment);
-	}
+    /**
+     * Required by Hibernate.
+     */
+    private Optometrist() {
+    }
 
-	public String getOptometristNumber() {
-		return optometristNumber;
-	}
-		
+    public Optometrist(String name, String surname, String pesel, String telephone, String email, String street,
+                       String city, String postalCode, String country, LocalDate hireDate, ContractType contractType,
+                       double monthlySalary, String optometristNumber) {
+        super(name, surname, pesel, telephone, email, street, city, postalCode, country, hireDate, contractType,
+                monthlySalary);
+        this.optometristNumber = optometristNumber;
+    }
+
+    public void addAppointmentToList(Appointment appointment) {
+        if (appointmentList == null) {
+            appointmentList = new ArrayList<>();
+        }
+        appointmentList.add(appointment);
+    }
+
+    @Column(name = "optometrist_number")
+    public String getOptometristNumber() {
+        return optometristNumber;
+    }
+
+    public void setOptometristNumber(String optometristNumber) {
+        this.optometristNumber = optometristNumber;
+    }
+
+    @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<Appointment> getAppointmentList() {
+        return appointmentList;
+    }
+
+    public void setAppointmentList(List<Appointment> appointmentList) {
+        this.appointmentList = appointmentList;
+    }
 }

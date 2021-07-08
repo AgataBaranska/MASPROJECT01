@@ -4,21 +4,20 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "adress")
-public class Adress {
-    @Id
-    @GeneratedValue(generator = "increment")
+public class Address {
     private int id;
     private String street;
     private String city;
     private String postalCode;
-
-    @Column(name = "country")
     private String country;
 
-    private Adress() {
+    /**
+     * Required by Hibernate.
+     */
+    private Address() {
     }
 
-    public Adress(String street, String city, String postalCode, String country) {
+    public Address(String street, String city, String postalCode, String country) {
         super();
         this.street = street;
         this.city = city;
@@ -26,6 +25,17 @@ public class Adress {
         this.country = country;
     }
 
+    @Id
+    @GeneratedValue(generator = "increment")
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    @Basic
     public String getStreet() {
         return street;
     }
@@ -34,6 +44,7 @@ public class Adress {
         this.street = street;
     }
 
+    @Basic
     public String getCity() {
         return city;
     }
@@ -42,6 +53,7 @@ public class Adress {
         this.city = city;
     }
 
+    @Column(name = "postal_code")
     public String getPostalCode() {
         return postalCode;
     }
@@ -50,6 +62,7 @@ public class Adress {
         this.postalCode = postalCode;
     }
 
+    @Basic
     public String getCountry() {
         return country;
     }
@@ -58,11 +71,5 @@ public class Adress {
         this.country = country;
     }
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
 }

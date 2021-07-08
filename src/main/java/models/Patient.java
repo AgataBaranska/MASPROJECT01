@@ -5,59 +5,93 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "Patient")
+@Table(name = "patient")
 public class Patient extends Person {
 
-	@Id
-	@GeneratedValue(generator = "increment")
-	private int idNumber;
-	private RodoForm rodoForm;//association, cardinality 1
-	private static List<Patient> extent;
-	private static int idCounter = 0;
+    private static int idCounter = 0;
+    private int idNumber;
+    private RodoForm rodoForm;
+    private List<Appointment> appointmentList;//association cardinality *
+    private static List<Patient> extent;
+    /**
+     * Required by Hibernate.
+     */
+    private Patient() {
+    }
 
-	//Patient's appointment list
-	@OneToMany
-	private List<Appointment> appointmentList;//association cardinality *
-	
-	public Patient(String name, String surname, String pesel, String telephone, String email, String street,
-			String city, String postalCode, String country) {
-		super(name, surname, pesel, telephone, email, street, city, postalCode, country);
-		this.idNumber = generateIdNumber();
-		this.rodoForm = generateRodoForm();
-		addPatient(this);
-	}
+    public Patient(String name, String surname, String pesel, String telephone, String email, String street,
+                   String city, String postalCode, String country) {
+        super(name, surname, pesel, telephone, email, street, city, postalCode, country);
+        this.idNumber = generateIdNumber();
+        this.rodoForm = generateRodoForm();
+        addPatient(this);
+    }
 
-	private static void addPatient(Patient patient) {
-		if(extent == null) {
-			extent = new ArrayList<>();
-		}
-		extent.add(patient);
+    @Basic
+    public static int getIdCounter() {
+        return idCounter;
+    }
 
-	}
-	private static void removePatient(Patient patient) {
-		extent.remove(patient);
-	}
-	
-	private static List<Patient> getExtent(){
-		return extent;
-	}
+    public static void setIdCounter(int idCounter) {
+        Patient.idCounter = idCounter;
+    }
 
-	private RodoForm generateRodoForm() {
-		return new RodoForm("SignatureTemplate", this);
-	}
+    private static void addPatient(Patient patient) {
+        if (extent == null) {
+            extent = new ArrayList<>();
+        }
+        extent.add(patient);
 
-	private int generateIdNumber() {
-		return ++idCounter;
-	}
+    }
 
-	public void addAppointmentToList(Appointment appointment){
-		if(appointmentList == null){
-			appointmentList = new ArrayList<>();
-		}
-		appointmentList.add(appointment);
-	}
+    private static void removePatient(Patient patient) {
+        extent.remove(patient);
+    }
 
+    private static List<Patient> getExtent() {
+        return extent;
+    }
 
-	
+    @Id
+    @GeneratedValue(generator = "increment")
+    public int getIdNumber() {
+        return idNumber;
+    }
 
+    public void setIdNumber(int idNumber) {
+        this.idNumber = idNumber;
+    }
+
+    @Basic
+    public RodoForm getRodoForm() {
+        return rodoForm;
+    }
+
+    public void setRodoForm(RodoForm rodoForm) {
+        this.rodoForm = rodoForm;
+    }
+
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+    public List<Appointment> getAppointmentList() {
+        return appointmentList;
+    }
+
+    public void setAppointmentList(List<Appointment> appointmentList) {
+        this.appointmentList = appointmentList;
+    }
+
+    private RodoForm generateRodoForm() {
+        return new RodoForm("SignatureTemplate", this);
+    }
+
+    private int generateIdNumber() {
+        return ++idCounter;
+    }
+
+    public void addAppointmentToList(Appointment appointment) {
+        if (appointmentList == null) {
+            appointmentList = new ArrayList<>();
+        }
+        appointmentList.add(appointment);
+    }
 }

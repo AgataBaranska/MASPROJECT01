@@ -1,26 +1,23 @@
 package models;
 
 import javax.persistence.*;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name="appointment")
+@Table(name = "appointment")
 public class Appointment {
-
-    @Id
-    @GeneratedValue
+    private static List<Appointment> entity;
     private int Id;
-    
     private LocalDateTime appointmentDate;
-
     private Patient patient; //association cardinality 1
     private Optometrist optometrist;//association cardinality 1
     private AppointmentCart appointmentCart;
 
-    private static List<Appointment> entity;
+    /**
+     * Required by Hibernate.
+     */
     private Appointment() {
     }
 
@@ -37,6 +34,52 @@ public class Appointment {
         return entity;
     }
 
+    @Id
+    @GeneratedValue
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    @Column(name = "appointment_date")
+    public LocalDateTime getAppointmentDate() {
+        return appointmentDate;
+    }
+
+    public void setAppointmentDate(LocalDateTime appointmentDate) {
+        this.appointmentDate = appointmentDate;
+    }
+
+    @ManyToOne
+    public Patient getPatient() {
+        return patient;
+    }
+
+    public void setPatient(Patient patient) {
+        this.patient = patient;
+    }
+
+    @Basic
+    public Optometrist getOptometrist() {
+        return optometrist;
+    }
+
+    public void setOptometrist(Optometrist optometrist) {
+        this.optometrist = optometrist;
+    }
+
+    @Basic
+    public AppointmentCart getAppointmentCart() {
+        return appointmentCart;
+    }
+
+    public void setAppointmentCart(AppointmentCart appointmentCart) {
+        this.appointmentCart = appointmentCart;
+    }
+
     private void addToEntitiy(Appointment appointment) {
         if (entity == null) {
             entity = new ArrayList<>();
@@ -44,9 +87,6 @@ public class Appointment {
         entity.add(appointment);
     }
 
-    public Patient getPatient() {
-        return patient;
-    }
 
     @Override
     public String toString() {
