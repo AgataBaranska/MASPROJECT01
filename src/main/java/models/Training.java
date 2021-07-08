@@ -12,6 +12,7 @@ public class Training {
     private String trainingName;
     private String description;
     private String organizer;
+
     @ManyToMany
     private List<Receptionist> receptionistList;//association *
 

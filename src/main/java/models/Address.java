@@ -15,6 +15,7 @@ public class Address {
     private String postalCode;
     private String country;
 
+    @OneToOne(mappedBy = "address")
     private Person person;
 
     /**
@@ -43,7 +44,7 @@ public class Address {
         this.id = id;
     }
 
-    @OneToOne(mappedBy = "address")
+
     public Person getPerson() {
         return person;
     }

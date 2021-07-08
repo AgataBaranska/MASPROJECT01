@@ -13,7 +13,7 @@ public abstract class Employee extends Person {
 
   //  private int id;
     private LocalDate hireDate;
-    private Set<Day> workingDays;
+//    protected Set<Day> workingDays;
     private double monthlySalary;
     private ContractType contractType;
 
@@ -29,7 +29,7 @@ public abstract class Employee extends Person {
         this.hireDate = hireDate;
         this.monthlySalary = monthlySalary;
         this.contractType = contractType;
-        workingDays = new HashSet<Day>();
+       // workingDays = new HashSet<Day>();
     }
 
 //    @Id
@@ -53,14 +53,14 @@ public abstract class Employee extends Person {
         this.hireDate = hireDate;
     }
 
-    @Basic
-    public Set<Day> getWorkingDays() {
-        return workingDays;
-    }
-
-    public void setWorkingDays(Set<Day> workingDays) {
-        this.workingDays = workingDays;
-    }
+//    @Basic
+//    public Set<Day> getWorkingDays() {
+//        return workingDays;
+//    }
+//
+//    public void setWorkingDays(Set<Day> workingDays) {
+//        this.workingDays = workingDays;
+//    }
 
     @Column(name = "contract_type")
     @Enumerated
@@ -81,17 +81,17 @@ public abstract class Employee extends Person {
         this.monthlySalary = monthlySalary;
     }
 
-    public void addWorkingDay(Day day) {
-        workingDays.add(day);
-    }
+//    public void addWorkingDay(Day day) {
+//        workingDays.add(day);
+//    }
 
-    public void removeWorkingDay(Day day) {
-        if (workingDays.contains(day)) {
-            workingDays.remove(day);
-        }
-    }
+//    public void removeWorkingDay(Day day) {
+//        if (workingDays.contains(day)) {
+//            workingDays.remove(day);
+//        }
+//    }
 
-    private enum Day {
+    public enum Day {
         MO, TU, WE, TH, FR, SA, SUN
     }
 

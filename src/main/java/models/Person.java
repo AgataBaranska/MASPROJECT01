@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 
 @MappedSuperclass
@@ -91,7 +89,7 @@ public abstract class Person {
 
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
+    @JoinColumn(name = "address", referencedColumnName = "id")
     public Address getAddress() {
         return address;
     }

@@ -8,10 +8,15 @@ import java.util.List;
 
 @Entity
 @Table(name = "receptionist")
+
 public class Receptionist extends Employee {
 
    // private int id;
-
+   @ManyToMany
+   @JoinTable(
+           name = "receptionist_training",
+           joinColumns = @JoinColumn(name = "receptionist_id"),
+           inverseJoinColumns = @JoinColumn(name = "training_id"))
     private List<Training> trainingList;
 
 
@@ -41,11 +46,7 @@ public class Receptionist extends Employee {
 //        this.id = id;
 //    }
 
-    @ManyToMany
-    @JoinTable(
-            name = "receptionist_training",
-            joinColumns = @JoinColumn(name = "receptionist_id"),
-            inverseJoinColumns = @JoinColumn(name = "training_id"))
+
     public List<Training> getTrainingList() {
         return trainingList;
     }
