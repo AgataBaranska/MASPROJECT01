@@ -1,14 +1,14 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 @Entity
 @Table(name = "lenses_correction")
 public class LensesCorrection {
+    private static List<LensesCorrection> extent;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -17,15 +17,18 @@ public class LensesCorrection {
     private String correctionPowerRight;
     @Column(name = "correction_power_left")
     private String correctionPowerLeft;
+    //correction power must be an plus or minus signed integer
+    private static final String correctionPowerRegex ="^[+-]?[1-9]\\d*|0$";
 
     @ManyToMany
     @JoinTable(
-            name="correction_lenses",
-            joinColumns = @JoinColumn(name ="lenses_correction_id"),
+            name = "correction_lenses",
+            joinColumns = @JoinColumn(name = "lenses_correction_id"),
             inverseJoinColumns = @JoinColumn(name = "contact_lense_id"))
-    private List<ContactLense> contactLenseList;// association, cardinality *
+    private List<ContactLense> contactLenseList;// LensesCorrection may have many ContactLenses
     @ManyToOne
-    private AppointmentCart appointmentCart;//association cardinality 1
+    //LensesCorrection object may be only in one appointmentCart
+    private AppointmentCart appointmentCart;
 
     /**
      * Required by Hibernate.
@@ -44,6 +47,13 @@ public class LensesCorrection {
             addContactLenses(contactLense);
         }
     }
+//method checkc if given text can be paarsed to a allowed power of lenses correction
+    public static boolean checkIfValueCorrect(String stringToCheck) {
+        String s = stringToCheck.trim();
+        return s.matches(correctionPowerRegex);
+    }
+
+
 
     public int getId() {
         return id;
@@ -78,7 +88,7 @@ public class LensesCorrection {
     }
 
     public List<ContactLense> getContactLensesList() {
-       return contactLenseList;
+        return contactLenseList;
     }
 
     public AppointmentCart getAppointmentCart() {
@@ -89,6 +99,20 @@ public class LensesCorrection {
         this.appointmentCart = appointmentCart;
     }
 
+    public static List<LensesCorrection> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<LensesCorrection> extent) {
+        LensesCorrection.extent = extent;
+    }
+
+    private void addToExtent(LensesCorrection lensesCorrection) {
+        if (extent == null) {
+            extent = new ArrayList<>();
+        }
+        extent.add(lensesCorrection);
+    }
     private void addContactLenses(ContactLense contactLense) {
 
         if (contactLenseList == null) {
@@ -97,7 +121,7 @@ public class LensesCorrection {
         }
         contactLenseList.add(contactLense);
 
-        }
+    }
 
 
     public void matchLensesCorrectionToAppointmentCart(AppointmentCart appointmentCart) throws Exception {
@@ -110,9 +134,13 @@ public class LensesCorrection {
 
     @Override
     public String toString() {
-        return "LensesCorrection{" +
-                "correctionPowerRight='" + correctionPowerRight + '\'' +
-                ", correctionPowerLeft='" + correctionPowerLeft + '\'' +
-                '}';
+
+        return "REye: " + correctionPowerRight +
+                ", LEye: " + correctionPowerLeft +
+                ", Lenses: " + getContactLensesList();
+
+
     }
+
+
 }

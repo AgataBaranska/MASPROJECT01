@@ -20,10 +20,10 @@ public class ContactLense {
     @Column(name = "oxygen_transmission")
     private String oxygenTransmission;
     @Column(name = "wearing_mode")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private WearingMode wearingMode;
-
     @ManyToMany
+    //One type of contact lense can be in 0 or more LensesCorrection
     private List<LensesCorrection> lensesCorrectionList;// association cardinality *
 
     /**
@@ -111,7 +111,6 @@ public class ContactLense {
         if (!lensesCorrectionList.contains(lensesCorrection)) {
             lensesCorrectionList.add(lensesCorrection);
         }
-
     }
 
     @Override
@@ -119,8 +118,6 @@ public class ContactLense {
         return brand + '\'' +
                 ", '" + name + '\'';
     }
-
-
 
     public enum WearingMode {
         DAILY("Daily"),

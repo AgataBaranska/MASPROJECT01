@@ -10,19 +10,10 @@ import java.util.List;
 @Entity
 @Table(name = "receptionist")
 public class Receptionist extends Employee {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
-   // private int id;
 
-   @ManyToMany
-//   @JoinTable(
-//           name = "receptionist_training",
-//           joinColumns = @JoinColumn(name = "receptionist_id"),
-//           inverseJoinColumns = @JoinColumn(name = "training_id"))
+    public static List<Receptionist> extent;
+    @ManyToMany
     private List<Training> trainingList;
-
-   public static List<Receptionist> extent;
 
     /**
      * Required by Hibernate.
@@ -39,23 +30,6 @@ public class Receptionist extends Employee {
         addToExtent(this);
     }
 
-    private void addToExtent(Receptionist receptionist) {
-        if(extent ==null){
-            extent = new ArrayList<>();
-        }
-        extent.add(receptionist);
-    }
-
-
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-
-
     public static List<Receptionist> getExtent() {
         return extent;
     }
@@ -64,11 +38,25 @@ public class Receptionist extends Employee {
         Receptionist.extent = extent;
     }
 
+    private void addToExtent(Receptionist receptionist) {
+        if (extent == null) {
+            extent = new ArrayList<>();
+        }
+        extent.add(receptionist);
+    }
+
     public List<Training> getTrainingList() {
         return trainingList;
     }
 
     public void setTrainingList(List<Training> trainingList) {
         this.trainingList = trainingList;
+    }
+
+    @Override
+    public String toString() {
+        return "Receptionist{" +
+                "trainingList=" + trainingList +
+                '}';
     }
 }

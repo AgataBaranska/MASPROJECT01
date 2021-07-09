@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -9,6 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "training")
 public class Training {
+    public static List<Training> extent;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -19,12 +18,9 @@ public class Training {
     private String description;
     @Basic
     private String organizer;
-
     @ManyToMany
     private List<Receptionist> receptionistList;//association *
 
-
-    public static List<Training> extent;
     /**
      * Required by Hibernate.
      */
@@ -39,8 +35,13 @@ public class Training {
         addToExtent(this);
     }
 
+    public static List<Training> getExtent() {
+        return extent;
+    }
 
-
+    public static void setExtent(List<Training> extent) {
+        Training.extent = extent;
+    }
 
     public int getId() {
         return id;
@@ -48,14 +49,6 @@ public class Training {
 
     public void setId(int id) {
         this.id = id;
-    }
-
-    public static List<Training> getExtent() {
-        return extent;
-    }
-
-    public static void setExtent(List<Training> extent) {
-        Training.extent = extent;
     }
 
     public List<Receptionist> getReceptionistList() {
@@ -89,10 +82,22 @@ public class Training {
     public void setOrganizer(String organizer) {
         this.organizer = organizer;
     }
+
     private void addToExtent(Training training) {
-        if(extent==null){
+        if (extent == null) {
             extent = new ArrayList<>();
         }
         extent.add(training);
+    }
+
+    @Override
+    public String toString() {
+        return "Training{" +
+                "id=" + id +
+                ", trainingName='" + trainingName + '\'' +
+                ", description='" + description + '\'' +
+                ", organizer='" + organizer + '\'' +
+                ", receptionistList=" + receptionistList +
+                '}';
     }
 }

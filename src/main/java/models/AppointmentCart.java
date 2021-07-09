@@ -7,13 +7,13 @@ import java.util.List;
 @Entity
 @Table(name = "appointment_cart")
 public class AppointmentCart {
+    private static List<AppointmentCart> extent;
     @Basic
     public static int idCounter = 0;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
     private int id;
-
     @Basic
     private String interview;
     @Basic
@@ -21,12 +21,11 @@ public class AppointmentCart {
 
     @OneToMany(mappedBy = "appointmentCart", cascade = CascadeType.ALL, orphanRemoval = true)
     //appointment card may have 0 or more classes.GlassesCorrection prescribed
-    private List<GlassesCorrection> glassesCorrectionList;// association cardinality [0..1]
-
+    private List<GlassesCorrection> glassesCorrectionList;
 
     @OneToMany(mappedBy = "appointmentCart", cascade = CascadeType.ALL, orphanRemoval = true)
     //appointment card may have 0 or more classes.LensesCorrection prescribed
-    private List<LensesCorrection> lensesCorrectionList;// association cardinality [0..1]
+    private List<LensesCorrection> lensesCorrectionList;
 
     @OneToOne(mappedBy = "appointmentCart")
     private Appointment appointment;
@@ -34,11 +33,10 @@ public class AppointmentCart {
     /**
      * Required by Hibernate.
      */
-
-
     public AppointmentCart() {
         super();
         id = generateIdNumber();
+        addToExtent(this);
     }
 
     public static int getIdCounter() {
@@ -49,14 +47,6 @@ public class AppointmentCart {
         AppointmentCart.idCounter = idCounter;
     }
 
-    public Appointment getAppointment() {
-        return appointment;
-    }
-
-    public void setAppointment(Appointment appointment) {
-        this.appointment = appointment;
-    }
-
     public int getId() {
         return id;
     }
@@ -65,12 +55,17 @@ public class AppointmentCart {
         this.id = id;
     }
 
+    public Appointment getAppointment() {
+        return appointment;
+    }
+
+    public void setAppointment(Appointment appointment) {
+        this.appointment = appointment;
+    }
 
     public Patient getPatient() {
         return appointment.getPatient();
     }
-
-
 
     public String getInterview() {
         return interview;
@@ -87,7 +82,6 @@ public class AppointmentCart {
     public void setRecommendations(String recommendations) {
         this.recommendations = recommendations;
     }
-
 
     public List<GlassesCorrection> getGlassesCorrectionList() {
         return glassesCorrectionList;
@@ -113,6 +107,14 @@ public class AppointmentCart {
         this.recommendations = recommendations;
     }
 
+    public static List<AppointmentCart> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<AppointmentCart> extent) {
+        AppointmentCart.extent = extent;
+    }
+
     public void addLensesCorrection(LensesCorrection lensesCorrection) {
         if (lensesCorrectionList == null) {
             lensesCorrectionList = new ArrayList<LensesCorrection>();
@@ -129,19 +131,32 @@ public class AppointmentCart {
         if (glassesCorrectionList == null) {
             glassesCorrectionList = new ArrayList<GlassesCorrection>();
         }
-
         glassesCorrectionList.add(glassesCorrection);
         try {
             glassesCorrection.matchGlassesCorrectionToAppointmentCart(this);//add reverse connection
         } catch (Exception e) {
             System.out.println(e.getMessage());
-
         }
     }
-
 
     public int generateIdNumber() {
         return ++idCounter;
     }
 
+    private void addToExtent(AppointmentCart appointmentCart) {
+        if (extent == null) {
+            extent = new ArrayList<>();
+        }
+        extent.add(appointmentCart);
+    }
+
+    @Override
+    public String toString() {
+        return "AppointmentCart{" +
+                "id=" + id +
+                ", interview='" + interview + '\'' +
+                ", recommendations='" + recommendations + '\'' +
+                ", appointment=" + appointment +
+                '}';
+    }
 }

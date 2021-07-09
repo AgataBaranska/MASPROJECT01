@@ -1,12 +1,13 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "glasses_correction")
 public class GlassesCorrection {
+    private static List<GlassesCorrection> extent;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -15,11 +16,12 @@ public class GlassesCorrection {
     private String correctionPowerRight;
     @Column(name = "correction_power_left")
     private String correctionPowerLeft;
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private CorrectionPurpose purpose;
     @ManyToOne
     private AppointmentCart appointmentCart;//association cardinality 1, GlassesCorrectionObject have  1 Appointment card
 
+    private static final String correctionPowerRegex ="^[+-]?[1-9]\\d*|0$";
     /**
      * Required by Hibernate.
      */
@@ -31,6 +33,12 @@ public class GlassesCorrection {
         this.correctionPowerRight = correctionPowerRight;
         this.correctionPowerLeft = correctionPowerLeft;
         this.purpose = purpose;
+    }
+
+    //method check if given text can be parsed to a allowed power of glasses correction
+    public static boolean checkIfValueCorrect(String stringToCheck) {
+        String s = stringToCheck.trim();
+        return s.matches(correctionPowerRegex);
     }
 
     public int getId() {
@@ -50,7 +58,6 @@ public class GlassesCorrection {
         this.correctionPowerRight = correctionPowerRight;
     }
 
-
     public String getCorrectionPowerLeft() {
         return correctionPowerLeft;
     }
@@ -68,13 +75,20 @@ public class GlassesCorrection {
         this.purpose = purpose;
     }
 
-
     public AppointmentCart getAppointmentCart() {
         return appointmentCart;
     }
 
     public void setAppointmentCart(AppointmentCart appointmentCart) {
         this.appointmentCart = appointmentCart;
+    }
+
+    public static List<GlassesCorrection> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<GlassesCorrection> extent) {
+        GlassesCorrection.extent = extent;
     }
 
     public void matchGlassesCorrectionToAppointmentCart(AppointmentCart appointmentCart) throws Exception {
@@ -85,15 +99,15 @@ public class GlassesCorrection {
         }
 
     }
-
-    @Override
-    public String toString() {
-        return "REye:" + correctionPowerRight +
-                ", LEye:" + correctionPowerLeft +
-                ", Purpose: " + purpose;
+    private void addToExtent(GlassesCorrection glassesCorrection) {
+        if (extent == null) {
+            extent = new ArrayList<>();
+        }
+        extent.add(glassesCorrection);
     }
 
-    ;
+
+
 
     public enum CorrectionPurpose {
         FOR_DISTANCE("For distance"),
@@ -108,5 +122,12 @@ public class GlassesCorrection {
         public String toString() {
             return label;
         }
+    }
+
+    @Override
+    public String toString() {
+        return "REye: " + correctionPowerRight +
+                ", LEye: " + correctionPowerLeft +
+                ", Purpose: " + purpose;
     }
 }

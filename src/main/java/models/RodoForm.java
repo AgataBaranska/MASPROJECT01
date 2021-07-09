@@ -10,6 +10,8 @@ import java.util.List;
 @Entity
 @Table(name = "rodo_form")
 public class RodoForm {
+
+    private static List<RodoForm> extent;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -19,7 +21,6 @@ public class RodoForm {
     private LocalDate date;
     @Basic
     private String signature;
-    private static List<RodoForm> extent;
 
     /**
      * Required by Hibernate.
@@ -34,6 +35,13 @@ public class RodoForm {
         addToExtent(this);
     }
 
+    public static List<RodoForm> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<RodoForm> extent) {
+        RodoForm.extent = extent;
+    }
 
     public int getId() {
         return id;
@@ -44,18 +52,10 @@ public class RodoForm {
     }
 
     private void addToExtent(RodoForm rodoForm) {
-        if(extent==null){
+        if (extent == null) {
             extent = new ArrayList<>();
         }
         extent.add(rodoForm);
-    }
-
-    public static List<RodoForm> getExtent() {
-        return extent;
-    }
-
-    public static void setExtent(List<RodoForm> extent) {
-        RodoForm.extent = extent;
     }
 
     public LocalDate getDate() {
@@ -66,7 +66,6 @@ public class RodoForm {
         this.date = date;
     }
 
-
     public String getSignature() {
         return signature;
     }
@@ -75,8 +74,14 @@ public class RodoForm {
         this.signature = signature;
     }
 
-
-
+    @Override
+    public String toString() {
+        return "RodoForm{" +
+                "id=" + id +
+                ", date=" + date +
+                ", signature='" + signature + '\'' +
+                '}';
+    }
 }
 
 

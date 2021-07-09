@@ -11,9 +11,9 @@
             <VBox prefHeight="361.0" prefWidth="205.0" spacing="5.0">
                <children>
                   <Label text="Interview" />
-                  <TextArea prefHeight="179.0" prefWidth="247.0" />
+                  <TextArea fx:id="txtInterview" prefHeight="179.0" prefWidth="247.0" />
                   <Label text="Recommendations" />
-                  <TextArea prefWidth="200.0" />
+                  <TextArea fx:id="txtRecommendations" prefWidth="200.0" />
                   <GridPane hgap="5.0">
                      <columnConstraints>
                         <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
@@ -40,7 +40,7 @@
             <ButtonBar prefHeight="40.0" prefWidth="603.0" BorderPane.alignment="CENTER">
               <buttons>
                 <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveClicked" text="Save" />
-                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#btnCancelClicked" text="Cancel" />
+                  <Button fx:id="btnQuit" mnemonicParsing="false" onAction="#btnQuitClicked" text="Quit" />
               </buttons>
                <BorderPane.margin>
                   <Insets right="10.0" />

@@ -15,33 +15,31 @@ import models.*;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.metamodel.MetadataSources;
 
 
 public class Main extends Application {
 
-    static AnchorPane root;
-    static List<AnchorPane> grid = new ArrayList<>();
-    private static int idx_cur = 0;
-    private static gui.MainController mainController;
-    private static AppointmentCartController appotmentController;
+    static AnchorPane rootPane;
+    static List<AnchorPane> panes = new ArrayList<>();
+    private static int idx_cur_pane = 0;
+    private static MainController mainController;
+    private static AppointmentCartController appointmentCartController;
     private static StandardServiceRegistry registry = null;
     private static SessionFactory sessionFactory = null;
 
+
+    //method to switch between panes
     public static void set_pane(int idx) {
-        AnchorPane newPane = grid.get(idx);
-        root.getChildren().remove(grid.get(idx_cur));
-        root.getChildren().add(grid.get(idx));
-        idx_cur = idx;
+        AnchorPane newPane = panes.get(idx);
+        rootPane.getChildren().remove(panes.get(idx_cur_pane));
+        rootPane.getChildren().add(panes.get(idx));
+        idx_cur_pane = idx;
 
         AnchorPane.setTopAnchor(newPane, 0.0);
         AnchorPane.setBottomAnchor(newPane, 0.0);
         AnchorPane.setLeftAnchor(newPane, 0.0);
-        ;
         AnchorPane.setRightAnchor(newPane, 0.0);
-        ;
     }
 
     public static MainController getMainController() {
@@ -49,7 +47,7 @@ public class Main extends Application {
     }
 
     public static AppointmentCartController getAppointmentController() {
-        return appotmentController;
+        return appointmentCartController;
     }
 
     public static void main(String[] args) {
@@ -85,8 +83,7 @@ public class Main extends Application {
 
             for (Patient patient : Patient.getExtent()) {
                 session.save(patient);
-//                    session.save(patient.getRodo());
-//                    session.save(patient.getAddress());
+
             }
 
             for (RodoForm rodoForm : RodoForm.getExtent()) {
@@ -117,64 +114,53 @@ public class Main extends Application {
             session.close();
         } catch (Exception e) {
             e.printStackTrace();
-            StandardServiceRegistryBuilder.destroy(registry);
-        } finally {
-            if (sessionFactory != null) {
-                sessionFactory.close();
-                sessionFactory = null;
-            }
         }
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        //Create Service Registry
-        registry = new StandardServiceRegistryBuilder()
-                .configure("hibernate.cfg.xml") // configures settings from hibernate.cfg.xml
-                .build();
-        //Create Session Factory
-        sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+        createSessionFactory();
 
-//        sessionFactory = new Configuration()
-//                .configure("hibernate.cfg.xml")
-//                .addAnnotatedClass(Training.class)
-//                .addAnnotatedClass(RodoForm.class)
-//                .addAnnotatedClass(Receptionist.class)
-//                .addAnnotatedClass(Patient.class)
-//                .addAnnotatedClass(Optometrist.class)
-//                .addAnnotatedClass(LensesCorrection.class)
-//                .addAnnotatedClass(GlassesCorrection.class)
-//                .addAnnotatedClass(ContactLense.class)
-//                .addAnnotatedClass(AppointmentCart.class)
-//                .addAnnotatedClass(Appointment.class)
-//               .addAnnotatedClass(Address.class)
-//                .buildSessionFactory();
+      //Use to add mock data to DB
+       // addMockDataToDb();
 
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        loadData();
 
-         addMockDataToDb();
+       showApplicationExtents();
 
-        //loadData();
-
-        root = FXMLLoader.load(getClass().getClassLoader().getResource("anchor.fxml"));
+        rootPane = FXMLLoader.load(getClass().getClassLoader().getResource("anchor.fxml"));
         FXMLLoader mainLoader = new FXMLLoader(getClass().getClassLoader().getResource("main.fxml"));
         AnchorPane mainPane = mainLoader.load();
         mainController = mainLoader.getController();
-        grid.add(mainPane);
+        panes.add(mainPane);
 
         FXMLLoader appointmentLoader = new FXMLLoader(getClass().getClassLoader().getResource("appointmentCart.fxml"));
         AnchorPane appointmentPane = appointmentLoader.load();
-        appotmentController = appointmentLoader.getController();
-        grid.add(appointmentPane);
+        appointmentCartController = appointmentLoader.getController();
+        panes.add(appointmentPane);
 
+        //switch pane to mainPane
         set_pane(0);
 
-        Scene scene = new Scene(root, 600, 520);
+        Scene scene = new Scene(rootPane, 600, 520);
         primaryStage.setTitle("OptometristApp");
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+// only for database tests
+    private void showApplicationExtents(){
+    //    System.out.println(Address.getExtent().toString());
+     //  System.out.println(Appointment.getExtent().toString());
+       System.out.println(AppointmentCart.getExtent().toString());
+//        System.out.println(ContactLense.getExtent().toString());
+//        System.out.println(GlassesCorrection.getExtent().toString());
+//        System.out.println(LensesCorrection.getExtent().toString());
+//        System.out.println(Patient.getExtent().toString());
+//        System.out.println(Receptionist.getExtent().toString());
+//        System.out.println(RodoForm.getExtent().toString());
+//        System.out.println(Training.getExtent().toString());
+
 
     }
 
@@ -182,28 +168,43 @@ public class Main extends Application {
         try {
             Session session = sessionFactory.openSession();
             session.beginTransaction();
-            Patient.setExtent(session.createQuery("SELECT Patient").list());
-            RodoForm.setExtent(session.createQuery("SELECT RodoForm").list());
-            Address.setExtent(session.createQuery("SELECT Address").list());
-            Optometrist.setExtent(session.createQuery("SELECT Optometrist").list());
-            Appointment.setExtent(session.createQuery("SELECT Appointment").list());
-            ContactLense.setExtent(session.createQuery("SELECT ContactLense").list());
-            Receptionist.setExtent(session.createQuery("SELECT Receptionist").list());
-            Training.setExtent(session.createQuery("SELECT Training").list());
+            Patient.setExtent(session.createQuery("FROM Patient").list());
+            RodoForm.setExtent(session.createQuery("FROM RodoForm").list());
+            Address.setExtent(session.createQuery("FROM Address").list());
+            Optometrist.setExtent(session.createQuery("FROM Optometrist").list());
+            Appointment.setExtent(session.createQuery("FROM Appointment").list());
+            AppointmentCart.setExtent(session.createQuery("FROM AppointmentCart").list());
+            ContactLense.setExtent(session.createQuery("FROM ContactLense").list());
+            Receptionist.setExtent(session.createQuery("FROM Receptionist").list());
+            Training.setExtent(session.createQuery("FROM Training").list());
+            GlassesCorrection.setExtent(session.createQuery("FROM GlassesCorrection").list());
+            LensesCorrection.setExtent(session.createQuery("FROM LensesCorrection").list());
 
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
             e.printStackTrace();
-            StandardServiceRegistryBuilder.destroy(registry);
-        } finally {
-            if (sessionFactory != null) {
-                sessionFactory.close();
-                sessionFactory = null;
-            }
         }
+    }
+    private void createSessionFactory(){
 
-
+        sessionFactory = new Configuration()
+                .configure("hibernate.cfg.xml")
+                .addAnnotatedClass(Training.class)
+                .addAnnotatedClass(RodoForm.class)
+                .addAnnotatedClass(Receptionist.class)
+                .addAnnotatedClass(Patient.class)
+                .addAnnotatedClass(Optometrist.class)
+                .addAnnotatedClass(LensesCorrection.class)
+                .addAnnotatedClass(GlassesCorrection.class)
+                .addAnnotatedClass(ContactLense.class)
+                .addAnnotatedClass(AppointmentCart.class)
+                .addAnnotatedClass(Appointment.class)
+                .addAnnotatedClass(Address.class)
+                .buildSessionFactory();
+    }
+    public static SessionFactory getSessionFactory() {
+        return sessionFactory;
     }
 }
 

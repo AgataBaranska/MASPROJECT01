@@ -10,19 +10,13 @@ import java.util.List;
 @Entity
 @Table(name = "optometrist")
 public class Optometrist extends Employee {
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id", updatable = false, nullable = false)
-//    private int id;
+
+    private static List<Optometrist> extent;
     @Column(name = "optometrist_number")
     private String optometristNumber;
-
-
     @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
 
-
-    private static List<Optometrist> extent;
     /**
      * Required by Hibernate.
      */
@@ -38,13 +32,6 @@ public class Optometrist extends Employee {
         addToExtent(this);
     }
 
-    private void addToExtent(Optometrist optometrist) {
-        if(extent ==null){
-            extent = new ArrayList<>();
-        }
-        extent.add(optometrist);
-    }
-
     public static List<Optometrist> getExtent() {
         return extent;
     }
@@ -52,14 +39,13 @@ public class Optometrist extends Employee {
     public static void setExtent(List<Optometrist> extent) {
         Optometrist.extent = extent;
     }
-    //    public int getId() {
-//        return id;
-//    }
-//
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
+
+    private void addToExtent(Optometrist optometrist) {
+        if (extent == null) {
+            extent = new ArrayList<>();
+        }
+        extent.add(optometrist);
+    }
 
     public void addAppointmentToList(Appointment appointment) {
         if (appointmentList == null) {
@@ -82,5 +68,13 @@ public class Optometrist extends Employee {
 
     public void setAppointmentList(List<Appointment> appointmentList) {
         this.appointmentList = appointmentList;
+    }
+
+    @Override
+    public String toString() {
+        return "Optometrist{" +
+                "optometristNumber='" + optometristNumber + '\'' +
+                ", appointmentList=" + appointmentList +
+                '}';
     }
 }

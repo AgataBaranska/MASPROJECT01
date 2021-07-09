@@ -1,9 +1,13 @@
 package gui;
 
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import models.*;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +34,10 @@ public class AppointmentCartController {
 
     @FXML
     Label labelPatient;
+    @FXML
+    TextArea txtInterview;
+    @FXML
+    TextArea txtRecommendations;
 
     //AppointmentCart object generated in MainController
     private AppointmentCart appointmentCart;
@@ -46,7 +54,6 @@ public class AppointmentCartController {
         //Contact Lense ComboBox
         listAvailableLenses.getItems().addAll(ContactLense.getExtent());
         listAvailableLenses.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
-
     }
 
 
@@ -57,8 +64,15 @@ public class AppointmentCartController {
             txtGlassesLeftEye.setText("Please enter value");
         } else if (comboPurposeGlasses.getValue() == null) {
             comboPurposeGlasses.show();
+        } else if (!(GlassesCorrection.checkIfValueCorrect(txtGlassesRightEye.getText())) || !(GlassesCorrection.checkIfValueCorrect(txtGlassesLeftEye.getText()))) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Alert");
+            alert.setHeaderText(null);
+            alert.setContentText("Correction must be a positive or negative integer or 0");
+            alert.showAndWait();
         } else {
-            GlassesCorrection glassesCorrection = new GlassesCorrection(txtGlassesRightEye.getText(), txtGlassesLeftEye.getText(), (GlassesCorrection.CorrectionPurpose) comboPurposeGlasses.getValue());
+            System.out.println(comboPurposeGlasses.getValue());
+            GlassesCorrection glassesCorrection = new GlassesCorrection(txtGlassesRightEye.getText(), txtGlassesLeftEye.getText(), (GlassesCorrection.CorrectionPurpose) comboPurposeGlasses.getSelectionModel().getSelectedItem());
             appointmentCart.addGlassesCorrection(glassesCorrection);
             listGlassesCorrection.getItems().add(glassesCorrection);
         }
@@ -69,6 +83,12 @@ public class AppointmentCartController {
             txtLensesRightEye.setText("Please enter value");
         } else if (txtLensesLeftEye.getText().isEmpty()) {
             txtLensesLeftEye.setText("Please enter value");
+        } else if (!(LensesCorrection.checkIfValueCorrect(txtLensesLeftEye.getText())) || !(LensesCorrection.checkIfValueCorrect(txtLensesRightEye.getText()))) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Alert");
+            alert.setHeaderText(null);
+            alert.setContentText("Correction must be a positive or negative integer or 0");
+            alert.showAndWait();
         } else if (listAvailableLenses.getSelectionModel().getSelectedItems().isEmpty()) {
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Alert");
@@ -85,22 +105,48 @@ public class AppointmentCartController {
 
 
     public void btnSaveClicked(ActionEvent actionEvent) {
-        //saveChanges
+        //add interview and recommendations to AppointmentCart
+        if (!(txtInterview.getText() == null)) {
+            appointmentCart.setInterview(txtInterview.getText());
+        }
+        if (!(txtRecommendations.getText() == null)) {
+            appointmentCart.setRecommendations(txtRecommendations.getText());
+        }
+
+        System.out.println("AppointmentCrt przed zapisem"+ appointmentCart);
+        //save AppointmentCart, GlassesCorrection, LensesCorrection
+        SessionFactory sessionFactory = Main.getSessionFactory();
+
+        try {
+            Session session = sessionFactory.openSession();
+            session.beginTransaction();
+
+            session.save(appointmentCart);
+            session.update(appointmentCart.getAppointment());
+
+            session.getTransaction().commit();
+            session.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Alert");
+        alert.setHeaderText(null);
+        alert.setContentText("Appointment Cart saved in database");
+        alert.showAndWait();
         Main.set_pane(0);
     }
 
-
-    public void btnCancelClicked(ActionEvent actionEvent) {
-        //discard changes
-
-        Main.set_pane(0);
-
+    public void btnQuitClicked(ActionEvent actionEvent) {
+        Main.getSessionFactory().close();
+        Platform.exit();
     }
 
     public void setAppointmentCart(AppointmentCart appointmentCart) {
         this.appointmentCart = appointmentCart;
         //Set Patient label
-        labelPatient.setText("Patient: " +appointmentCart.getPatient().getName() + " " + appointmentCart.getPatient().getSurname());
+        labelPatient.setText("Patient: " + appointmentCart.getPatient().getName() + " " + appointmentCart.getPatient().getSurname());
 
     }
 }

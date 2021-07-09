@@ -8,25 +8,21 @@ import java.util.List;
 @Entity
 @Table(name = "appointment")
 public class Appointment {
+    private static List<Appointment> extent;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "id")
+    @Column(name = "id_appointment")
     private int Id;
-
     @Column(name = "appointment_date")
     private LocalDateTime appointmentDate;
-
     @ManyToOne
     private Patient patient; //association cardinality 1
-
     @ManyToOne
     private Optometrist optometrist;//association cardinality 1
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "appointment_cart_id", referencedColumnName = "id")
     private AppointmentCart appointmentCart;//foreign key
 
-    private static List<Appointment> extent;
     /**
      * Required by Hibernate.
      */
@@ -98,7 +94,11 @@ public class Appointment {
         }
         extent.add(appointment);
     }
-
+    public AppointmentCart generateAppointmentCart() {
+        this.appointmentCart = new AppointmentCart();
+        appointmentCart.setAppointment(this);//reverse connection
+        return appointmentCart;
+    }
 
     @Override
     public String toString() {
@@ -107,9 +107,7 @@ public class Appointment {
                 ", optometrist: " + optometrist.getName() + " " + optometrist.getSurname();
     }
 
-    public AppointmentCart generateAppointmentCart() {
-        this.appointmentCart = new AppointmentCart();
-        appointmentCart.setAppointment(this);//reverse connection
-        return appointmentCart;
-    }
+
+
+
 }

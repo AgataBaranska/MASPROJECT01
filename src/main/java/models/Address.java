@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,6 +8,7 @@ import java.util.List;
 @Table(name = "address")
 public class Address {
 
+    private static List<Address> extent;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -24,14 +23,9 @@ public class Address {
     @Basic
     private String country;
 
-//    @OneToOne(mappedBy = "address")
-//    private Person person;
-
     /**
      * Required by Hibernate.
      */
-
-    private static List<Address> extent;
 
     private Address() {
     }
@@ -45,19 +39,21 @@ public class Address {
         addToExtent(this);
     }
 
-    private void addToExtent(Address address) {
-        if(extent==null){
-            extent = new ArrayList<>();
-        }
-        extent.add(address);
-    }
-
     public static List<Address> getExtent() {
         return extent;
     }
 
     public static void setExtent(List<Address> extent) {
         Address.extent = extent;
+    }
+
+
+
+    private void addToExtent(Address address) {
+        if (extent == null) {
+            extent = new ArrayList<>();
+        }
+        extent.add(address);
     }
 
     public int getId() {
@@ -67,15 +63,6 @@ public class Address {
     public void setId(int id) {
         this.id = id;
     }
-
-//
-//    public Person getPerson() {
-//        return person;
-//    }
-//
-//    public void setPerson(Person person) {
-//        this.person = person;
-//    }
 
     public String getStreet() {
         return street;
@@ -93,9 +80,11 @@ public class Address {
         this.city = city;
     }
 
+
     public String getPostalCode() {
         return postalCode;
     }
+
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;
@@ -109,5 +98,14 @@ public class Address {
         this.country = country;
     }
 
-
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id=" + id +
+                ", street='" + street + '\'' +
+                ", city='" + city + '\'' +
+                ", postalCode='" + postalCode + '\'' +
+                ", country='" + country + '\'' +
+                '}';
+    }
 }

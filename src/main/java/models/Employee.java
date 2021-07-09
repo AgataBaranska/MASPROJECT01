@@ -10,20 +10,13 @@ import java.util.Set;
 @MappedSuperclass
 public abstract class Employee extends Person {
 
-//    @Id
-//    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id", updatable = false, nullable = false)
-//    private int id;
-
     @Basic
     // @Temporal(TemporalType.DATE)
     private LocalDate hireDate;
-    //protected Set<Day> workingDays;
-
     @Column(name = "monthly_salary")
     private double monthlySalary;
     @Column(name = "contract_type")
-    @Enumerated
+    @Enumerated(EnumType.STRING)
     private ContractType contractType;
 
 
@@ -39,18 +32,7 @@ public abstract class Employee extends Person {
         this.hireDate = hireDate;
         this.monthlySalary = monthlySalary;
         this.contractType = contractType;
-        // workingDays = new HashSet<Day>();
     }
-
-
-//    public int getId() {
-//        return id;
-//    }
-//
-//    public void setId(int id) {
-//        this.id = id;
-//    }
-
 
     public LocalDate getHireDate() {
         return hireDate;
@@ -59,15 +41,6 @@ public abstract class Employee extends Person {
     public void setHireDate(LocalDate hireDate) {
         this.hireDate = hireDate;
     }
-
-//    @Basic
-//    public Set<Day> getWorkingDays() {
-//        return workingDays;
-//    }
-//
-//    public void setWorkingDays(Set<Day> workingDays) {
-//        this.workingDays = workingDays;
-//    }
 
     public ContractType getContractType() {
         return contractType;

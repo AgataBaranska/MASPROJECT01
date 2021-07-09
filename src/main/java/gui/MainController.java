@@ -38,6 +38,8 @@ public class MainController {
         }else {
             //pass generatedAppointmentCart to AppointmentCartController
        Appointment selectedAppointment =(Appointment)listAppointment.getSelectionModel().getSelectedItem();
+       System.out.println("Selected appointment"+selectedAppointment);
+
        AppointmentCart generatedAppointmentCart = selectedAppointment.generateAppointmentCart();
 
        Main.getAppointmentController().setAppointmentCart(generatedAppointmentCart);
@@ -48,6 +50,7 @@ public class MainController {
     }
 
     public void btQuitClicked(ActionEvent actionEvent) {
+        Main.getSessionFactory().close();
         Platform.exit();
     }
 }
