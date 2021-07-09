@@ -4,6 +4,8 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "rodo_form")
@@ -17,9 +19,7 @@ public class RodoForm {
     private LocalDate date;
     @Basic
     private String signature;
-
-    @OneToOne(mappedBy = "rodo")
-    private Patient patient;//association cardinality 1
+    private static List<RodoForm> extent;
 
     /**
      * Required by Hibernate.
@@ -27,11 +27,11 @@ public class RodoForm {
     private RodoForm() {
     }
 
-    public RodoForm(String signature, Patient patient) {
+    public RodoForm(String signature) {
         super();
-        this.patient = patient;
         this.date = LocalDate.now();
         this.signature = signature;
+        addToExtent(this);
     }
 
 
@@ -43,6 +43,20 @@ public class RodoForm {
         this.id = id;
     }
 
+    private void addToExtent(RodoForm rodoForm) {
+        if(extent==null){
+            extent = new ArrayList<>();
+        }
+        extent.add(rodoForm);
+    }
+
+    public static List<RodoForm> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<RodoForm> extent) {
+        RodoForm.extent = extent;
+    }
 
     public LocalDate getDate() {
         return date;
@@ -62,13 +76,7 @@ public class RodoForm {
     }
 
 
-    public Patient getPatient() {
-        return patient;
-    }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
 }
 
 

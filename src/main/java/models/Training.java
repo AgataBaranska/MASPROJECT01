@@ -3,6 +3,7 @@ package models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -22,6 +23,8 @@ public class Training {
     @ManyToMany
     private List<Receptionist> receptionistList;//association *
 
+
+    public static List<Training> extent;
     /**
      * Required by Hibernate.
      */
@@ -33,7 +36,10 @@ public class Training {
         this.trainingName = trainingName;
         this.description = description;
         this.organizer = organizer;
+        addToExtent(this);
     }
+
+
 
 
     public int getId() {
@@ -44,6 +50,13 @@ public class Training {
         this.id = id;
     }
 
+    public static List<Training> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<Training> extent) {
+        Training.extent = extent;
+    }
 
     public List<Receptionist> getReceptionistList() {
         return receptionistList;
@@ -75,5 +88,11 @@ public class Training {
 
     public void setOrganizer(String organizer) {
         this.organizer = organizer;
+    }
+    private void addToExtent(Training training) {
+        if(extent==null){
+            extent = new ArrayList<>();
+        }
+        extent.add(training);
     }
 }

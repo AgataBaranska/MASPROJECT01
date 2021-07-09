@@ -32,7 +32,7 @@ public class AppointmentCartController {
     Label labelPatient;
 
     //AppointmentCart object generated in MainController
-    private  AppointmentCart appointmentCart;
+    private AppointmentCart appointmentCart;
 
 
     @FXML
@@ -44,7 +44,7 @@ public class AppointmentCartController {
         comboPurposeGlasses.getItems().add(GlassesCorrection.CorrectionPurpose.FOR_READING);
 
         //Contact Lense ComboBox
-        listAvailableLenses.getItems().addAll(ContactLense.getEntity());
+        listAvailableLenses.getItems().addAll(ContactLense.getExtent());
         listAvailableLenses.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
     }
@@ -55,7 +55,7 @@ public class AppointmentCartController {
             txtGlassesRightEye.setText("Please enter value");
         } else if (txtGlassesLeftEye.getText().isEmpty()) {
             txtGlassesLeftEye.setText("Please enter value");
-        } else if (comboPurposeGlasses.getValue()== null) {
+        } else if (comboPurposeGlasses.getValue() == null) {
             comboPurposeGlasses.show();
         } else {
             GlassesCorrection glassesCorrection = new GlassesCorrection(txtGlassesRightEye.getText(), txtGlassesLeftEye.getText(), (GlassesCorrection.CorrectionPurpose) comboPurposeGlasses.getValue());
@@ -63,25 +63,24 @@ public class AppointmentCartController {
             listGlassesCorrection.getItems().add(glassesCorrection);
         }
     }
+
     public void btnAddLensesCorrectionClicked(ActionEvent actionEvent) {
         if (txtLensesRightEye.getText().isEmpty()) {
             txtLensesRightEye.setText("Please enter value");
         } else if (txtLensesLeftEye.getText().isEmpty()) {
             txtLensesLeftEye.setText("Please enter value");
-        } else if( listAvailableLenses.getSelectionModel().getSelectedItems().isEmpty()){
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Alert");
-                alert.setHeaderText(null);
-                alert.setContentText("Select types of lenses to add Contact Lenses Correction");
-                alert.showAndWait();
-        }else {
-            List<ContactLense> selectedLensesList =new ArrayList<ContactLense>(listAvailableLenses.getSelectionModel().getSelectedItems());
-            LensesCorrection lensesCorrection = new LensesCorrection(txtLensesRightEye.getText(),txtLensesLeftEye.getText(),selectedLensesList.toArray(new ContactLense[0]));
+        } else if (listAvailableLenses.getSelectionModel().getSelectedItems().isEmpty()) {
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Alert");
+            alert.setHeaderText(null);
+            alert.setContentText("Select types of lenses to add Contact Lenses Correction");
+            alert.showAndWait();
+        } else {
+            List<ContactLense> selectedLensesList = new ArrayList<ContactLense>(listAvailableLenses.getSelectionModel().getSelectedItems());
+            LensesCorrection lensesCorrection = new LensesCorrection(txtLensesRightEye.getText(), txtLensesLeftEye.getText(), selectedLensesList.toArray(new ContactLense[0]));
             appointmentCart.addLensesCorrection(lensesCorrection);
             listLensesCorrection.getItems().add(lensesCorrection);
         }
-
-
     }
 
 
@@ -91,17 +90,17 @@ public class AppointmentCartController {
     }
 
 
-
     public void btnCancelClicked(ActionEvent actionEvent) {
         //discard changes
 
         Main.set_pane(0);
 
     }
-    public void setAppointmentCart(AppointmentCart appointmentCart){
+
+    public void setAppointmentCart(AppointmentCart appointmentCart) {
         this.appointmentCart = appointmentCart;
         //Set Patient label
-        labelPatient.setText(appointmentCart.getPatient().getName() +" "+appointmentCart.getPatient().getSurname());
+        labelPatient.setText("Patient: " +appointmentCart.getPatient().getName() + " " + appointmentCart.getPatient().getSurname());
 
     }
 }

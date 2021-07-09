@@ -16,10 +16,11 @@ public class Patient extends Person {
     private static int counterId = 0;
 
     private static List<Patient> extent;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "rodo_id", referencedColumnName = "id")
-    private RodoForm rodo;//foreign key
+//
+//    @OneToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "rodo_id", referencedColumnName = "id")
+    @OneToOne
+    private RodoForm rodo;
 
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
@@ -59,9 +60,9 @@ public class Patient extends Person {
         extent.remove(patient);
     }
 
-    private static List<Patient> getExtent() {
-        return extent;
-    }
+
+
+
 
 
 //    public int getId() {
@@ -72,6 +73,17 @@ public class Patient extends Person {
 //        this.id = id;
 //    }
 
+    public static List<Patient> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<Patient> extent) {
+        Patient.extent = extent;
+    }
+
+    public static int getCounterId() {
+        return counterId;
+    }
 
     public RodoForm getRodo() {
         return rodo;
@@ -91,7 +103,7 @@ public class Patient extends Person {
     }
 
     private RodoForm generateRodoForm() {
-        return new RodoForm("SignatureTemplate", this);
+        return new RodoForm("SignatureTemplate");
     }
 
     private int generateIdNumber() {

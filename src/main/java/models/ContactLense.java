@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +8,7 @@ import java.util.List;
 @Table(name = "contact_lense")
 public class ContactLense {
 
-    private static List<ContactLense> entity;
+    private static List<ContactLense> extent;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -40,13 +38,16 @@ public class ContactLense {
         this.name = name;
         this.oxygenTransmission = oxygenTransmission;
         this.wearingMode = wearingMode;
-        addToEntity(this);
+        addToExtent(this);
     }
 
-    public static List<ContactLense> getEntity() {
-        return entity;
+    public static List<ContactLense> getExtent() {
+        return extent;
     }
 
+    public static void setExtent(List<ContactLense> extent) {
+        ContactLense.extent = extent;
+    }
 
     public int getId() {
         return id;
@@ -96,11 +97,11 @@ public class ContactLense {
         this.lensesCorrectionList = lensesCorrectionList;
     }
 
-    private void addToEntity(ContactLense contactLense) {
-        if (entity == null) {
-            entity = new ArrayList<>();
+    private void addToExtent(ContactLense contactLense) {
+        if (extent == null) {
+            extent = new ArrayList<>();
         }
-        entity.add(contactLense);
+        extent.add(contactLense);
     }
 
     public void add(LensesCorrection lensesCorrection) {

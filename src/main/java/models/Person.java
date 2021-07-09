@@ -35,7 +35,7 @@ public abstract class Person {
         this.pesel = pesel;
         this.telephone = telephone;
         this.email = email;
-       // this.address = new Address(street, city, postalCode, country);
+       this.address = new Address(street, city, postalCode, country);
     }
 
 

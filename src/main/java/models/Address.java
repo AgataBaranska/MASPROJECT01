@@ -3,6 +3,8 @@ package models;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "address")
@@ -28,6 +30,9 @@ public class Address {
     /**
      * Required by Hibernate.
      */
+
+    private static List<Address> extent;
+
     private Address() {
     }
 
@@ -37,8 +42,23 @@ public class Address {
         this.city = city;
         this.postalCode = postalCode;
         this.country = country;
+        addToExtent(this);
     }
 
+    private void addToExtent(Address address) {
+        if(extent==null){
+            extent = new ArrayList<>();
+        }
+        extent.add(address);
+    }
+
+    public static List<Address> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<Address> extent) {
+        Address.extent = extent;
+    }
 
     public int getId() {
         return id;

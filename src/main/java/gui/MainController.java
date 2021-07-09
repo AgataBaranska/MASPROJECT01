@@ -22,7 +22,7 @@ public class MainController {
     @FXML
     public void initialize() {
     //show appointmentsList
-        ObservableList<Appointment> observableAppointmentList = FXCollections.observableArrayList(Appointment.getAppointmentList());
+        ObservableList<Appointment> observableAppointmentList = FXCollections.observableArrayList(Appointment.getExtent());
         listAppointment.setItems(observableAppointmentList);
     }
 

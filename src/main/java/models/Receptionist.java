@@ -4,6 +4,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -21,6 +22,7 @@ public class Receptionist extends Employee {
 //           inverseJoinColumns = @JoinColumn(name = "training_id"))
     private List<Training> trainingList;
 
+   public static List<Receptionist> extent;
 
     /**
      * Required by Hibernate.
@@ -34,8 +36,15 @@ public class Receptionist extends Employee {
         super(name, surname, pesel, telephone, email, street, city, postalCode, country, hireDate, contractType,
                 monthlySalary);
 
+        addToExtent(this);
     }
 
+    private void addToExtent(Receptionist receptionist) {
+        if(extent ==null){
+            extent = new ArrayList<>();
+        }
+        extent.add(receptionist);
+    }
 
 
 //    public int getId() {
@@ -46,6 +55,14 @@ public class Receptionist extends Employee {
 //        this.id = id;
 //    }
 
+
+    public static List<Receptionist> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<Receptionist> extent) {
+        Receptionist.extent = extent;
+    }
 
     public List<Training> getTrainingList() {
         return trainingList;

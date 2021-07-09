@@ -1,7 +1,5 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
-
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -28,7 +26,7 @@ public class Appointment {
     @JoinColumn(name = "appointment_cart_id", referencedColumnName = "id")
     private AppointmentCart appointmentCart;//foreign key
 
-    private static List<Appointment> entity;
+    private static List<Appointment> extent;
     /**
      * Required by Hibernate.
      */
@@ -41,13 +39,16 @@ public class Appointment {
         this.appointmentDate = appointmentDateTime;
         this.optometrist = optometrist;
         optometrist.addAppointmentToList(this);
-        addToEntitiy(this);
+        addToExtent(this);
     }
 
-    public static List<Appointment> getAppointmentList() {
-        return entity;
+    public static List<Appointment> getExtent() {
+        return extent;
     }
 
+    public static void setExtent(List<Appointment> extent) {
+        Appointment.extent = extent;
+    }
 
     public int getId() {
         return Id;
@@ -91,11 +92,11 @@ public class Appointment {
         this.appointmentCart = appointmentCart;
     }
 
-    private void addToEntitiy(Appointment appointment) {
-        if (entity == null) {
-            entity = new ArrayList<>();
+    private void addToExtent(Appointment appointment) {
+        if (extent == null) {
+            extent = new ArrayList<>();
         }
-        entity.add(appointment);
+        extent.add(appointment);
     }
 
 
@@ -108,6 +109,7 @@ public class Appointment {
 
     public AppointmentCart generateAppointmentCart() {
         this.appointmentCart = new AppointmentCart();
+        appointmentCart.setAppointment(this);//reverse connection
         return appointmentCart;
     }
 }

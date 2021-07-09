@@ -1,20 +1,36 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-
-<AnchorPane minWidth="-Infinity" style="-fx-background-color: pink;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
+<AnchorPane minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.MainController">
    <children>
       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
-            <Label prefHeight="51.0" prefWidth="83.0" style="-fx-background-color: green;" text="Appointments" />
-            <ListView fx:id="listAppointment" />
-            <ButtonBar buttonMinWidth="40.0">
+            <Label text="Appointments">
+               <font>
+                  <Font size="14.0" />
+               </font>
+               <VBox.margin>
+                  <Insets bottom="10.0" />
+               </VBox.margin></Label>
+            <ListView fx:id="listAppointment">
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets></ListView>
+            <ButtonBar buttonMinWidth="0.0">
               <buttons>
                 <Button fx:id="btnGenerateAppointmentCart" mnemonicParsing="false" onAction="#btnGenerateAppointmentCartClicked" text="Generate Appointment Cart" />
                   <Button fx:id="btnQuit" maxWidth="50.0" mnemonicParsing="false" onAction="#btQuitClicked" prefHeight="25.0" text="Quit" />
               </buttons>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <VBox.margin>
+                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+               </VBox.margin>
             </ButtonBar>
          </children>
       </VBox>

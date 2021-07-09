@@ -21,6 +21,8 @@ public class Optometrist extends Employee {
     @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
 
+
+    private static List<Optometrist> extent;
     /**
      * Required by Hibernate.
      */
@@ -33,10 +35,24 @@ public class Optometrist extends Employee {
         super(name, surname, pesel, telephone, email, street, city, postalCode, country, hireDate, contractType,
                 monthlySalary);
         this.optometristNumber = optometristNumber;
+        addToExtent(this);
     }
 
+    private void addToExtent(Optometrist optometrist) {
+        if(extent ==null){
+            extent = new ArrayList<>();
+        }
+        extent.add(optometrist);
+    }
 
-//    public int getId() {
+    public static List<Optometrist> getExtent() {
+        return extent;
+    }
+
+    public static void setExtent(List<Optometrist> extent) {
+        Optometrist.extent = extent;
+    }
+    //    public int getId() {
 //        return id;
 //    }
 //
