@@ -8,13 +8,12 @@ import java.util.HashSet;
 import java.util.Set;
 
 @MappedSuperclass
-@Table(name = "Employee")
 public abstract class Employee extends Person {
 
-    //@Id
-    //@GeneratedValue(strategy = GenerationType.AUTO)
-    //@Column(name = "id")
-    //  private int id;
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "id", updatable = false, nullable = false)
+//    private int id;
 
     @Basic
     // @Temporal(TemporalType.DATE)
@@ -26,6 +25,7 @@ public abstract class Employee extends Person {
     @Column(name = "contract_type")
     @Enumerated
     private ContractType contractType;
+
 
     /**
      * Required by Hibernate.

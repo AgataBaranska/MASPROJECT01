@@ -10,11 +10,11 @@ import java.util.List;
 @Entity
 @Table(name = "optometrist")
 public class Optometrist extends Employee {
-    //    @Id
+//    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
-   // private int id;
-   @Column(name = "optometrist_number")
+//    @Column(name = "id", updatable = false, nullable = false)
+//    private int id;
+    @Column(name = "optometrist_number")
     private String optometristNumber;
 
 

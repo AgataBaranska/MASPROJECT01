@@ -8,17 +8,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "receptionist")
-
 public class Receptionist extends Employee {
-    //    @Id
-//  @GeneratedValue(strategy = GenerationType.AUTO)
-// @Column(name = "id")
+//    @Id
+//    @GeneratedValue(strategy = GenerationType.AUTO)
+//    @Column(name = "id")
    // private int id;
+
    @ManyToMany
-   @JoinTable(
-           name = "receptionist_training",
-           joinColumns = @JoinColumn(name = "receptionist_id"),
-           inverseJoinColumns = @JoinColumn(name = "training_id"))
+//   @JoinTable(
+//           name = "receptionist_training",
+//           joinColumns = @JoinColumn(name = "receptionist_id"),
+//           inverseJoinColumns = @JoinColumn(name = "training_id"))
     private List<Training> trainingList;
 
 

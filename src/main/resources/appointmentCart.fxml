@@ -5,104 +5,108 @@
 <?import javafx.scene.layout.*?>
 
 
-<BorderPane prefHeight="505.3333333333333" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppointmentCartController">
-   <center>
-      <VBox prefHeight="361.0" prefWidth="205.0" spacing="5.0">
-         <children>
-            <Label text="Interview" />
-            <TextArea prefHeight="179.0" prefWidth="247.0" />
-            <Label text="Recommendations" />
-            <TextArea prefWidth="200.0" />
-            <GridPane hgap="5.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-            </GridPane>
-         </children>
-         <padding>
-            <Insets left="10.0" right="10.0" />
-         </padding>
-      </VBox>
-   </center>
-   <top>
-      <Label fx:id="labelPatient" prefHeight="34.0" prefWidth="582.0" text="Patient" BorderPane.alignment="TOP_LEFT">
-         <padding>
-            <Insets left="10.0" />
-         </padding>
-      </Label>
-   </top>
-   <bottom>
-      <ButtonBar prefHeight="40.0" prefWidth="603.0" BorderPane.alignment="CENTER">
-        <buttons>
-          <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveClicked" text="Save" />
-            <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#btnCancelClicked" text="Cancel" />
-        </buttons>
-         <BorderPane.margin>
-            <Insets right="10.0" />
-         </BorderPane.margin>
-      </ButtonBar>
-   </bottom>
-   <right>
-      <VBox prefHeight="484.0" prefWidth="315.0" spacing="7.0">
-         <children>
-            <Label text="Glasses Correction List" />
-            <ListView fx:id="listGlassesCorrection" prefHeight="104.0" prefWidth="440.0" VBox.vgrow="ALWAYS">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppointmentCartController">
+   <children>
+      <BorderPane prefHeight="505.3333333333333" prefWidth="600.0">
+         <center>
+            <VBox prefHeight="361.0" prefWidth="205.0" spacing="5.0">
+               <children>
+                  <Label text="Interview" />
+                  <TextArea prefHeight="179.0" prefWidth="247.0" />
+                  <Label text="Recommendations" />
+                  <TextArea prefWidth="200.0" />
+                  <GridPane hgap="5.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                  </GridPane>
+               </children>
                <padding>
-                  <Insets right="5.0" />
+                  <Insets left="10.0" right="10.0" />
                </padding>
-            </ListView>
-            <GridPane hgap="5.0" vgap="10.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
+            </VBox>
+         </center>
+         <top>
+            <Label fx:id="labelPatient" prefHeight="34.0" prefWidth="582.0" text="Patient" BorderPane.alignment="TOP_LEFT">
+               <padding>
+                  <Insets left="10.0" />
+               </padding>
+            </Label>
+         </top>
+         <bottom>
+            <ButtonBar prefHeight="40.0" prefWidth="603.0" BorderPane.alignment="CENTER">
+              <buttons>
+                <Button fx:id="btnSave" mnemonicParsing="false" onAction="#btnSaveClicked" text="Save" />
+                  <Button fx:id="btnCancel" mnemonicParsing="false" onAction="#btnCancelClicked" text="Cancel" />
+              </buttons>
+               <BorderPane.margin>
+                  <Insets right="10.0" />
+               </BorderPane.margin>
+            </ButtonBar>
+         </bottom>
+         <right>
+            <VBox prefHeight="484.0" prefWidth="315.0" spacing="7.0">
                <children>
-                    <Label text="Right Eye" />
-                  <Label text="Left Eye" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtGlassesRightEye" GridPane.columnIndex="1" />
-                  <TextField fx:id="txtGlassesLeftEye" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Purpose" GridPane.rowIndex="2" />
-                  <Button fx:id="btnAddGlassesCorrection" mnemonicParsing="false" onAction="#btnAddGlassesCorrectionClicked" prefHeight="25.0" prefWidth="136.0" text="Add to List" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                      <ComboBox fx:id="comboPurposeGlasses" prefHeight="25.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <Label text="Glasses Correction List" />
+                  <ListView fx:id="listGlassesCorrection" prefHeight="104.0" prefWidth="440.0" VBox.vgrow="ALWAYS">
+                     <padding>
+                        <Insets right="5.0" />
+                     </padding>
+                  </ListView>
+                  <GridPane hgap="5.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                          <Label text="Right Eye" />
+                        <Label text="Left Eye" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtGlassesRightEye" GridPane.columnIndex="1" />
+                        <TextField fx:id="txtGlassesLeftEye" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Purpose" GridPane.rowIndex="2" />
+                        <Button fx:id="btnAddGlassesCorrection" mnemonicParsing="false" onAction="#btnAddGlassesCorrectionClicked" prefHeight="25.0" prefWidth="136.0" text="Add to List" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                            <ComboBox fx:id="comboPurposeGlasses" prefHeight="25.0" prefWidth="219.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
+                  <Label text="Lenses Correction List" />
+                  <ListView fx:id="listLensesCorrection" prefHeight="104.0" prefWidth="440.0" />
+                  <GridPane hgap="5.0" prefWidth="277.0" vgap="10.0">
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+                     </columnConstraints>
+                     <rowConstraints>
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+                     </rowConstraints>
+                     <children>
+                        <Label text="Right Eye" />
+                        <Label text="Left Eye" GridPane.rowIndex="1" />
+                        <TextField fx:id="txtLensesRightEye" GridPane.columnIndex="1" />
+                        <TextField fx:id="txtLensesLeftEye" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        <Label text="Lense" GridPane.rowIndex="2" />
+                        <Button fx:id="btnAddLensesCorrection" alignment="CENTER" mnemonicParsing="false" onAction="#btnAddLensesCorrectionClicked" prefHeight="25.0" prefWidth="129.0" text="Add to List" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                        <ListView fx:id="listAvailableLenses" prefHeight="67.0" prefWidth="233.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                     </children>
+                  </GridPane>
                </children>
-            </GridPane>
-            <Label text="Lenses Correction List" />
-            <ListView fx:id="listLensesCorrection" prefHeight="104.0" prefWidth="440.0" />
-            <GridPane hgap="5.0" prefWidth="277.0" vgap="10.0">
-               <columnConstraints>
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
-               </columnConstraints>
-               <rowConstraints>
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-                  <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
-               </rowConstraints>
-               <children>
-                  <Label text="Right Eye" />
-                  <Label text="Left Eye" GridPane.rowIndex="1" />
-                  <TextField fx:id="txtLensesRightEye" GridPane.columnIndex="1" />
-                  <TextField fx:id="txtLensesLeftEye" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <Label text="Lense" GridPane.rowIndex="2" />
-                  <Button fx:id="btnAddLensesCorrection" alignment="CENTER" mnemonicParsing="false" onAction="#btnAddLensesCorrectionClicked" prefHeight="25.0" prefWidth="129.0" text="Add to List" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <ListView fx:id="listAvailableLenses" prefHeight="67.0" prefWidth="233.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-               </children>
-            </GridPane>
-         </children>
-         <padding>
-            <Insets bottom="10.0" right="10.0" />
-         </padding>
-      </VBox>
-   </right>
-</BorderPane>
+               <padding>
+                  <Insets bottom="10.0" right="10.0" />
+               </padding>
+            </VBox>
+         </right>
+      </BorderPane>
+   </children>
+</AnchorPane>

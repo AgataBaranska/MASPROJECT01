@@ -107,7 +107,7 @@ public class Appointment {
     }
 
     public AppointmentCart generateAppointmentCart() {
-        this.appointmentCart = new AppointmentCart(patient);
+        this.appointmentCart = new AppointmentCart();
         return appointmentCart;
     }
 }

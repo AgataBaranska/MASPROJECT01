@@ -14,7 +14,6 @@ public class AppointmentCart {
     @Column(name = "id")
     private int id;
 
-    private Patient patient;
     @Basic
     private String interview;
     @Basic
@@ -35,12 +34,10 @@ public class AppointmentCart {
     /**
      * Required by Hibernate.
      */
-    private AppointmentCart() {
-    }
 
-    public AppointmentCart(Patient patient) {
+
+    public AppointmentCart() {
         super();
-        this.patient = patient;
         id = generateIdNumber();
     }
 
@@ -70,12 +67,10 @@ public class AppointmentCart {
 
 
     public Patient getPatient() {
-        return patient;
+        return appointment.getPatient();
     }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
+
 
     public String getInterview() {
         return interview;

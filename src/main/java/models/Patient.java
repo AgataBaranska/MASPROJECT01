@@ -8,10 +8,10 @@ import java.util.List;
 @Table(name = "patient")
 public class Patient extends Person {
 
-    //    @Id
+//    @Id
 //    @GeneratedValue(strategy = GenerationType.AUTO)
-//    @Column(name = "id")
-    private int id;
+//    @Column(name = "id", updatable = false, nullable = false)
+//    private int id;
     @Basic
     private static int counterId = 0;
 
@@ -33,7 +33,7 @@ public class Patient extends Person {
     public Patient(String name, String surname, String pesel, String telephone, String email, String street,
                    String city, String postalCode, String country) {
         super(name, surname, pesel, telephone, email, street, city, postalCode, country);
-        this.id = generateIdNumber();
+       // this.id = generateIdNumber();
         this.rodo = generateRodoForm();
         addPatient(this);
     }

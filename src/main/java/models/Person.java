@@ -2,12 +2,12 @@ package models;
 
 import javax.persistence.*;
 
+
 @MappedSuperclass
-@Table(name="person")
 public abstract class Person {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name="id")
+    @Column(name = "id", updatable = false, nullable = false)
     private int id;
     @Basic
     private String name;
@@ -19,10 +19,8 @@ public abstract class Person {
     private String telephone;
     @Basic
     private String email;
-
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "address_id", referencedColumnName = "id")
-    protected Address address;//klucz obcy
+    @OneToOne
+    private Address address;
 
     /**
      * Required by Hibernate.
@@ -37,7 +35,7 @@ public abstract class Person {
         this.pesel = pesel;
         this.telephone = telephone;
         this.email = email;
-        this.address = new Address(street, city, postalCode, country);
+       // this.address = new Address(street, city, postalCode, country);
     }
 
 

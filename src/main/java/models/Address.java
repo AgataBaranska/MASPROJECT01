@@ -22,8 +22,8 @@ public class Address {
     @Basic
     private String country;
 
-    @OneToOne(mappedBy = "address")
-    private Person person;
+//    @OneToOne(mappedBy = "address")
+//    private Person person;
 
     /**
      * Required by Hibernate.
@@ -48,14 +48,14 @@ public class Address {
         this.id = id;
     }
 
-
-    public Person getPerson() {
-        return person;
-    }
-
-    public void setPerson(Person person) {
-        this.person = person;
-    }
+//
+//    public Person getPerson() {
+//        return person;
+//    }
+//
+//    public void setPerson(Person person) {
+//        this.person = person;
+//    }
 
     public String getStreet() {
         return street;
