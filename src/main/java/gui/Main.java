@@ -83,7 +83,6 @@ public class Main extends Application {
 
             for (Patient patient : Patient.getExtent()) {
                 session.save(patient);
-
             }
 
             for (RodoForm rodoForm : RodoForm.getExtent()) {
@@ -122,9 +121,10 @@ public class Main extends Application {
 
         createSessionFactory();
 
-      //Use to add mock data to DB
-       // addMockDataToDb();
+       //Use to add mock data to DB
+        //addMockDataToDb();
 
+        //load all data saved in db
         loadData();
 
        showApplicationExtents();
@@ -153,9 +153,9 @@ public class Main extends Application {
     //    System.out.println(Address.getExtent().toString());
      //  System.out.println(Appointment.getExtent().toString());
        System.out.println(AppointmentCart.getExtent().toString());
-//        System.out.println(ContactLense.getExtent().toString());
-//        System.out.println(GlassesCorrection.getExtent().toString());
-//        System.out.println(LensesCorrection.getExtent().toString());
+      // System.out.println(ContactLense.getExtent().toString());
+     System.out.println(GlassesCorrection.getExtent().toString());
+      System.out.println(LensesCorrection.getExtent().toString());
 //        System.out.println(Patient.getExtent().toString());
 //        System.out.println(Receptionist.getExtent().toString());
 //        System.out.println(RodoForm.getExtent().toString());

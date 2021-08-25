@@ -9,6 +9,7 @@ import java.util.List;
 public class Address {
 
     private static List<Address> extent;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")

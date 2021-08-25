@@ -35,6 +35,9 @@ public class AppointmentCart {
      */
     public AppointmentCart() {
         super();
+        lensesCorrectionList = new ArrayList<LensesCorrection>();
+        glassesCorrectionList = new ArrayList<GlassesCorrection>();
+
         id = generateIdNumber();
         addToExtent(this);
     }
@@ -116,9 +119,7 @@ public class AppointmentCart {
     }
 
     public void addLensesCorrection(LensesCorrection lensesCorrection) {
-        if (lensesCorrectionList == null) {
-            lensesCorrectionList = new ArrayList<LensesCorrection>();
-        }
+
         lensesCorrectionList.add(lensesCorrection);
         try {
             lensesCorrection.matchLensesCorrectionToAppointmentCart(this);
@@ -128,9 +129,6 @@ public class AppointmentCart {
     }
 
     public void addGlassesCorrection(GlassesCorrection glassesCorrection) {
-        if (glassesCorrectionList == null) {
-            glassesCorrectionList = new ArrayList<GlassesCorrection>();
-        }
         glassesCorrectionList.add(glassesCorrection);
         try {
             glassesCorrection.matchGlassesCorrectionToAppointmentCart(this);//add reverse connection
@@ -143,7 +141,7 @@ public class AppointmentCart {
         return ++idCounter;
     }
 
-    private void addToExtent(AppointmentCart appointmentCart) {
+    private  void addToExtent(AppointmentCart appointmentCart) {
         if (extent == null) {
             extent = new ArrayList<>();
         }
@@ -156,6 +154,8 @@ public class AppointmentCart {
                 "id=" + id +
                 ", interview='" + interview + '\'' +
                 ", recommendations='" + recommendations + '\'' +
+//                ", glassesCorrectionList=" + glassesCorrectionList +
+//                ", lensesCorrectionList=" + lensesCorrectionList +
                 ", appointment=" + appointment +
                 '}';
     }

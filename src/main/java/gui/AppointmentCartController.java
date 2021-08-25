@@ -124,6 +124,20 @@ public class AppointmentCartController {
             session.save(appointmentCart);
             session.update(appointmentCart.getAppointment());
 
+
+            System.out.println("Lenses"+appointmentCart.getLensesCorrectionList());
+            if(!appointmentCart.getGlassesCorrectionList().isEmpty()) {
+                for (GlassesCorrection glassesCorrection : appointmentCart.getGlassesCorrectionList()) {
+                    session.saveOrUpdate(glassesCorrection);
+                }
+            }
+
+            if(!appointmentCart.getLensesCorrectionList().isEmpty()) {
+                for (LensesCorrection lensesCorrection : appointmentCart.getLensesCorrectionList()) {
+                    session.saveOrUpdate(lensesCorrection);
+                }
+            }
+
             session.getTransaction().commit();
             session.close();
         } catch (Exception e) {
@@ -135,11 +149,13 @@ public class AppointmentCartController {
         alert.setHeaderText(null);
         alert.setContentText("Appointment Cart saved in database");
         alert.showAndWait();
+        clearAppointmentCartView();
         Main.set_pane(0);
     }
 
     public void btnQuitClicked(ActionEvent actionEvent) {
         Main.getSessionFactory().close();
+        clearAppointmentCartView();
         Platform.exit();
     }
 
@@ -148,5 +164,17 @@ public class AppointmentCartController {
         //Set Patient label
         labelPatient.setText("Patient: " + appointmentCart.getPatient().getName() + " " + appointmentCart.getPatient().getSurname());
 
+    }
+    private void clearAppointmentCartView(){
+        txtGlassesLeftEye.clear();
+        txtGlassesRightEye.clear();
+        txtLensesLeftEye.clear();
+        txtLensesRightEye.clear();
+        txtInterview.clear();
+        txtRecommendations.clear();
+        comboPurposeGlasses.getSelectionModel().clearSelection();
+        listAvailableLenses.getSelectionModel().clearSelection();
+        listLensesCorrection.getItems().clear();
+        listGlassesCorrection.getItems().clear();
     }
 }

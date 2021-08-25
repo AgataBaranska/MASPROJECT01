@@ -33,6 +33,7 @@ public class GlassesCorrection {
         this.correctionPowerRight = correctionPowerRight;
         this.correctionPowerLeft = correctionPowerLeft;
         this.purpose = purpose;
+        addToExtent(this);
     }
 
     //method check if given text can be parsed to a allowed power of glasses correction

@@ -46,6 +46,7 @@ public class LensesCorrection {
         for (ContactLense contactLense : contactLenses) {
             addContactLenses(contactLense);
         }
+        addToExtent(this);
     }
 //method checkc if given text can be paarsed to a allowed power of lenses correction
     public static boolean checkIfValueCorrect(String stringToCheck) {

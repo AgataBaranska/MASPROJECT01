@@ -42,6 +42,8 @@ public class MainController {
 
        AppointmentCart generatedAppointmentCart = selectedAppointment.generateAppointmentCart();
 
+       System.out.println(generatedAppointmentCart);
+
        Main.getAppointmentController().setAppointmentCart(generatedAppointmentCart);
 
        Main.set_pane(1);
