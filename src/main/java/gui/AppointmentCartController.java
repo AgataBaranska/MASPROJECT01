@@ -150,7 +150,7 @@ public class AppointmentCartController {
         alert.setContentText("Appointment Cart saved in database");
         alert.showAndWait();
         clearAppointmentCartView();
-        Main.set_pane(Main.Panes.AppointmentCartPane);
+     //   Main.set_pane(Main.Panes.AppointmentCartPane);
     }
 
     public void btnQuitClicked(ActionEvent actionEvent) {

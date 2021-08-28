@@ -50,9 +50,9 @@ public class AppointmentsController {
 
        System.out.println(generatedAppointmentCart);
 
-       Main.getAppointmentCartController().setAppointmentCart(generatedAppointmentCart);
+      // Main.getAppointmentCartController().setAppointmentCart(generatedAppointmentCart);
 
-       Main.set_pane(Main.Panes.AppointmentCartPane);
+     //  Main.set_pane(Main.Panes.AppointmentCartPane);
 
         }
     }

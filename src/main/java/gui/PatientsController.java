@@ -1,17 +1,22 @@
 package gui;
 
+import com.google.common.eventbus.EventBus;
+import com.google.common.eventbus.Subscribe;
+import events.PatientCreated;
+import events.ShowView;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.ListView;
+import javafx.scene.layout.AnchorPane;
 import models.Appointment;
 import models.Patient;
 import org.hibernate.Session;
-
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.List;
 
 public class PatientsController {
@@ -19,6 +24,7 @@ public class PatientsController {
 
     @FXML
     private ListView listPatients;
+    private EventBus eventBus;
 
     public void initialize() {
         //show patientsList
@@ -28,8 +34,8 @@ public class PatientsController {
 
 
     public void btnAddNewPatientClicked(ActionEvent actionEvent) {
-        Main.set_pane(Main.Panes.EditPatientDataPane);
-
+        //change view to EditPatientsDataView
+      eventBus.post(new ShowView(RootPaneController.View.EditPatientDataView));
     }
 
     public void btnDeletePatientClicked(ActionEvent actionEvent) {
@@ -75,9 +81,21 @@ public class PatientsController {
 
             //change pane to Appointments, pass appointmentsList to AppointmentsController
             List<Appointment> appointmentsList =  selectedPatient.getAppointmentList();
-            Main.getAppointmentsController().setPatientsAppointments(appointmentsList);
-            Main.set_pane(Main.Panes.AppointmentsPane);
+         //   Main.getAppointmentsController().setPatientsAppointments(appointmentsList);
+          //  Main.set_pane(Main.Panes.AppointmentsPane);
 
         }
+    }
+
+
+    @Subscribe
+    public void onPatientCreated(PatientCreated event){
+        //show updated list of patients
+        ObservableList<Patient> observablePatientList = FXCollections.observableArrayList(Patient.getExtent());
+        listPatients.setItems(observablePatientList.sorted());
+    }
+
+    public void setEventBus(EventBus eventBus) {
+        this.eventBus = eventBus;
     }
 }

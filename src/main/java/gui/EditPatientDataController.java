@@ -1,5 +1,8 @@
 package gui;
 
+import com.google.common.eventbus.EventBus;
+import events.PatientCreated;
+import events.ShowView;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
@@ -29,6 +32,9 @@ public class EditPatientDataController {
     public TextField txtCountry;
 
 
+    private EventBus eventBus;
+
+
     public void btnSaveClicked(ActionEvent actionEvent) {
         //check if all fields entered - validation here or in Patient class?
         //create new Patient and save in db
@@ -45,7 +51,12 @@ public class EditPatientDataController {
           alert.setHeaderText(null);
           alert.setContentText("New Patient added to Database");
           alert.showAndWait();
-          Main.set_pane(Main.Panes.PatientsPane);
+
+          //send event that new Patient was created
+          eventBus.post(new PatientCreated());
+
+          //send event to change view to PatientsView
+            eventBus.post(new ShowView(RootPaneController.View.PatientsView));
 
       } catch (Exception e) {
           e.printStackTrace();
@@ -55,6 +66,12 @@ public class EditPatientDataController {
     }
 
     public void btnDiscardClicked(ActionEvent actionEvent) {
-    Main.set_pane(Main.Panes.PatientsPane);
+
+        //Main.set_pane(Main.Panes.PatientsPane);
+    }
+
+
+    public void setEventBus(EventBus eventBus) {
+        this.eventBus = eventBus;
     }
 }
