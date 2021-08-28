@@ -11,19 +11,25 @@ import javafx.scene.control.ListView;
 import models.Appointment;
 import models.AppointmentCart;
 
-public class MainController {
+import java.util.ArrayList;
+import java.util.List;
+
+public class AppointmentsController {
 
     @FXML
     private ListView listAppointment;
 
-//field form AppointmentCart.fxml
     @FXML
-    Label labelPatient;
-    @FXML
+    private Label labelPatient;
+
+    //set by PatientsController when Patient's Appointment button is clicked
+    private  List<Appointment> patientsAppointments;
+
+
+
     public void initialize() {
     //show appointmentsList
-        ObservableList<Appointment> observableAppointmentList = FXCollections.observableArrayList(Appointment.getExtent());
-        listAppointment.setItems(observableAppointmentList);
+
     }
 
 
@@ -44,9 +50,9 @@ public class MainController {
 
        System.out.println(generatedAppointmentCart);
 
-       Main.getAppointmentController().setAppointmentCart(generatedAppointmentCart);
+       Main.getAppointmentCartController().setAppointmentCart(generatedAppointmentCart);
 
-       Main.set_pane(1);
+       Main.set_pane(Main.Panes.AppointmentCartPane);
 
         }
     }
@@ -54,5 +60,13 @@ public class MainController {
     public void btQuitClicked(ActionEvent actionEvent) {
         Main.getSessionFactory().close();
         Platform.exit();
+    }
+
+    public void setPatientsAppointments(List<Appointment> appointmentsList){
+        this.patientsAppointments = appointmentsList;
+        if(!patientsAppointments.isEmpty()) {
+            ObservableList<Appointment> observableAppointmentList = FXCollections.observableList(patientsAppointments);
+            listAppointment.setItems(observableAppointmentList);
+        }
     }
 }

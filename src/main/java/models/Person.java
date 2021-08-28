@@ -19,7 +19,7 @@ public abstract class Person {
     private String telephone;
     @Basic
     private String email;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Address address;
 
     /**

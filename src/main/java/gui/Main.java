@@ -8,8 +8,7 @@ import javafx.stage.Stage;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 import models.*;
 import org.hibernate.Session;
@@ -20,21 +19,30 @@ import org.hibernate.cfg.Configuration;
 
 public class Main extends Application {
 
+
     static AnchorPane rootPane;
-    static List<AnchorPane> panes = new ArrayList<>();
-    private static int idx_cur_pane = 0;
-    private static MainController mainController;
+    static EnumMap<Panes,AnchorPane> panes = new EnumMap<>(Panes.class);
+    private static Panes cur_pane = Panes.PatientsPane;
+    private static PatientsController patientsController;
+    private static AppointmentsController appointmentsController;
+    private static EditPatientDataController editPatientDataController;
     private static AppointmentCartController appointmentCartController;
     private static StandardServiceRegistry registry = null;
     private static SessionFactory sessionFactory = null;
 
+    public enum Panes {
+        PatientsPane,
+        AppointmentsPane,
+        AppointmentCartPane,
+        EditPatientDataPane,
+    }
 
     //method to switch between panes
-    public static void set_pane(int idx) {
-        AnchorPane newPane = panes.get(idx);
-        rootPane.getChildren().remove(panes.get(idx_cur_pane));
-        rootPane.getChildren().add(panes.get(idx));
-        idx_cur_pane = idx;
+    public static void set_pane(Panes pane) {
+        AnchorPane newPane = panes.get(pane);
+        rootPane.getChildren().remove(panes.get(cur_pane));
+        rootPane.getChildren().add(panes.get(pane));
+        cur_pane = pane;
 
         AnchorPane.setTopAnchor(newPane, 0.0);
         AnchorPane.setBottomAnchor(newPane, 0.0);
@@ -42,11 +50,11 @@ public class Main extends Application {
         AnchorPane.setRightAnchor(newPane, 0.0);
     }
 
-    public static MainController getMainController() {
-        return mainController;
+    public static AppointmentsController getAppointmentsController() {
+        return appointmentsController;
     }
 
-    public static AppointmentCartController getAppointmentController() {
+    public static AppointmentCartController getAppointmentCartController() {
         return appointmentCartController;
     }
 
@@ -119,7 +127,7 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-        createSessionFactory();
+        //createSessionFactory();
 
        //Use to add mock data to DB
         //addMockDataToDb();
@@ -127,21 +135,32 @@ public class Main extends Application {
         //load all data saved in db
         loadData();
 
-       showApplicationExtents();
+       //showApplicationExtents();
 
         rootPane = FXMLLoader.load(getClass().getClassLoader().getResource("anchor.fxml"));
-        FXMLLoader mainLoader = new FXMLLoader(getClass().getClassLoader().getResource("main.fxml"));
-        AnchorPane mainPane = mainLoader.load();
-        mainController = mainLoader.getController();
-        panes.add(mainPane);
 
-        FXMLLoader appointmentLoader = new FXMLLoader(getClass().getClassLoader().getResource("appointmentCart.fxml"));
-        AnchorPane appointmentPane = appointmentLoader.load();
-        appointmentCartController = appointmentLoader.getController();
-        panes.add(appointmentPane);
+        FXMLLoader patientsLoader = new FXMLLoader(getClass().getClassLoader().getResource("patients.fxml"));
+        AnchorPane patientsPane = patientsLoader.load();
+        patientsController = patientsLoader.getController();
+        panes.put(Panes.PatientsPane,patientsPane);
 
-        //switch pane to mainPane
-        set_pane(0);
+        FXMLLoader appointmentsLoader = new FXMLLoader(getClass().getClassLoader().getResource("appointments.fxml"));
+        AnchorPane appointmentsPane = appointmentsLoader.load();
+        appointmentsController = appointmentsLoader.getController();
+        panes.put(Panes.AppointmentsPane,appointmentsPane);
+
+        FXMLLoader editPatientDataLoader = new FXMLLoader(getClass().getClassLoader().getResource("editPatientData.fxml"));
+        AnchorPane editPatientDataPane = editPatientDataLoader.load();
+        editPatientDataController = editPatientDataLoader.getController();
+        panes.put(Panes.EditPatientDataPane,editPatientDataPane);
+
+        FXMLLoader appointmentCartLoader = new FXMLLoader(getClass().getClassLoader().getResource("appointmentCart.fxml"));
+        AnchorPane appointmentCartPane = appointmentCartLoader.load();
+        appointmentCartController = appointmentCartLoader.getController();
+        panes.put(Panes.AppointmentCartPane,appointmentCartPane);
+
+        //switch pane to mainPane -patientsPane
+        set_pane(Panes.PatientsPane);
 
         Scene scene = new Scene(rootPane, 600, 520);
         primaryStage.setTitle("OptometristApp");
@@ -166,7 +185,7 @@ public class Main extends Application {
 
     private void loadData() {
         try {
-            Session session = sessionFactory.openSession();
+            Session session = HibernateUtility.getSessionFactory().openSession();
             session.beginTransaction();
             Patient.setExtent(session.createQuery("FROM Patient").list());
             RodoForm.setExtent(session.createQuery("FROM RodoForm").list());

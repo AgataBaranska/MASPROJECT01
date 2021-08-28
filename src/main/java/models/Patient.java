@@ -11,7 +11,7 @@ public class Patient extends Person {
     @Basic
     private static int counterId = 0;
     private static List<Patient> extent;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private RodoForm rodo;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
@@ -94,9 +94,12 @@ public class Patient extends Person {
 
     @Override
     public String toString() {
-        return "Patient{" +
-                "rodo=" + rodo +
-                ", appointmentList=" + appointmentList +
-                '}';
+        return "Patient[ "+
+                getSurname() + " " +
+                getName() + " Pesel: " +
+                getPesel() +" ]";
+
+
+
     }
 }

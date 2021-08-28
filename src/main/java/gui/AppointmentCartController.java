@@ -39,7 +39,7 @@ public class AppointmentCartController {
     @FXML
     TextArea txtRecommendations;
 
-    //AppointmentCart object generated in MainController
+    //AppointmentCart object generated in AppointmentsController
     private AppointmentCart appointmentCart;
 
 
@@ -150,7 +150,7 @@ public class AppointmentCartController {
         alert.setContentText("Appointment Cart saved in database");
         alert.showAndWait();
         clearAppointmentCartView();
-        Main.set_pane(0);
+        Main.set_pane(Main.Panes.AppointmentCartPane);
     }
 
     public void btnQuitClicked(ActionEvent actionEvent) {
