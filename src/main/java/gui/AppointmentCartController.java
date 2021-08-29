@@ -115,7 +115,7 @@ public class AppointmentCartController {
 
         System.out.println("AppointmentCrt przed zapisem"+ appointmentCart);
         //save AppointmentCart, GlassesCorrection, LensesCorrection
-        SessionFactory sessionFactory = Main.getSessionFactory();
+        SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
 
         try {
             Session session = sessionFactory.openSession();
@@ -154,7 +154,7 @@ public class AppointmentCartController {
     }
 
     public void btnQuitClicked(ActionEvent actionEvent) {
-        Main.getSessionFactory().close();
+        HibernateUtility.getSessionFactory().close();
         clearAppointmentCartView();
         Platform.exit();
     }

@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "training")
 public class Training {
-    public static List<Training> extent;
+    public static List<Training> extent = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -24,7 +24,7 @@ public class Training {
     /**
      * Required by Hibernate.
      */
-    private Training() {
+   Training() {
     }
 
     public Training(String trainingName, String description, String organizer) {
@@ -38,11 +38,6 @@ public class Training {
     public static List<Training> getExtent() {
         return extent;
     }
-
-    public static void setExtent(List<Training> extent) {
-        Training.extent = extent;
-    }
-
     public int getId() {
         return id;
     }
@@ -84,9 +79,6 @@ public class Training {
     }
 
     private void addToExtent(Training training) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(training);
     }
 

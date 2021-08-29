@@ -6,7 +6,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
 
 public class HibernateUtility {
-    public static SessionFactory factory;
+    private static SessionFactory factory;
 
     private HibernateUtility(){
     }

@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "appointment_cart")
 public class AppointmentCart {
-    private static List<AppointmentCart> extent;
+    private static List<AppointmentCart> extent = new ArrayList<>();
     @Basic
     public static int idCounter = 0;
     @Id
@@ -33,7 +33,8 @@ public class AppointmentCart {
     /**
      * Required by Hibernate.
      */
-    public AppointmentCart() {
+
+   AppointmentCart() {
         super();
         lensesCorrectionList = new ArrayList<LensesCorrection>();
         glassesCorrectionList = new ArrayList<GlassesCorrection>();
@@ -114,10 +115,6 @@ public class AppointmentCart {
         return extent;
     }
 
-    public static void setExtent(List<AppointmentCart> extent) {
-        AppointmentCart.extent = extent;
-    }
-
     public void addLensesCorrection(LensesCorrection lensesCorrection) {
 
         lensesCorrectionList.add(lensesCorrection);
@@ -142,9 +139,6 @@ public class AppointmentCart {
     }
 
     private  void addToExtent(AppointmentCart appointmentCart) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(appointmentCart);
     }
 

@@ -8,7 +8,7 @@ import java.util.List;
 @Table(name = "address")
 public class Address {
 
-    private static List<Address> extent;
+    private static List<Address> extent = new ArrayList<>();
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -28,7 +28,7 @@ public class Address {
      * Required by Hibernate.
      */
 
-    private Address() {
+    Address() {
     }
 
     public Address(String street, String city, String postalCode, String country) {
@@ -44,16 +44,7 @@ public class Address {
         return extent;
     }
 
-    public static void setExtent(List<Address> extent) {
-        Address.extent = extent;
-    }
-
-
-
     private void addToExtent(Address address) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(address);
     }
 

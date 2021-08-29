@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "optometrist")
 public class Optometrist extends Employee {
 
-    private static List<Optometrist> extent;
+    private static List<Optometrist> extent = new ArrayList<>();
     @Column(name = "optometrist_number")
     private String optometristNumber;
     @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -20,7 +20,7 @@ public class Optometrist extends Employee {
     /**
      * Required by Hibernate.
      */
-    private Optometrist() {
+   Optometrist() {
     }
 
     public Optometrist(String name, String surname, String pesel, String telephone, String email, String street,
@@ -36,14 +36,7 @@ public class Optometrist extends Employee {
         return extent;
     }
 
-    public static void setExtent(List<Optometrist> extent) {
-        Optometrist.extent = extent;
-    }
-
     private void addToExtent(Optometrist optometrist) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(optometrist);
     }
 

@@ -2,13 +2,9 @@ package gui;
 
 import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
-import events.PatientCreated;
 import events.ShowView;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
-import models.Patient;
 
 import java.io.IOException;
 import java.util.EnumMap;
@@ -22,7 +18,7 @@ public class RootPaneController {
     private PatientsController patientsController;
     private AnchorPane rootPane;
     private AnchorPane cur_pane;
-    private EventBus eventBus;
+
 
     public RootPaneController() {
         try {
@@ -46,6 +42,8 @@ public class RootPaneController {
             appointmentCartController = appointmentCartLoader.getController();
             views.put(View.AppointmentCartView, appointmentCartPane);
 
+            registerEventBuses();
+
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -53,12 +51,11 @@ public class RootPaneController {
     }
 
     public void registerEventBuses(){
-        patientsController.setEventBus(eventBus);
-        editPatientDataController.setEventBus(eventBus);
-//      appointmentsController.setEventBus(eventBus);
+        EventBus eventBus = EventBusUtility.getEventBus();
+
         eventBus.register(patientsController);
         eventBus.register(editPatientDataController);
-
+        eventBus.register(appointmentsController);
     }
 
         private void set_pane(AnchorPane newPane) {
@@ -81,10 +78,6 @@ public class RootPaneController {
 
     public void setRootPane(AnchorPane rootPane) {
         this.rootPane = rootPane;
-    }
-
-    public void setEventBus(EventBus eventBus) {
-        this.eventBus = eventBus;
     }
 
     public enum View {

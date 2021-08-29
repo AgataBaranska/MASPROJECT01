@@ -7,22 +7,16 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import models.*;
+import org.hibernate.Session;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-
-import models.*;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.cfg.Configuration;
 
 
 public class Main extends Application {
 
     private static AnchorPane rootPane;
-    private static StandardServiceRegistry registry = null;
-    private static SessionFactory sessionFactory = null;
     private RootPaneController rootPaneController;
 
     public static void main(String[] args) {
@@ -53,7 +47,7 @@ public class Main extends Application {
         Training training1 = new Training("Księgowosc", "Super", "MądryCzłowiek");
 
         try {
-            Session session = sessionFactory.openSession();
+            Session session = HibernateUtility.getSessionFactory().openSession();
             session.beginTransaction();
 
             for (Patient patient : Patient.getExtent()) {
@@ -95,22 +89,18 @@ public class Main extends Application {
     public void start(Stage primaryStage) throws Exception {
 
        //Use to add mock data to DB
-        //addMockDataToDb();
+      //  addMockDataToDb();
         //load all data saved in db
-        loadData();
+       // loadData();
        //showApplicationExtents();
-
-//        rootPane = FXMLLoader.load(getClass().getClassLoader().getResource("anchor.fxml"));
 
         FXMLLoader rootPaneLoader = new FXMLLoader(getClass().getClassLoader().getResource("anchor.fxml"));
         AnchorPane rootPane = rootPaneLoader.load();
         rootPaneController = rootPaneLoader.getController();
         rootPaneController.setRootPane(rootPane);
 
-        EventBus eventBus = new EventBus();
+        EventBus eventBus = EventBusUtility.getEventBus();
         eventBus.register(rootPaneController);
-        rootPaneController.setEventBus(eventBus);
-        rootPaneController.registerEventBuses();
 
         Scene scene = new Scene(rootPane, 600, 520);
         eventBus.post(new ShowView(RootPaneController.View.PatientsView));
@@ -134,48 +124,28 @@ public class Main extends Application {
 
 
     }
-
-    private void loadData() {
-        try {
-            Session session = HibernateUtility.getSessionFactory().openSession();
-            session.beginTransaction();
-            Patient.setExtent(session.createQuery("FROM Patient").list());
-            RodoForm.setExtent(session.createQuery("FROM RodoForm").list());
-            Address.setExtent(session.createQuery("FROM Address").list());
-            Optometrist.setExtent(session.createQuery("FROM Optometrist").list());
-            Appointment.setExtent(session.createQuery("FROM Appointment").list());
-            AppointmentCart.setExtent(session.createQuery("FROM AppointmentCart").list());
-            ContactLense.setExtent(session.createQuery("FROM ContactLense").list());
-            Receptionist.setExtent(session.createQuery("FROM Receptionist").list());
-            Training.setExtent(session.createQuery("FROM Training").list());
-            GlassesCorrection.setExtent(session.createQuery("FROM GlassesCorrection").list());
-            LensesCorrection.setExtent(session.createQuery("FROM LensesCorrection").list());
-
-            session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-    private void createSessionFactory(){
-
-        sessionFactory = new Configuration()
-                .configure("hibernate.cfg.xml")
-                .addAnnotatedClass(Training.class)
-                .addAnnotatedClass(RodoForm.class)
-                .addAnnotatedClass(Receptionist.class)
-                .addAnnotatedClass(Patient.class)
-                .addAnnotatedClass(Optometrist.class)
-                .addAnnotatedClass(LensesCorrection.class)
-                .addAnnotatedClass(GlassesCorrection.class)
-                .addAnnotatedClass(ContactLense.class)
-                .addAnnotatedClass(AppointmentCart.class)
-                .addAnnotatedClass(Appointment.class)
-                .addAnnotatedClass(Address.class)
-                .buildSessionFactory();
-    }
-    public static SessionFactory getSessionFactory() {
-        return sessionFactory;
-    }
+//
+//    private void loadData() {
+//        try {
+//            Session session = HibernateUtility.getSessionFactory().openSession();
+//            session.beginTransaction();
+//            Patient.setExtent(session.createQuery("FROM Patient").list());
+//            RodoForm.setExtent(session.createQuery("FROM RodoForm").list());
+//            Address.setExtent(session.createQuery("FROM Address").list());
+//            Optometrist.setExtent(session.createQuery("FROM Optometrist").list());
+//            Appointment.setExtent(session.createQuery("FROM Appointment").list());
+//            AppointmentCart.setExtent(session.createQuery("FROM AppointmentCart").list());
+//            ContactLense.setExtent(session.createQuery("FROM ContactLense").list());
+//            Receptionist.setExtent(session.createQuery("FROM Receptionist").list());
+//            Training.setExtent(session.createQuery("FROM Training").list());
+//            GlassesCorrection.setExtent(session.createQuery("FROM GlassesCorrection").list());
+//            LensesCorrection.setExtent(session.createQuery("FROM LensesCorrection").list());
+//
+//            session.getTransaction().commit();
+//            session.close();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 }
 

@@ -8,7 +8,7 @@ import java.util.List;
 @Entity
 @Table(name = "appointment")
 public class Appointment {
-    private static List<Appointment> extent;
+    private static List<Appointment>  extent = new ArrayList<>();;
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id_appointment")
@@ -26,7 +26,7 @@ public class Appointment {
     /**
      * Required by Hibernate.
      */
-    private Appointment() {
+    Appointment() {
     }
 
     public Appointment(Patient patient, Optometrist optometrist, LocalDateTime appointmentDateTime) {
@@ -40,10 +40,6 @@ public class Appointment {
 
     public static List<Appointment> getExtent() {
         return extent;
-    }
-
-    public static void setExtent(List<Appointment> extent) {
-        Appointment.extent = extent;
     }
 
     public int getId() {
@@ -89,9 +85,6 @@ public class Appointment {
     }
 
     private void addToExtent(Appointment appointment) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(appointment);
     }
     public AppointmentCart generateAppointmentCart() {

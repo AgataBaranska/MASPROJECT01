@@ -11,7 +11,7 @@ import java.util.List;
 @Table(name = "rodo_form")
 public class RodoForm {
 
-    private static List<RodoForm> extent;
+    private static List<RodoForm> extent = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -25,7 +25,7 @@ public class RodoForm {
     /**
      * Required by Hibernate.
      */
-    private RodoForm() {
+    RodoForm() {
     }
 
     public RodoForm(String signature) {
@@ -39,10 +39,6 @@ public class RodoForm {
         return extent;
     }
 
-    public static void setExtent(List<RodoForm> extent) {
-        RodoForm.extent = extent;
-    }
-
     public int getId() {
         return id;
     }
@@ -52,9 +48,6 @@ public class RodoForm {
     }
 
     private void addToExtent(RodoForm rodoForm) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(rodoForm);
     }
 

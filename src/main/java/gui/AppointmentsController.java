@@ -1,5 +1,7 @@
 package gui;
 
+import com.google.common.eventbus.Subscribe;
+import events.ShowPatientsAppointments;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -10,6 +12,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import models.Appointment;
 import models.AppointmentCart;
+import models.Patient;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +61,7 @@ public class AppointmentsController {
     }
 
     public void btQuitClicked(ActionEvent actionEvent) {
-        Main.getSessionFactory().close();
+        HibernateUtility.getSessionFactory().close();
         Platform.exit();
     }
 
@@ -68,5 +71,10 @@ public class AppointmentsController {
             ObservableList<Appointment> observableAppointmentList = FXCollections.observableList(patientsAppointments);
             listAppointment.setItems(observableAppointmentList);
         }
+    }
+
+    @Subscribe
+    public void onShowPatientsAppointments(ShowPatientsAppointments event){
+    setPatientsAppointments(event.getPatient().getAppointmentList());
     }
 }

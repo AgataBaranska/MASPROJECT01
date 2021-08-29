@@ -7,7 +7,7 @@ import java.util.List;
 @Entity
 @Table(name = "glasses_correction")
 public class GlassesCorrection {
-    private static List<GlassesCorrection> extent;
+    private static List<GlassesCorrection> extent = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -25,7 +25,7 @@ public class GlassesCorrection {
     /**
      * Required by Hibernate.
      */
-    private GlassesCorrection() {
+    GlassesCorrection() {
     }
 
     public GlassesCorrection(String correctionPowerRight, String correctionPowerLeft, CorrectionPurpose purpose) {
@@ -88,10 +88,6 @@ public class GlassesCorrection {
         return extent;
     }
 
-    public static void setExtent(List<GlassesCorrection> extent) {
-        GlassesCorrection.extent = extent;
-    }
-
     public void matchGlassesCorrectionToAppointmentCart(AppointmentCart appointmentCart) throws Exception {
         if (!(this.appointmentCart == null)) {
             throw new Exception("This object of classes.GlassesCorrection is already matched with a appointmentCart");
@@ -101,9 +97,6 @@ public class GlassesCorrection {
 
     }
     private void addToExtent(GlassesCorrection glassesCorrection) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(glassesCorrection);
     }
 

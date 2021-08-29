@@ -8,7 +8,8 @@ import java.util.List;
 @Table(name = "contact_lense")
 public class ContactLense {
 
-    private static List<ContactLense> extent;
+    private static List<ContactLense> extent = new ArrayList<>();
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -29,7 +30,7 @@ public class ContactLense {
     /**
      * Required by Hibernate.
      */
-    private ContactLense() {
+    ContactLense() {
     }
 
     public ContactLense(String brand, String name, String oxygenTransmission, WearingMode wearingMode) {
@@ -43,10 +44,6 @@ public class ContactLense {
 
     public static List<ContactLense> getExtent() {
         return extent;
-    }
-
-    public static void setExtent(List<ContactLense> extent) {
-        ContactLense.extent = extent;
     }
 
     public int getId() {
@@ -98,9 +95,6 @@ public class ContactLense {
     }
 
     private void addToExtent(ContactLense contactLense) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(contactLense);
     }
 

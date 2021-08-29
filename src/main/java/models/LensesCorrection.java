@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 @Entity
 @Table(name = "lenses_correction")
 public class LensesCorrection {
-    private static List<LensesCorrection> extent;
+    private static List<LensesCorrection> extent = new ArrayList<>();
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -33,7 +33,7 @@ public class LensesCorrection {
     /**
      * Required by Hibernate.
      */
-    private LensesCorrection() {
+    LensesCorrection() {
     }
 
     public LensesCorrection(String correctionPowerRight, String correctionPowerLeft, ContactLense... contactLenses) {
@@ -103,15 +103,7 @@ public class LensesCorrection {
     public static List<LensesCorrection> getExtent() {
         return extent;
     }
-
-    public static void setExtent(List<LensesCorrection> extent) {
-        LensesCorrection.extent = extent;
-    }
-
     private void addToExtent(LensesCorrection lensesCorrection) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(lensesCorrection);
     }
     private void addContactLenses(ContactLense contactLense) {

@@ -11,14 +11,14 @@ import java.util.List;
 @Table(name = "receptionist")
 public class Receptionist extends Employee {
 
-    public static List<Receptionist> extent;
+    public static List<Receptionist> extent = new ArrayList<>();
     @ManyToMany
     private List<Training> trainingList;
 
     /**
      * Required by Hibernate.
      */
-    private Receptionist() {
+    Receptionist() {
     }
 
     public Receptionist(String name, String surname, String pesel, String telephone, String email, String street,
@@ -34,14 +34,7 @@ public class Receptionist extends Employee {
         return extent;
     }
 
-    public static void setExtent(List<Receptionist> extent) {
-        Receptionist.extent = extent;
-    }
-
     private void addToExtent(Receptionist receptionist) {
-        if (extent == null) {
-            extent = new ArrayList<>();
-        }
         extent.add(receptionist);
     }
 
