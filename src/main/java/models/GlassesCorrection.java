@@ -105,8 +105,6 @@ public class GlassesCorrection {
     }
 
 
-
-
     public enum CorrectionPurpose {
         FOR_DISTANCE("For distance"),
         FOR_READING("For reading");

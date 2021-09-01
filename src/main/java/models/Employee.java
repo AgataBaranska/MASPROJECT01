@@ -11,7 +11,6 @@ import java.util.Set;
 public abstract class Employee extends Person {
 
     @Basic
-    // @Temporal(TemporalType.DATE)
     private LocalDate hireDate;
     @Column(name = "monthly_salary")
     private double monthlySalary;

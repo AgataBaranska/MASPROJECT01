@@ -1,6 +1,5 @@
 package gui;
 
-import com.google.common.eventbus.EventBus;
 import com.google.common.eventbus.Subscribe;
 import events.ShowView;
 import javafx.fxml.FXMLLoader;
@@ -18,15 +17,13 @@ public class RootPaneController {
     private AppointmentCardController appointmentCardController;
     private PatientsController patientsController;
     private AnchorPane rootPane;
-    private AnchorPane cur_pane;
+    private AnchorPane curPane;
 
 
-        private void set_pane(AnchorPane newPane) {
-        if(rootPane!=null) {
-            rootPane.getChildren().remove(cur_pane);
-        }
+    private void setPane(AnchorPane newPane) {
+        rootPane.getChildren().remove(curPane);
         rootPane.getChildren().add(newPane);
-        cur_pane = newPane;
+        curPane = newPane;
 
         AnchorPane.setTopAnchor(newPane, 0.0);
         AnchorPane.setBottomAnchor(newPane, 0.0);
@@ -36,92 +33,61 @@ public class RootPaneController {
 
     @Subscribe
     public void onShowView(ShowView event) {
-        View requredView = event.getView();
+        View requiredView = event.getView();
 
-        switch(requredView) {
+        switch (requiredView) {
             case PatientsView:
-               if(patientsController ==null){
-                   FXMLLoader patientsLoader = new FXMLLoader(getClass().getClassLoader().getResource("patients.fxml"));
-                   AnchorPane patientsPane = null;
-                   try {
-                       patientsPane = patientsLoader.load();
-                   } catch (IOException e) {
-                       e.printStackTrace();
-                   }
-                   patientsController = patientsLoader.getController();
-                   views.put(View.PatientsView, patientsPane);
-                   EventBusUtility.getEventBus().register(patientsController);
-               }
+                if (patientsController == null) {
+                    patientsController = initView(View.PatientsView, "patients.fxml");
+                }
                 break;
             case EditPatientDataView:
-                if(editPatientDataController==null){
-                    FXMLLoader editPatientDataLoader = new FXMLLoader(getClass().getClassLoader().getResource("editPatientData.fxml"));
-                    AnchorPane editPatientDataPane = null;
-                    try {
-                        editPatientDataPane = editPatientDataLoader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    editPatientDataController = editPatientDataLoader.getController();
-                    views.put(View.EditPatientDataView, editPatientDataPane);
-                    EventBusUtility.getEventBus().register(editPatientDataController);
+                if (editPatientDataController == null) {
+                    editPatientDataController = initView(View.EditPatientDataView, "editPatientData.fxml");
                 }
                 break;
             case AppointmentsView:
-                if(appointmentsController == null) {
-                    FXMLLoader appointmentsLoader = new FXMLLoader(getClass().getClassLoader().getResource("appointments.fxml"));
-                    AnchorPane appointmentsPane = null;
-                    try {
-                        appointmentsPane = appointmentsLoader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    appointmentsController = appointmentsLoader.getController();
-                    views.put(View.AppointmentsView, appointmentsPane);
-                    EventBusUtility.getEventBus().register(appointmentsController);
+                if (appointmentsController == null) {
+                    appointmentsController = initView(View.AppointmentsView, "appointments.fxml");
                 }
                 break;
             case EditAppointmentDataView:
-               if(editAppointmentDataController == null){
-                   FXMLLoader editAppointmentDataLoader = new FXMLLoader(getClass().getClassLoader().getResource("editAppointmentData.fxml"));
-                   AnchorPane editAppointmentDataPane = null;
-                   try {
-                       editAppointmentDataPane = editAppointmentDataLoader.load();
-                   } catch (IOException e) {
-                       e.printStackTrace();
-                   }
-                   editAppointmentDataController = editAppointmentDataLoader.getController();
-                   views.put(View.EditAppointmentDataView, editAppointmentDataPane);
-                   EventBusUtility.getEventBus().register(editAppointmentDataController);
-
-               }
+                if (editAppointmentDataController == null) {
+                    editAppointmentDataController = initView(View.EditAppointmentDataView, "editAppointmentData.fxml");
+                }
                 break;
             case AppointmentCartView:
-                if(appointmentCardController == null){
-                    FXMLLoader appointmentCartLoader = new FXMLLoader(getClass().getClassLoader().getResource("appointmentCart.fxml"));
-                    AnchorPane appointmentCartPane = null;
-                    try {
-                        appointmentCartPane = appointmentCartLoader.load();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                    appointmentCardController = appointmentCartLoader.getController();
-                    views.put(View.AppointmentCartView, appointmentCartPane);
-                    EventBusUtility.getEventBus().register(appointmentCardController);
+                if (appointmentCardController == null) {
+                    appointmentCardController = initView(View.AppointmentCartView, "appointmentCart.fxml");
 
                 }
                 break;
-
         }
 
-        set_pane(views.get(event.getView()));
+        setPane(views.get(requiredView));
+    }
+
+    private <T> T initView(View view, String fileName) {
+        FXMLLoader appointmentCartLoader = new FXMLLoader(
+                getClass().getClassLoader().getResource(fileName));
+        AnchorPane pane = null;
+        try {
+            pane = appointmentCartLoader.load();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        T controller = appointmentCartLoader.getController();
+        views.put(view, pane);
+        EventBusUtility.getEventBus().register(controller);
+        return controller;
+
     }
 
     public void setRootPane(AnchorPane rootPane) {
         this.rootPane = rootPane;
     }
 
-    private Object loadFxmlFile(String file, View view){
+    private Object loadFxmlFile(String file, View view) {
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource(file));
         AnchorPane pane = null;
         try {
@@ -133,7 +99,6 @@ public class RootPaneController {
         views.put(view, pane);
         return controller;
     }
-
 
 
     public enum View {

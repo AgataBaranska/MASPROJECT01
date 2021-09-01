@@ -44,7 +44,7 @@ public class Appointment {
         addToExtent(this);
     }
 
-    public static List<Appointment> getExtent() {
+    public static List<Appointment> loadExtent() {
         Session session = HibernateUtility.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         extent = session.createQuery("FROM Appointment", Appointment.class).list();
@@ -113,12 +113,10 @@ public class Appointment {
 
     @Override
     public String toString() {
-        return "Date: " + appointmentDate +
+        return "Date: " +appointmentDate.getYear()+ "/"+ appointmentDate.getMonth() + "/"+ appointmentDate.getDayOfMonth()+
+                ", time: " +appointmentDate.toLocalTime()+
                 ", patient: " + patient.getName() + " " + patient.getSurname() +
                 ", optometrist: " + optometrist.getName() + " " + optometrist.getSurname();
     }
-
-
-
 
 }

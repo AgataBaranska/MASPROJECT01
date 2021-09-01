@@ -17,13 +17,13 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <TextField fx:id="textFieldPesel" focusTraversable="false" onKeyPressed="#filterListOnKeyPressed" promptText="Enter Pesel Number" />
-            <ListView fx:id="listPatients" />
+            <TextField fx:id="textFieldPesel" focusTraversable="false" onKeyPressed="#filterListOnKeyPressed" promptText="Enter pesel number or select from the list" />
+            <ListView fx:id="listViewPatients" />
             <ButtonBar>
               <buttons>
                 <Button mnemonicParsing="false" onAction="#btnAddNewPatientClicked" text="New Patient" />
                   <Button mnemonicParsing="false" onAction="#btnDeletePatientClicked" text="Delete Patient" />
-                  <Button mnemonicParsing="false" onAction="#btnPatientsAppointmentsClicked" prefHeight="25.0" prefWidth="153.0" scaleShape="false" text="Patient's Appointments" />
+                  <Button mnemonicParsing="false" onAction="#btnPatientAppointmentsClicked" prefHeight="25.0" prefWidth="153.0" scaleShape="false" text="Patient's Appointments" />
               </buttons>
                <padding>
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />

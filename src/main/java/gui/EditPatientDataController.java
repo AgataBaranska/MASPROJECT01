@@ -35,7 +35,10 @@ public class EditPatientDataController {
 
       try {
           //create new Patient and save in db
-          Patient patient = new Patient(txtName.getText(),txtSurname.getText(),txtPesel.getText(),txtTelephone.getText(),txtEmail.getText(),txtStreet.getText(),txtCity.getText(),txtPostalCode.getText(),txtCountry.getText());
+          Patient patient = new Patient(txtName.getText(),txtSurname.getText(),
+                  txtPesel.getText(),txtTelephone.getText(),txtEmail.getText(),
+                  txtStreet.getText(),txtCity.getText(),txtPostalCode.getText(),
+                  txtCountry.getText());
 
           Alert alert = new Alert(Alert.AlertType.INFORMATION);
           alert.setTitle("Alert");
@@ -47,12 +50,11 @@ public class EditPatientDataController {
           //send event to show PatientsView with updated patientList
           EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.PatientsView));
       } catch (Exception e) {
-          e.printStackTrace();
+          throw new RuntimeException(e);
       }
     }
     public void btnDiscardClicked(ActionEvent actionEvent) {
         //send event to show PatientsView with unchanged patientList
           EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.PatientsView));
     }
-
 }

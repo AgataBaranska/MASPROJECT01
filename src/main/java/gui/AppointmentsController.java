@@ -7,7 +7,6 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
-import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import models.Appointment;
 import models.AppointmentCart;
@@ -23,8 +22,6 @@ public class AppointmentsController {
     @FXML
     private ListView listAppointment;
 
-    @FXML
-    private Label labelPatient;
     private Patient patient;
 
     private ObservableList<Appointment> observableAppointmentList;
@@ -53,28 +50,26 @@ public class AppointmentsController {
         }
     }
 
-    public void setPatientsAppointmentsListView(){
+    public void loadAppointments(){
         Session session = HibernateUtility.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        EntityGraph graph = session.getEntityGraph("graph.Patient.appointmentList.optometrist.appointmentList");
+        EntityGraph graph = session.getEntityGraph("graph.Patient.appointmentList.optometrist");
         Map hints = new HashMap();
         hints.put("javax.persistence.fetchgraph", graph);
         patient = session.find(Patient.class, patient.getId(), hints);
-
         observableAppointmentList.setAll(patient.getAppointmentList());
-
         session.getTransaction().commit();
     }
 
     @Subscribe
     public void onShowPatientsAppointments(ShowPatientsAppointments event){
         patient = event.getPatient();
-        setPatientsAppointmentsListView();
+        loadAppointments();
     }
 
     @Subscribe
     public void onAppointmentCreated(AppointmentCreated event){
-        setPatientsAppointmentsListView();
+        loadAppointments();
     }
 
     public void btnNewAppointmentClicked(ActionEvent actionEvent) {

@@ -10,6 +10,9 @@ import java.util.List;
 
 @Entity
 @Table(name = "optometrist")
+@NamedEntityGraph(
+        name = "graph.Optometrist.appointmentList",
+        attributeNodes = @NamedAttributeNode(value = "appointmentList"))
 public class Optometrist extends Employee {
 
     private static List<Optometrist> extent = new ArrayList<>();
@@ -79,6 +82,6 @@ public class Optometrist extends Employee {
     @Override
     public String toString() {
         return "Optometrist: " + getSurname() + " " + getName() +
-                " NO" + optometristNumber;
+                " " + optometristNumber;
     }
 }

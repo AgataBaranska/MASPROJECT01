@@ -10,14 +10,11 @@ import java.util.List;
 @Entity
 @Table(name = "patient")
 @NamedEntityGraph(
-        name = "graph.Patient.appointmentList.optometrist.appointmentList",
+        name = "graph.Patient.appointmentList.optometrist",
         attributeNodes = @NamedAttributeNode(value = "appointmentList", subgraph = "subgraph.appointment"),
         subgraphs = {
                 @NamedSubgraph(name = "subgraph.appointment",
-                        attributeNodes = @NamedAttributeNode(value = "optometrist", subgraph = "subgraph.optometrist")),
-                @NamedSubgraph(name = "subgraph.optometrist",
-                        attributeNodes = @NamedAttributeNode(value = "appointmentList"))
-
+                        attributeNodes = @NamedAttributeNode(value = "optometrist")),
         })
 public class Patient extends Person {
 
@@ -27,7 +24,7 @@ public class Patient extends Person {
     @OneToMany(mappedBy = "patient",  orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
 
-    private static List<Patient> extent = new ArrayList<>();;
+    private static List<Patient> extent = new ArrayList<>();
 
     /**
      * Required by Hibernate.
@@ -51,7 +48,7 @@ public class Patient extends Person {
         session.getTransaction().commit();
     }
 
-    public static List<Patient> getExtent() {
+    public static List<Patient> loadExtent() {
         Session session = HibernateUtility.getSessionFactory().getCurrentSession();
         session.beginTransaction();
         extent = session.createQuery("FROM Patient", Patient.class).list();
@@ -75,13 +72,13 @@ public class Patient extends Person {
         this.appointmentList = appointmentList;
     }
 
-    public void removePatient() {
+    public static void deletePatient(Patient patient) {
         Session session = HibernateUtility.getSessionFactory().openSession();
         session.beginTransaction();
-        session.delete(this);
+        session.delete(patient);
         session.getTransaction().commit();
         session.close();
-        extent.remove(this);
+        extent.remove(patient);
     }
 
     private RodoForm generateRodoForm() {

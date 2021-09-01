@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 
 public class Main extends Application {
 
-    private static AnchorPane rootPane;
     private RootPaneController rootPaneController;
 
     public static void main(String[] args) {
@@ -52,13 +51,9 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-
       // addMockDataToDb();
-        //load all data saved in db
 
-       //showApplicationExtents();
-
-        FXMLLoader rootPaneLoader = new FXMLLoader(getClass().getClassLoader().getResource("anchor.fxml"));
+        FXMLLoader rootPaneLoader = new FXMLLoader(getClass().getClassLoader().getResource("root.fxml"));
         AnchorPane rootPane = rootPaneLoader.load();
         rootPaneController = rootPaneLoader.getController();
         rootPaneController.setRootPane(rootPane);

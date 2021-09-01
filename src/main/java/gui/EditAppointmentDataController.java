@@ -15,9 +15,12 @@ import models.Optometrist;
 import models.Patient;
 import org.hibernate.Session;
 
+import javax.persistence.EntityGraph;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.HashMap;
+import java.util.Map;
 
 public class EditAppointmentDataController {
 
@@ -47,6 +50,16 @@ public class EditAppointmentDataController {
         Optometrist selectedOptometrist =(Optometrist) comboBoxOptometrists.getSelectionModel().getSelectedItem();
         LocalDate selectedDate = datePicker.getValue();
         LocalTime selectedTime = (LocalTime) comboTimePicker.getSelectionModel().getSelectedItem();
+
+        //load appointment list of selected optometrist -
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        EntityGraph graph = session.getEntityGraph("graph.Optometrist.appointmentList");
+        Map hints = new HashMap();
+        hints.put("javax.persistence.fetchgraph", graph);
+        selectedOptometrist = session.find(Optometrist.class, selectedOptometrist.getId(), hints);
+        session.getTransaction().commit();
+
 
         Appointment appointment = new Appointment(patient,selectedOptometrist,LocalDateTime.of(selectedDate,selectedTime));
 
