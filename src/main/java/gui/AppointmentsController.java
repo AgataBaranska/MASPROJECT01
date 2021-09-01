@@ -29,6 +29,12 @@ public class AppointmentsController {
     private Label labelPatient;
     private Patient patient;
 
+    private ObservableList<Appointment> observableAppointmentList;
+
+    public void initialize(){
+        observableAppointmentList= FXCollections.observableArrayList();
+        listAppointment.setItems(observableAppointmentList);
+    }
 
     public void btnGenerateAppointmentCartClicked(ActionEvent actionEvent) {
 
@@ -58,8 +64,9 @@ public class AppointmentsController {
         Map hints = new HashMap();
         hints.put("javax.persistence.fetchgraph", graph);
         patient = session.find(Patient.class, patient.getId(), hints);
-        ObservableList<Appointment> observableAppointmentList = FXCollections.observableList(patient.getAppointmentList());
-        listAppointment.setItems(observableAppointmentList);
+
+        observableAppointmentList.setAll(patient.getAppointmentList());
+
         session.getTransaction().commit();
     }
 

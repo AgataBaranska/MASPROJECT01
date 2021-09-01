@@ -14,6 +14,7 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import models.Appointment;
 import models.Patient;
 
 import java.util.List;
@@ -27,14 +28,18 @@ public class PatientsController {
     @FXML
     private TextField textFieldPesel;
 
-    public void initialize() {
-        //show patientsList
-       setListPatients(Patient.getExtent());
+    private ObservableList<Patient> observablePatientsList;
+
+
+    public void initialize(){
+        observablePatientsList = FXCollections.observableArrayList();
+        listPatients.setItems(observablePatientsList);
+        setListPatients(Patient.getExtent());
     }
 
     private void setListPatients(List<Patient> list){
-        ObservableList<Patient> observablePatientList = FXCollections.observableArrayList(list);
-        listPatients.setItems(observablePatientList.sorted());
+
+       observablePatientsList.setAll(list);
     }
     public void btnAddNewPatientClicked(ActionEvent actionEvent) {
         //event to show EditPatientsDataView
@@ -68,9 +73,11 @@ public class PatientsController {
             alert.showAndWait();
         } else {
             Patient selectedPatient = (Patient) listPatients.getSelectionModel().getSelectedItem();
+
             //change pane to Appointments, pass Patient
             EventBusUtility.getEventBus().post(new ShowPatientsAppointments(selectedPatient));
             EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.AppointmentsView));
+
         }
     }
 
