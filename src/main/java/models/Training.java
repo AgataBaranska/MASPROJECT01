@@ -1,5 +1,8 @@
 package models;
 
+import gui.HibernateUtility;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,7 +39,13 @@ public class Training {
     }
 
     public static List<Training> getExtent() {
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        extent = session.createQuery("FROM Training", Training.class).list();
+        System.out.println();
+        session.getTransaction().commit();
         return extent;
+
     }
     public int getId() {
         return id;
@@ -79,7 +88,10 @@ public class Training {
     }
 
     private void addToExtent(Training training) {
-        extent.add(training);
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(training);
+        session.getTransaction().commit();
     }
 
     @Override

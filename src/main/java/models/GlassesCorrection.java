@@ -1,5 +1,8 @@
 package models;
 
+import gui.HibernateUtility;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -98,6 +101,7 @@ public class GlassesCorrection {
     }
     private void addToExtent(GlassesCorrection glassesCorrection) {
         extent.add(glassesCorrection);
+
     }
 
 

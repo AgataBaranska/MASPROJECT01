@@ -24,14 +24,14 @@ public class Main extends Application {
     }
 
     private static void addMockDataToDb() {
-        Patient patient1 = new Patient("Ala", "Kowalska", "109202183212", "723928176", "ala@fajna.com", "Ogrodowa", "Konstancin", "02-345", "Poland");
-        Patient patient2 = new Patient("Kasia", "Nowak", "109202183212", "723928176", "ala@fajna.com", "Ogrodowa", "Konstancin", "02-345", "Poland");
-        Patient patient3 = new Patient("Jan", "Rogala", "109202183212", "723928176", "ala@fajna.com", "Ogrodowa", "Konstancin", "02-345", "Poland");
-        Patient patient4 = new Patient("Kacper", "Dąbrowski", "109202183212", "723928176", "ala@fajna.com", "Ogrodowa", "Konstancin", "02-345", "Poland");
+        Patient patient1 = new Patient("Ala", "Kowalska", "9312032345", "723928176", "ala@fajna.com", "Ogrodowa", "Konstancin", "02-345", "Poland");
+        Patient patient2 = new Patient("Kasia", "Nowak", "9411032395", "723928176", "kasia@fajna.com", "Klonowa", "Kraków", "03-355", "Poland");
+        Patient patient3 = new Patient("Jan", "Rogala", "780202183212", "723928176", "jan@fajny.com", "Polna", "Pruszcz", "04-945", "Poland");
+        Patient patient4 = new Patient("Kacper", "Dąbrowski", "85031218322", "723928176", "kacper@fajny.com", "Cicha", "Warszawa", "01-345", "Poland");
 
 
-        Optometrist optometrist1 = new Optometrist("Ala", "Kowalska", "109202183212", "723928176", "ala@fajna.com", "Ogrodowa", "Konstancin", "02-345", "Poland", LocalDate.of(2015, 12, 13), Employee.ContractType.FULL_TIME, 4500, "NO2093");
-        Optometrist optometrist2 = new Optometrist("Robert", "Szalony", "109202183212", "723928176", "ala@fajna.com", "Ogrodowa", "Konstancin", "02-345", "Poland", LocalDate.of(2015, 12, 13), Employee.ContractType.FULL_TIME, 4500, "NO2093");
+        Optometrist optometrist1 = new Optometrist("Ewa", "Kłos", "743928176", "723928176", "ewa@fajna.com", "Gagarina", "Warszawa", "01-345", "Poland", LocalDate.of(2015, 12, 13), Employee.ContractType.FULL_TIME, 4500, "NO2093");
+        Optometrist optometrist2 = new Optometrist("Robert", "Bąk", "813928106", "794928176", "robert@fajny.com", "Września", "Grodzisk Mazowiecki", "01-025", "Poland", LocalDate.of(2015, 12, 13), Employee.ContractType.FULL_TIME, 4500, "NO2093");
 
 
         Appointment appointment1 = new Appointment(patient1, optometrist1, LocalDateTime.of(2021, 7, 20, 10, 30, 0));
@@ -46,52 +46,16 @@ public class Main extends Application {
         Receptionist recepcionist1 = new Receptionist("Bolek", "Bolkowski", "9081184242", "234567543", "bolek@email.com", "Polna", "Warszawa", "02-022", "Poland", LocalDate.of(2015, 12, 13), Employee.ContractType.FULL_TIME, 4500);
         Training training1 = new Training("Księgowosc", "Super", "MądryCzłowiek");
 
-        try {
-            Session session = HibernateUtility.getSessionFactory().openSession();
-            session.beginTransaction();
 
-            for (Patient patient : Patient.getExtent()) {
-                session.save(patient);
-            }
-
-            for (RodoForm rodoForm : RodoForm.getExtent()) {
-                session.save(rodoForm);
-            }
-            for (Address address : Address.getExtent()) {
-                session.save(address);
-            }
-
-            for (Optometrist optometrist : Optometrist.getExtent()) {
-                session.save(optometrist);
-            }
-            for (Appointment appointment : Appointment.getExtent()) {
-                session.save(appointment);
-            }
-            for (ContactLense contactLense : ContactLense.getExtent()) {
-                session.save(contactLense);
-            }
-            for (Receptionist receptionist : Receptionist.getExtent()) {
-                session.save(receptionist);
-            }
-            for (Training training : Training.getExtent()) {
-                session.save(training);
-            }
-
-
-            session.getTransaction().commit();
-            session.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
 
-       //Use to add mock data to DB
-      //  addMockDataToDb();
+
+      // addMockDataToDb();
         //load all data saved in db
-       // loadData();
+
        //showApplicationExtents();
 
         FXMLLoader rootPaneLoader = new FXMLLoader(getClass().getClassLoader().getResource("anchor.fxml"));
@@ -102,7 +66,7 @@ public class Main extends Application {
         EventBus eventBus = EventBusUtility.getEventBus();
         eventBus.register(rootPaneController);
 
-        Scene scene = new Scene(rootPane, 600, 520);
+        Scene scene = new Scene(rootPane,470,300);
         eventBus.post(new ShowView(RootPaneController.View.PatientsView));
 
         primaryStage.setTitle("OptometristApp");
@@ -124,28 +88,5 @@ public class Main extends Application {
 
 
     }
-//
-//    private void loadData() {
-//        try {
-//            Session session = HibernateUtility.getSessionFactory().openSession();
-//            session.beginTransaction();
-//            Patient.setExtent(session.createQuery("FROM Patient").list());
-//            RodoForm.setExtent(session.createQuery("FROM RodoForm").list());
-//            Address.setExtent(session.createQuery("FROM Address").list());
-//            Optometrist.setExtent(session.createQuery("FROM Optometrist").list());
-//            Appointment.setExtent(session.createQuery("FROM Appointment").list());
-//            AppointmentCart.setExtent(session.createQuery("FROM AppointmentCart").list());
-//            ContactLense.setExtent(session.createQuery("FROM ContactLense").list());
-//            Receptionist.setExtent(session.createQuery("FROM Receptionist").list());
-//            Training.setExtent(session.createQuery("FROM Training").list());
-//            GlassesCorrection.setExtent(session.createQuery("FROM GlassesCorrection").list());
-//            LensesCorrection.setExtent(session.createQuery("FROM LensesCorrection").list());
-//
-//            session.getTransaction().commit();
-//            session.close();
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
 }
 

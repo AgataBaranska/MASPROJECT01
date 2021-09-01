@@ -1,6 +1,7 @@
 package models;
 
-import org.hibernate.annotations.GenericGenerator;
+import gui.HibernateUtility;
+import org.hibernate.Session;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -14,13 +15,14 @@ public class Optometrist extends Employee {
     private static List<Optometrist> extent = new ArrayList<>();
     @Column(name = "optometrist_number")
     private String optometristNumber;
-    @OneToMany(mappedBy = "optometrist", cascade = CascadeType.ALL, orphanRemoval = true)
+    //cascade = CascadeType.ALL,
+    @OneToMany(mappedBy = "optometrist",  orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
 
     /**
      * Required by Hibernate.
      */
-   Optometrist() {
+    Optometrist() {
     }
 
     public Optometrist(String name, String surname, String pesel, String telephone, String email, String street,
@@ -33,17 +35,28 @@ public class Optometrist extends Employee {
     }
 
     public static List<Optometrist> getExtent() {
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        extent = session.createQuery("FROM Optometrist", Optometrist.class).list();
+        System.out.println();
+        session.getTransaction().commit();
         return extent;
     }
 
     private void addToExtent(Optometrist optometrist) {
         extent.add(optometrist);
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(optometrist);
+        session.getTransaction().commit();
+        session.close();
     }
 
     public void addAppointmentToList(Appointment appointment) {
         if (appointmentList == null) {
             appointmentList = new ArrayList<>();
         }
+
         appointmentList.add(appointment);
     }
 
@@ -65,9 +78,7 @@ public class Optometrist extends Employee {
 
     @Override
     public String toString() {
-        return "Optometrist{" +
-                "optometristNumber='" + optometristNumber + '\'' +
-                ", appointmentList=" + appointmentList +
-                '}';
+        return "Optometrist: " + getSurname() + " " + getName() +
+                " NO" + optometristNumber;
     }
 }

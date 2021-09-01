@@ -1,5 +1,8 @@
 package models;
 
+import gui.HibernateUtility;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,11 +44,19 @@ public class Address {
     }
 
     public static List<Address> getExtent() {
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        extent = session.createQuery("FROM Address", Address.class).list();
+        session.getTransaction().commit();
         return extent;
     }
 
     private void addToExtent(Address address) {
         extent.add(address);
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(address);
+        session.getTransaction().commit();
     }
 
     public int getId() {
@@ -72,11 +83,9 @@ public class Address {
         this.city = city;
     }
 
-
     public String getPostalCode() {
         return postalCode;
     }
-
 
     public void setPostalCode(String postalCode) {
         this.postalCode = postalCode;

@@ -1,5 +1,8 @@
 package gui;
 
+import com.google.common.eventbus.Subscribe;
+import events.AppointmentCardCreated;
+import events.ShowView;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -12,7 +15,7 @@ import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
-public class AppointmentCartController {
+public class AppointmentCardController {
     @FXML
     TextField txtGlassesRightEye;
     @FXML
@@ -118,28 +121,24 @@ public class AppointmentCartController {
         SessionFactory sessionFactory = HibernateUtility.getSessionFactory();
 
         try {
-            Session session = sessionFactory.openSession();
+            Session session = sessionFactory.getCurrentSession();
             session.beginTransaction();
-
-            session.save(appointmentCart);
+            //session.saveOrUpdate(appointmentCart);
             session.update(appointmentCart.getAppointment());
 
-
-            System.out.println("Lenses"+appointmentCart.getLensesCorrectionList());
-            if(!appointmentCart.getGlassesCorrectionList().isEmpty()) {
-                for (GlassesCorrection glassesCorrection : appointmentCart.getGlassesCorrectionList()) {
-                    session.saveOrUpdate(glassesCorrection);
-                }
-            }
-
-            if(!appointmentCart.getLensesCorrectionList().isEmpty()) {
-                for (LensesCorrection lensesCorrection : appointmentCart.getLensesCorrectionList()) {
-                    session.saveOrUpdate(lensesCorrection);
-                }
-            }
+//            if(!appointmentCart.getGlassesCorrectionList().isEmpty()) {
+//                for (GlassesCorrection glassesCorrection : appointmentCart.getGlassesCorrectionList()) {
+//                    session.saveOrUpdate(glassesCorrection);
+//                }
+//            }
+//
+//            if(!appointmentCart.getLensesCorrectionList().isEmpty()) {
+//                for (LensesCorrection lensesCorrection : appointmentCart.getLensesCorrectionList()) {
+//                    session.saveOrUpdate(lensesCorrection);
+//                }
+//            }
 
             session.getTransaction().commit();
-            session.close();
         } catch (Exception e) {
             e.printStackTrace();
 
@@ -150,7 +149,8 @@ public class AppointmentCartController {
         alert.setContentText("Appointment Cart saved in database");
         alert.showAndWait();
         clearAppointmentCartView();
-     //   Main.set_pane(Main.Panes.AppointmentCartPane);
+
+        EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.AppointmentsView));
     }
 
     public void btnQuitClicked(ActionEvent actionEvent) {
@@ -159,11 +159,9 @@ public class AppointmentCartController {
         Platform.exit();
     }
 
-    public void setAppointmentCart(AppointmentCart appointmentCart) {
-        this.appointmentCart = appointmentCart;
-        //Set Patient label
-        labelPatient.setText("Patient: " + appointmentCart.getPatient().getName() + " " + appointmentCart.getPatient().getSurname());
-
+    @Subscribe
+    public void onAppointmentCardCreated(AppointmentCardCreated event){
+        this.appointmentCart = event.getAppointmentCart();
     }
     private void clearAppointmentCartView(){
         txtGlassesLeftEye.clear();

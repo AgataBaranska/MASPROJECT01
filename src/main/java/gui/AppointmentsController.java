@@ -1,7 +1,7 @@
 package gui;
 
 import com.google.common.eventbus.Subscribe;
-import events.ShowPatientsAppointments;
+import events.*;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -13,9 +13,12 @@ import javafx.scene.control.ListView;
 import models.Appointment;
 import models.AppointmentCart;
 import models.Patient;
+import org.hibernate.Session;
 
-import java.util.ArrayList;
+import javax.persistence.EntityGraph;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AppointmentsController {
 
@@ -24,16 +27,7 @@ public class AppointmentsController {
 
     @FXML
     private Label labelPatient;
-
-    //set by PatientsController when Patient's Appointment button is clicked
-    private  List<Appointment> patientsAppointments;
-
-
-
-    public void initialize() {
-    //show appointmentsList
-
-    }
+    private Patient patient;
 
 
     public void btnGenerateAppointmentCartClicked(ActionEvent actionEvent) {
@@ -51,30 +45,44 @@ public class AppointmentsController {
 
        AppointmentCart generatedAppointmentCart = selectedAppointment.generateAppointmentCart();
 
-       System.out.println(generatedAppointmentCart);
-
-      // Main.getAppointmentCartController().setAppointmentCart(generatedAppointmentCart);
-
-     //  Main.set_pane(Main.Panes.AppointmentCartPane);
-
+            EventBusUtility.getEventBus().post(new AppointmentCardCreated(generatedAppointmentCart));
+            EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.AppointmentCartView));
         }
     }
 
-    public void btQuitClicked(ActionEvent actionEvent) {
-        HibernateUtility.getSessionFactory().close();
-        Platform.exit();
-    }
-
-    public void setPatientsAppointments(List<Appointment> appointmentsList){
-        this.patientsAppointments = appointmentsList;
-        if(!patientsAppointments.isEmpty()) {
-            ObservableList<Appointment> observableAppointmentList = FXCollections.observableList(patientsAppointments);
-            listAppointment.setItems(observableAppointmentList);
-        }
+    public void setPatientsAppointmentsListView(){
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        System.out.println("load patient's appointment list (not loaded before - lazy)");
+        EntityGraph graph = session.getEntityGraph("graph.Patient.appointmentList");
+        Map hints = new HashMap();
+        hints.put("javax.persistence.fetchgraph", graph);
+        patient = session.find(Patient.class, patient.getId(), hints);
+        ObservableList<Appointment> observableAppointmentList = FXCollections.observableList(patient.getAppointmentList());
+        listAppointment.setItems(observableAppointmentList);
+        session.getTransaction().commit();
     }
 
     @Subscribe
     public void onShowPatientsAppointments(ShowPatientsAppointments event){
-    setPatientsAppointments(event.getPatient().getAppointmentList());
+        patient = event.getPatient();
+        setPatientsAppointmentsListView();
+    }
+
+    @Subscribe
+    public void onAppointmentCreated(AppointmentCreated event){
+        setPatientsAppointmentsListView();
+    }
+
+    public void btnNewAppointmentClicked(ActionEvent actionEvent) {
+
+        //show EditAppointmentDataView pass patient
+        EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.EditAppointmentDataView));
+        EventBusUtility.getEventBus().post(new ShowPatientsAppointmentsEditor(patient));
+        System.out.println("Selected patient in Patients Controller sending to appointment editor" + patient);
+    }
+
+    public void btnCancelClicked(ActionEvent actionEvent) {
+        EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.PatientsView));
     }
 }

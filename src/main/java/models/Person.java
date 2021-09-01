@@ -15,11 +15,11 @@ public abstract class Person {
     private String surname;
     @Basic
     private String pesel;
-    @Basic
+    @Basic(fetch=FetchType.LAZY)
     private String telephone;
-    @Basic
+    @Basic(fetch=FetchType.LAZY)
     private String email;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private Address address;
 
     /**

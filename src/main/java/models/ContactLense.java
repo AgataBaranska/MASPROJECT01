@@ -1,5 +1,8 @@
 package models;
 
+import gui.HibernateUtility;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -96,6 +99,7 @@ public class ContactLense {
 
     private void addToExtent(ContactLense contactLense) {
         extent.add(contactLense);
+
     }
 
     public void add(LensesCorrection lensesCorrection) {

@@ -9,18 +9,17 @@ import java.util.List;
 
 @Entity
 @Table(name = "patient")
-@NamedEntityGraph(
-        name = "graph.patientAppointments",
-        attributeNodes = @NamedAttributeNode("appointmentList")
-)
+@NamedEntityGraph(name = "graph.Patient.appointmentList",
+        attributeNodes = @NamedAttributeNode(value = "appointmentList", subgraph = "appointmentList"),
+        subgraphs = @NamedSubgraph(name = "appointmentList", attributeNodes = @NamedAttributeNode("optometrist")))
 public class Patient extends Person {
 
-    @Basic
-    private static int counterId = 0;
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private RodoForm rodo;
-    @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL, orphanRemoval = true)
+
+    @OneToMany(mappedBy = "patient",  orphanRemoval = true)
     private List<Appointment> appointmentList;//association cardinality *
+
     private static List<Patient> extent = new ArrayList<>();;
 
     /**
@@ -33,56 +32,24 @@ public class Patient extends Person {
                    String city, String postalCode, String country) {
         super(name, surname, pesel, telephone, email, street, city, postalCode, country);
         this.rodo = generateRodoForm();
-        addPatient(this);
+        addToExtent(this);
         appointmentList = new ArrayList<>();
     }
 
-    private static void addPatient(Patient patient) {
+    private static void addToExtent(Patient patient) {
         extent.add(patient);
-//        Session session = HibernateUtility.getSessionFactory().openSession();
-//        session.beginTransaction();
-//        session.save(patient);
-//        session.getTransaction().commit();
-//        session.close();
-
-      //  System.out.println("Patient added to db " + patient);
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(patient);
+        session.getTransaction().commit();
     }
 
     public static List<Patient> getExtent() {
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        extent = session.createQuery("FROM Patient", Patient.class).list();
+        session.getTransaction().commit();
         return extent;
-    }
-
-    public static List<Patient> getExtendWithFetchedAppointments(){
-
-        Session session = HibernateUtility.getSessionFactory().openSession();
-        session.beginTransaction();
-        EntityGraph<?> entityGraph = session.createEntityGraph("graph.patientAppointments");
-        List<Patient> patientsList = session.createQuery("SELECT p FROM Patient p ", Patient.class).setHint("javax.persistence.fetchgraph", entityGraph).list();
-
-        entityGraph.addAttributeNodes("appointmentList");
-        System.out.println();
-        session.getTransaction().commit();
-        session.close();
-
-        return patientsList;
-    }
-
-    public static int getCounterId() {
-        return counterId;
-    }
-
-    public static void setCounterId(int counterId) {
-        Patient.counterId = counterId;
-    }
-
-    public void removePatient() {
-        Session session = HibernateUtility.getSessionFactory().openSession();
-        session.beginTransaction();
-        session.delete(this);
-        session.getTransaction().commit();
-        session.close();
-        System.out.println("Patient removed " + this);
-        extent.remove(this);
     }
 
     public RodoForm getRodo() {
@@ -101,12 +68,17 @@ public class Patient extends Person {
         this.appointmentList = appointmentList;
     }
 
-    private RodoForm generateRodoForm() {
-        return new RodoForm("SignatureTemplate");
+    public void removePatient() {
+        Session session = HibernateUtility.getSessionFactory().openSession();
+        session.beginTransaction();
+        session.delete(this);
+        session.getTransaction().commit();
+        session.close();
+        extent.remove(this);
     }
 
-    private int generateIdNumber() {
-        return ++counterId;
+    private RodoForm generateRodoForm() {
+        return new RodoForm("SignatureTemplate");
     }
 
     public void addAppointmentToList(Appointment appointment) {
@@ -115,9 +87,9 @@ public class Patient extends Person {
 
     @Override
     public String toString() {
-        return "Patient[ " +
+        return "Patient: " +
                 getSurname() + " " +
-                getName() + " Pesel: " +
-                getPesel() + " ]";
+                getName() + ", pesel: " +
+                getPesel() ;
     }
 }

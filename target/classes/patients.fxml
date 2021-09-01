@@ -17,7 +17,7 @@
                   <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                </padding>
             </Label>
-            <TextField promptText="Enter Pesel Number" />
+            <TextField fx:id="textFieldPesel" focusTraversable="false" onKeyPressed="#filterListOnKeyPressed" promptText="Enter Pesel Number" />
             <ListView fx:id="listPatients" />
             <ButtonBar>
               <buttons>
@@ -31,7 +31,7 @@
             </ButtonBar>
             <ButtonBar prefHeight="40.0" prefWidth="200.0">
               <buttons>
-                <Button mnemonicParsing="false" text="Quit" />
+                <Button mnemonicParsing="false" onAction="#btnQuitClicked" text="Quit" />
               </buttons>
                <opaqueInsets>
                   <Insets />

@@ -1,5 +1,8 @@
 package models;
 
+import gui.HibernateUtility;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +11,7 @@ import java.util.List;
 @Table(name = "appointment_cart")
 public class AppointmentCart {
     private static List<AppointmentCart> extent = new ArrayList<>();
-    @Basic
-    public static int idCounter = 0;
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "id")
@@ -39,17 +41,9 @@ public class AppointmentCart {
         lensesCorrectionList = new ArrayList<LensesCorrection>();
         glassesCorrectionList = new ArrayList<GlassesCorrection>();
 
-        id = generateIdNumber();
         addToExtent(this);
     }
 
-    public static int getIdCounter() {
-        return idCounter;
-    }
-
-    public static void setIdCounter(int idCounter) {
-        AppointmentCart.idCounter = idCounter;
-    }
 
     public int getId() {
         return id;
@@ -134,12 +128,10 @@ public class AppointmentCart {
         }
     }
 
-    public int generateIdNumber() {
-        return ++idCounter;
-    }
 
     private  void addToExtent(AppointmentCart appointmentCart) {
         extent.add(appointmentCart);
+
     }
 
     @Override

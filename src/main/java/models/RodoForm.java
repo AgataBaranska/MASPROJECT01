@@ -1,5 +1,7 @@
 package models;
 
+import gui.HibernateUtility;
+import org.hibernate.Session;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -49,6 +51,10 @@ public class RodoForm {
 
     private void addToExtent(RodoForm rodoForm) {
         extent.add(rodoForm);
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(rodoForm);
+        session.getTransaction().commit();
     }
 
     public LocalDate getDate() {

@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane minWidth="-Infinity" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppointmentsController">
+<AnchorPane xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="gui.AppointmentsController">
    <children>
       <VBox alignment="CENTER" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
          <children>
@@ -23,13 +23,21 @@
             <ButtonBar buttonMinWidth="0.0">
               <buttons>
                 <Button fx:id="btnGenerateAppointmentCart" mnemonicParsing="false" onAction="#btnGenerateAppointmentCartClicked" text="Generate Appointment Cart" />
-                  <Button fx:id="btnQuit" maxWidth="50.0" mnemonicParsing="false" onAction="#btQuitClicked" prefHeight="25.0" text="Quit" />
+                  <Button mnemonicParsing="false" onAction="#btnNewAppointmentClicked" text="New Appointment" />
               </buttons>
                <opaqueInsets>
                   <Insets />
                </opaqueInsets>
                <VBox.margin>
-                  <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
+                  <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+               </VBox.margin>
+            </ButtonBar>
+            <ButtonBar prefHeight="40.0" prefWidth="200.0">
+              <buttons>
+                  <Button fx:id="btnQuit" mnemonicParsing="false" onAction="#btnCancelClicked" text="Cancel" />
+              </buttons>
+               <VBox.margin>
+                  <Insets bottom="5.0" left="5.0" right="5.0" />
                </VBox.margin>
             </ButtonBar>
          </children>

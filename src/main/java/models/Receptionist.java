@@ -1,5 +1,7 @@
 package models;
 
+import gui.HibernateUtility;
+import org.hibernate.Session;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -26,16 +28,23 @@ public class Receptionist extends Employee {
                         double monthlySalary) {
         super(name, surname, pesel, telephone, email, street, city, postalCode, country, hireDate, contractType,
                 monthlySalary);
-
         addToExtent(this);
     }
 
     public static List<Receptionist> getExtent() {
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        extent = session.createQuery("FROM Receptionist", Receptionist.class).list();
+        session.getTransaction().commit();
         return extent;
     }
 
     private void addToExtent(Receptionist receptionist) {
         extent.add(receptionist);
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(receptionist);
+        session.getTransaction().commit();
     }
 
     public List<Training> getTrainingList() {

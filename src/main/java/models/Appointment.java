@@ -1,8 +1,13 @@
 package models;
 
+import gui.HibernateUtility;
+import org.hibernate.Session;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Entity
@@ -23,6 +28,7 @@ public class Appointment {
     @JoinColumn(name = "appointment_cart_id", referencedColumnName = "id")
     private AppointmentCart appointmentCart;//foreign key
 
+    private static List<LocalTime> possibleAppointmentTime = Arrays.asList( LocalTime.of(11,0),LocalTime.of(12,0),LocalTime.of(13,0),LocalTime.of(14,30));
     /**
      * Required by Hibernate.
      */
@@ -34,11 +40,15 @@ public class Appointment {
         patient.addAppointmentToList(this);//auto reverse connection
         this.appointmentDate = appointmentDateTime;
         this.optometrist = optometrist;
-        optometrist.addAppointmentToList(this);
+        optometrist.addAppointmentToList(this);//auto reverse connection
         addToExtent(this);
     }
 
     public static List<Appointment> getExtent() {
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        extent = session.createQuery("FROM Appointment", Appointment.class).list();
+        session.getTransaction().commit();
         return extent;
     }
 
@@ -48,6 +58,10 @@ public class Appointment {
 
     public void setId(int id) {
         Id = id;
+    }
+
+    public static List<LocalTime> getPossibleAppointmentTime() {
+        return possibleAppointmentTime;
     }
 
     public LocalDateTime getAppointmentDate() {
@@ -86,6 +100,10 @@ public class Appointment {
 
     private void addToExtent(Appointment appointment) {
         extent.add(appointment);
+        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
+        session.beginTransaction();
+        session.save(appointment);
+        session.getTransaction().commit();
     }
     public AppointmentCart generateAppointmentCart() {
         this.appointmentCart = new AppointmentCart();
