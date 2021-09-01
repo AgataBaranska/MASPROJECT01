@@ -9,9 +9,16 @@ import java.util.List;
 
 @Entity
 @Table(name = "patient")
-@NamedEntityGraph(name = "graph.Patient.appointmentList",
-        attributeNodes = @NamedAttributeNode(value = "appointmentList", subgraph = "appointmentList"),
-        subgraphs = @NamedSubgraph(name = "appointmentList", attributeNodes = @NamedAttributeNode("optometrist")))
+@NamedEntityGraph(
+        name = "graph.Patient.appointmentList.optometrist.appointmentList",
+        attributeNodes = @NamedAttributeNode(value = "appointmentList", subgraph = "subgraph.appointment"),
+        subgraphs = {
+                @NamedSubgraph(name = "subgraph.appointment",
+                        attributeNodes = @NamedAttributeNode(value = "optometrist", subgraph = "subgraph.optometrist")),
+                @NamedSubgraph(name = "subgraph.optometrist",
+                        attributeNodes = @NamedAttributeNode(value = "appointmentList"))
+
+        })
 public class Patient extends Person {
 
     @OneToOne(cascade = CascadeType.ALL, fetch=FetchType.LAZY)

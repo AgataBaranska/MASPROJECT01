@@ -40,7 +40,6 @@ public class EditAppointmentDataController {
     @Subscribe
     public void onShowPatientsAppointmentsEditor(ShowPatientsAppointmentsEditor event){
         patient = event.getPatient();
-        System.out.println("Selected patient in New Appointment Controller" + patient);
     }
     public void btnSaveClicked(ActionEvent actionEvent) {
         //check if all fields with values
@@ -49,16 +48,7 @@ public class EditAppointmentDataController {
         LocalDate selectedDate = datePicker.getValue();
         LocalTime selectedTime = (LocalTime) comboTimePicker.getSelectionModel().getSelectedItem();
 
-        Session session = HibernateUtility.getSessionFactory().getCurrentSession();
-        session.beginTransaction();
-        //load Optometrist appointmentList which was not loaded before - lazy
-        System.out.println("load Optometrist appointmentList which was not loaded before - lazy");
-       // selectedOptometrist.setAppointmentList(session.load(Optometrist.class,selectedOptometrist.getId()).getAppointmentList());
-        System.out.println("Selected patient before saving appointment" + patient);
         Appointment appointment = new Appointment(patient,selectedOptometrist,LocalDateTime.of(selectedDate,selectedTime));
-
-        session.getTransaction().commit();
-
 
         clearEditAppointmentDataView();
         EventBusUtility.getEventBus().post(new AppointmentCreated());

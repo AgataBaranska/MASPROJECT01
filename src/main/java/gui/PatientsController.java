@@ -14,7 +14,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import models.Appointment;
 import models.Patient;
 
 import java.util.List;
@@ -30,7 +29,6 @@ public class PatientsController {
 
     private ObservableList<Patient> observablePatientsList;
 
-
     public void initialize(){
         observablePatientsList = FXCollections.observableArrayList();
         listPatients.setItems(observablePatientsList);
@@ -38,7 +36,6 @@ public class PatientsController {
     }
 
     private void setListPatients(List<Patient> list){
-
        observablePatientsList.setAll(list);
     }
     public void btnAddNewPatientClicked(ActionEvent actionEvent) {
@@ -57,8 +54,7 @@ public class PatientsController {
             Patient patient = (Patient) listPatients.getSelectionModel().getSelectedItem();
             //remove patient
             patient.removePatient();
-            ObservableList<Patient> observablePatientList = FXCollections.observableArrayList(Patient.getExtent());
-            listPatients.setItems(observablePatientList.sorted());
+            observablePatientsList.setAll(Patient.getExtent());
             EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.PatientsView));
         }
     }
@@ -73,11 +69,9 @@ public class PatientsController {
             alert.showAndWait();
         } else {
             Patient selectedPatient = (Patient) listPatients.getSelectionModel().getSelectedItem();
-
             //change pane to Appointments, pass Patient
-            EventBusUtility.getEventBus().post(new ShowPatientsAppointments(selectedPatient));
             EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.AppointmentsView));
-
+            EventBusUtility.getEventBus().post(new ShowPatientsAppointments(selectedPatient));
         }
     }
 

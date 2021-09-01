@@ -2,7 +2,6 @@ package gui;
 
 import com.google.common.eventbus.Subscribe;
 import events.*;
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,7 +16,6 @@ import org.hibernate.Session;
 
 import javax.persistence.EntityGraph;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class AppointmentsController {
@@ -47,7 +45,6 @@ public class AppointmentsController {
         }else {
             //pass generatedAppointmentCart to AppointmentCartController
        Appointment selectedAppointment =(Appointment)listAppointment.getSelectionModel().getSelectedItem();
-       System.out.println("Selected appointment"+selectedAppointment);
 
        AppointmentCart generatedAppointmentCart = selectedAppointment.generateAppointmentCart();
 
@@ -59,8 +56,7 @@ public class AppointmentsController {
     public void setPatientsAppointmentsListView(){
         Session session = HibernateUtility.getSessionFactory().getCurrentSession();
         session.beginTransaction();
-        System.out.println("load patient's appointment list (not loaded before - lazy)");
-        EntityGraph graph = session.getEntityGraph("graph.Patient.appointmentList");
+        EntityGraph graph = session.getEntityGraph("graph.Patient.appointmentList.optometrist.appointmentList");
         Map hints = new HashMap();
         hints.put("javax.persistence.fetchgraph", graph);
         patient = session.find(Patient.class, patient.getId(), hints);
@@ -86,7 +82,6 @@ public class AppointmentsController {
         //show EditAppointmentDataView pass patient
         EventBusUtility.getEventBus().post(new ShowView(RootPaneController.View.EditAppointmentDataView));
         EventBusUtility.getEventBus().post(new ShowPatientsAppointmentsEditor(patient));
-        System.out.println("Selected patient in Patients Controller sending to appointment editor" + patient);
     }
 
     public void btnCancelClicked(ActionEvent actionEvent) {
